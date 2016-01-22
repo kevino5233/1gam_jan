@@ -1,6 +1,9 @@
 var test_state = {
 	sample_text: [],
 	text_paths: [],
+	deadzone: 100,
+    CUP: 80,
+    EUP: 20,
 	wordbank: [
 		{text: "Oh", 		anxiety: 50},
 		{text: "Cool", 		anxiety: 50},
@@ -15,7 +18,6 @@ var test_state = {
 		{text: "Do", 		anxiety: 50},
 		{text: "That", 		anxiety: 50}
 	],
-	deadzone: 100,
 	sentences: [
 		[
 			{text: "Oh", 		crucial: false, trivial: true},
@@ -32,8 +34,9 @@ var test_state = {
 			{text: "Didn't", 	crucial: true,  trivial: false},
 			{text: "Have", 		crucial: true,  trivial: false},
 			{text: "To", 		crucial: true,  trivial: false},
-			{text: "Do", 		crucial: false, trivial: true},
-			{text: "That", 		crucial: false,	trivial: true}
+			{text: "Do", 		crucial: false, trivial: false},
+			{text: "That", 		crucial: false,	trivial: true},
+			{text: "It", 		crucial: false,	trivial: true}
 		]
 	],
 	query: {
@@ -50,7 +53,7 @@ var test_state = {
     create: function(){
 		var key = game.input.keyboard.addKey(Phaser.Keyboard.E);
 		key.state = this;
-		key.onDown.add(EvaluateSentence, this);
+		key.onDown.add(EvaluateQuery, this);
         game.stage.backgroundColor = "#ffff00"
         this.ellipse_center_x = game_w *.5 * Math.random() + game_w * .25;
         this.ellipse_center_y = game_h *.5 * Math.random() + game_h * .25;

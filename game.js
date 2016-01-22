@@ -15,13 +15,11 @@ function RandomFloat(min, max) {
 	return Math.random() * (max - min + 1) + min
 }
 
-function MouseOverTextDown(item) {
-	item.fill = "#FF0000";
-	PushWordOnQuery(item.state, item.text);
-}
-
-function MouseOverTextUp(item) {
-	item.fill = "#000000";
+function PopWordFromQuery(text) {
+	var state = text.state;
+	var text = state.query.words.pop();
+	state.query.len -= text.text.length + 1;
+	text.destroy();
 }
 
 function PushWordOnQuery(state, word) {
@@ -39,17 +37,37 @@ function PushWordOnQuery(state, word) {
 	state.query.len += word.length + 1;
 }
 
-function PopWordFromQuery(text) {
-	var state = text.state;
-	var text = state.query.words.pop();
-	state.query.len -= text.text.length + 1;
-	text.destroy();
+function MouseOverTextDown(item) {
+	item.fill = "#FF0000";
+	PushWordOnQuery(item.state, item.text);
 }
 
-function EvaluateSentence(key){
+function MouseOverTextUp(item) {
+	item.fill = "#000000";
+}
+
+function EvaluateSentence(query, sentence, CUP, EUP) {
+    // count crucial words
+    // determine order
+    // count non crucial words
+    // determine order
+    // count articles
+    // count random words in between CW
+    // count random words outside CW
+}
+
+function EvaluateQuery(key) {
 	var state = key.state;
+    var CUP = state.CUP;
+    var EUP = state.EUP;
 	var sentences = state.sentences;
-	var query = state.query.words;
+    var query = [];
+	for (var i = 0; i < state.query.words.length; i++){
+        query.push(state.query.words[i].text);
+    }
+    for (var i = 0; i < sentences.length; i++){
+        console.log(EvaluateSentence(query, sentences[i], CUP, EUP));
+    }
 }
 
 var game_w = 800;
