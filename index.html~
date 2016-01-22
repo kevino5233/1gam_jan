@@ -1,0 +1,13 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Game</title>
+        <link href="http://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet" type="text/css">
+        <script src="phaser.min.js"></script>
+        <script src="test_state.js"></script>
+        <script src="load_state.js"></script>
+        <script src="boot_state.js"></script>
+        <script src="game.js"></script>
+    </head>
+</html>
