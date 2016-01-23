@@ -19,25 +19,30 @@ var test_state = {
 		{text: "That", 		anxiety: 50}
 	],
 	sentences: [
-		[
-			{text: "Oh", 		crucial: false, trivial: true},
-			{text: "Cool", 		crucial: false, trivial: false},
-			{text: "Thanks", 	crucial: true, 	trivial: false}
-		],
-		[
-			{text: "What's", 	crucial: true, 	trivial: false},
-			{text: "In", 		crucial: false, trivial: false},
-			{text: "It", 		crucial: true, 	trivial: false}
-		],
-		[
-			{text: "You", 		crucial: false,	trivial: false},
-			{text: "Didn't", 	crucial: true,  trivial: false},
-			{text: "Have", 		crucial: true,  trivial: false},
-			{text: "To", 		crucial: true,  trivial: false},
-			{text: "Do", 		crucial: false, trivial: false},
-			{text: "That", 		crucial: false,	trivial: true},
-			{text: "It", 		crucial: false,	trivial: true}
-		]
+		{
+			CUP: 90,
+			EUP: 10,
+			crucial_words: [2],
+			non_crucial_words: [1],
+			trivial_words: [0],
+			words: ["Oh", "Cool", "Thanks"]
+		},
+		{
+			CUP: 70,
+			EUP: 30,
+			crucial_words: [0, 2],
+			non_crucial_words: [1],
+			trivial_words: [],
+			words: ["What's", "In", "It"]
+		},
+		{
+			CUP: 70,
+			EUP: 30,
+			crucial_words: [1, 2, 3],
+			non_crucial_words: [0, 4],
+			trivial_words: [5, 6],
+			words: ["You", "Didn't", "Have", "To", "Do", "That", "It"]
+		}
 	],
 	query: {
 		words: [],
