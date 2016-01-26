@@ -2,48 +2,50 @@ var test_state = {
 	sample_text: [],
 	text_paths: [],
 	deadzone: 100,
-    CUP: 80,
-    EUP: 20,
-	wordbank: [
-		{text: "Oh", 		anxiety: 50},
-		{text: "Cool", 		anxiety: 50},
-		{text: "Thanks", 	anxiety: 50},
-		{text: "What's", 	anxiety: 50},
-		{text: "In", 		anxiety: 50},
-		{text: "It", 		anxiety: 50},
-		{text: "You", 		anxiety: 50},
-		{text: "Didn't", 	anxiety: 50},
-		{text: "Have", 		anxiety: 50},
-		{text: "To", 		anxiety: 50},
-		{text: "Do", 		anxiety: 50},
-		{text: "That", 		anxiety: 50}
-	],
-	sentences: [
-		{
-			CUP: 90,
-			EUP: 10,
-			crucial_words: [2],
-			non_crucial_words: [1],
-			trivial_words: [0],
-			words: ["Oh", "Cool", "Thanks"]
-		},
-		{
-			CUP: 70,
-			EUP: 30,
-			crucial_words: [0, 2],
-			non_crucial_words: [1],
-			trivial_words: [],
-			words: ["What's", "In", "It"]
-		},
-		{
-			CUP: 70,
-			EUP: 30,
-			crucial_words: [1, 2, 3],
-			non_crucial_words: [0, 4],
-			trivial_words: [5, 6],
-			words: ["You", "Didn't", "Have", "To", "Do", "That", "It"]
-		}
-	],
+	scene: {
+		dialogue: ["Wassup mah nigguh"],
+		retries: 3,
+		wordbank: [
+			{text: "Oh", 		anxiety: 50},
+			{text: "Cool", 		anxiety: 50},
+			{text: "Thanks", 	anxiety: 50},
+			{text: "What's", 	anxiety: 50},
+			{text: "In", 		anxiety: 50},
+			{text: "It", 		anxiety: 50},
+			{text: "You", 		anxiety: 50},
+			{text: "Didn't", 	anxiety: 50},
+			{text: "Have", 		anxiety: 50},
+			{text: "To", 		anxiety: 50},
+			{text: "Do", 		anxiety: 50},
+			{text: "That", 		anxiety: 50}
+		],
+		sentences: [
+			{
+				CUP: 90,
+				EUP: 10,
+				crucial_words: [2],
+				non_crucial_words: [1],
+				trivial_words: [0],
+				words: ["Oh", "Cool", "Thanks"]
+			},
+			{
+				CUP: 70,
+				EUP: 30,
+				crucial_words: [0, 2],
+				non_crucial_words: [1],
+				trivial_words: [],
+				words: ["What's", "In", "It"]
+			},
+			{
+				CUP: 70,
+				EUP: 30,
+				crucial_words: [1, 2, 3],
+				non_crucial_words: [0, 4],
+				trivial_words: [5, 6],
+				words: ["You", "Didn't", "Have", "To", "Do", "That", "It"]
+			}
+		]
+	},
 	query: {
 		words: [],
 		len: 0,
@@ -56,71 +58,15 @@ var test_state = {
     loadRender: function(){
     },
     create: function(){
-		var key = game.input.keyboard.addKey(Phaser.Keyboard.E);
-		key.state = this;
-		key.onDown.add(EvaluateQuery, this);
         game.stage.backgroundColor = "#ffff00"
+		// this will be pre-defined per level state
         this.ellipse_center_x = game_w *.5 * Math.random() + game_w * .25;
         this.ellipse_center_y = game_h *.5 * Math.random() + game_h * .25;
-        var graphics = game.add.graphics(
-            this.ellipse_center_x, this.ellipse_center_y);
-        graphics.beginFill(0xFF0000);
-        graphics.drawCircle(0, 0, 10);
-        graphics.endFill();
-        var tau = Math.PI / 2;
-		var circle = Math.PI * 2;
-        for (var i = 0; i < this.wordbank.length; i++){
-			var word = this.wordbank[i];
-			var anxiety = word.anxiety;
-			var randx = RandomFloat(-this.deadzone, this.deadzone);
-			var randy = RandomFloat(-this.deadzone, this.deadzone);
-            var text = game.add.text(
-                this.ellipse_center_x +
-					randx +
-					Math.cos(tau * RandomFloat(0, 4)) * anxiety * 2,
-                this.ellipse_center_y +
-					randy +
-					Math.sin(tau * RandomFloat(0, 4)) * anxiety * 2,
-                word.text);
-			text.centerx = this.ellipse_center_x + randx;
-			text.centery = this.ellipse_center_y + randy;
-            text.font = "Press Start 2P";
-            text.fontSize = (100 - anxiety) * .20 + 9;
-			text.state = this;
-			text.inputEnabled = true;
-			text.events.onInputUp.add(MouseOverTextUp, this);
-			text.events.onInputDown.add(MouseOverTextDown, this);
-            this.sample_text.push(text);
-            var g = 4;
-            var a = anxiety;
-            var b = Math.sqrt(a * a * a / 200);
-            var e_x = Math.sqrt(a * a - b * b) * (2 * RandomInt(0, 1) - 1);
-            var T = Math.ceil(Math.sqrt(3 * a / g) * Math.PI * a);
-            var theta = (tau * i) % circle; //initialize as actual angle
-            var dtheta = circle / T * (2 * RandomInt(0, 1) - 1);
-            var R1 = a - e_x;
-            var R2 = a + e_x;
-			var path = [];
-			path["pos"] = 0;
-			path["dpos"] = 1;
-            for (var j = 0; j < T; j++){
-                var R = theta >= tau && theta < 3 * tau ? R1 : R2;
-				var pos = [];
-				pos["x"] = R * Math.cos(theta) - e_x;
-				if (pos["x"] > a || pos["x"] < -a){
-					console.log("math fucked up");
-					console.log(a);
-					console.log(pos["x"]);
-				}
-				pos["y"] = b *
-					Math.sqrt(Math.max(0, 1 - pos["x"] * pos["x"] / a / a)) *
-					(theta >= 0 && theta < Math.PI ? 1 : -1);
-				path.push(pos);
-				theta += dtheta;
-				theta %= circle;
-            }
-			this.text_paths.push(path);
-        }
+		this.scene_test = new Scene(this, game, this.scene);
+		this.scene_test.LoadScene(100);
+		var key = game.input.keyboard.addKey(Phaser.Keyboard.E);
+		key.state = this;
+		key.onDown.add(this.scene_test.EvaluateQuery, this);
     },
     update: function(){
 		for (var i = 0; i < this.sample_text.length; i++){
