@@ -1,6 +1,5 @@
-Scene = function(state, game, scene_data){
-	this.state = state;
-	this.game = game;
+Scene = function(manager, scene_data){
+	this.manager = manager;
 
 	Phaser.Group.call(this, game);
 
@@ -14,13 +13,21 @@ Scene = function(state, game, scene_data){
 Scene.prototype = Object.create(Phaser.Group.prototype);
 Scene.prototype.constructor = Scene;
 
-Scene.prototype.LoadScene = function(correctness){
-	var index = 3 - (correctness - 50) / 25;
-	this.state.dialogue = this.dialogue[index];
+Scene.prototype.Load = function(correctness){
+    if (correctness <= 50) return false;
+	var index = 0;
+    if (correctness < 70){
+        index = 2;
+    } else if (correctness < 90){
+        index = 1;
+    }
+	this.manager.dialogue_obj = game.add.text(100, 100, this.dialogue[index]);
+    this.manager.dialogue_obj.font = "Press Start 2P";
+    this.manager.dialogue_obj.fontSize = this.manager.wordsize;
 	// Make text objects
-	var centerx = this.state.ellipse_center_x;
-	var centery = this.state.ellipse_center_y;
-	var deadzone = this.state.deadzone;
+	var centerx = this.manager.ellipse_center_x;
+	var centery = this.manager.ellipse_center_y;
+	var deadzone = this.manager.deadzone;
 	for (var i = 0; i < this.wordbank.length; i++){
 		var word = this.wordbank[i];
 		var anxiety = word.anxiety;
@@ -34,15 +41,15 @@ Scene.prototype.LoadScene = function(correctness){
 				randy +
 				Math.sin(tau * RandomFloat(0, 4)) * anxiety * 2,
 			word.text);
-		text.state = this.state;
+		text.manager = this.manager;
 		text.centerx = centerx + randx;
 		text.centery = centery + randy;
 		text.font = "Press Start 2P";
-		text.fontSize = (100 - anxiety) * .20 + 9;
+		text.fontSize = (100 - anxiety) * .20 + 5;
 		text.inputEnabled = true;
 		text.events.onInputUp.add(this.PushWordOnQuery, this);
 		this.add(text);
-		this.state.sample_text.push(text);
+		this.manager.floating_text.push(text);
 		var a = anxiety;
 		var b = Math.sqrt(a * a * a / 200);
 		var e_x = Math.sqrt(a * a - b * b) * (2 * RandomInt(0, 1) - 1);
@@ -58,11 +65,6 @@ Scene.prototype.LoadScene = function(correctness){
 			var R = theta >= tau && theta < 3 * tau ? R1 : R2;
 			var pos = [];
 			pos["x"] = R * Math.cos(theta) - e_x;
-			if (pos["x"] > a || pos["x"] < -a){
-				console.log("math fucked up");
-				console.log(a);
-				console.log(pos["x"]);
-			}
 			pos["y"] = b *
 				Math.sqrt(Math.max(0, 1 - pos["x"] * pos["x"] / a / a)) *
 				(theta >= 0 && theta < Math.PI ? 1 : -1);
@@ -70,152 +72,30 @@ Scene.prototype.LoadScene = function(correctness){
 			theta += dtheta;
 			theta %= circle;
 		}
-		this.state.text_paths.push(path);
+		this.manager.floating_text_paths.push(path);
 	}
+    return true;
+}
+Scene.prototype.PopWordFromQuery = function(item){
+	var text = this.manager.query.words.pop();
+    text.orig.visible = true;
+    text.destroy();
+	this.manager.query.len -= text.text.length + 1;
 }
 Scene.prototype.PushWordOnQuery = function(item){
 	item.visible = false;
 	var word = item.text;
-	var state = item.state;
+	var manager = item.manager;
 	var text = game.add.text(
-		100 + state.query.len * state.query.wordsize,
+		100 + manager.query.len * manager.wordsize,
 		500,
 		word);
-	text.state = state;
+    text.orig = item;
+	text.manager = manager;
 	text.font = "Press Start 2P";
-	text.fontSize = state.query.wordsize;
+	text.fontSize = manager.wordsize;
 	text.inputEnabled = true;
-	//text.events.onInputUp.add(PopWordFromQuery, this);
-	this.state.query.words.push(text);
-	this.state.query.len += word.length + 1;
-}
-Scene.prototype.EvaluateSentence = function(query, sentence) {
-	var CUP = sentence.CUP;
-	var EUP = sentence.EUP;
-	var words = sentence.words;
-    // count crucial words
-	var n_crucial_words = 0;
-	var crucial_words = sentence.crucial_words;
-	var crucial_words_pos = new Array(crucial_words.length);
-	crucial_words_pos.fill(-1);
-	for (var i = 0; i < query.length && crucial_words; i++) {
-		for (var j = 0; j < crucial_words.length; j++) {
-			if (query[i] == words[crucial_words[j]]) {
-				crucial_words_pos[j] = i;
-				n_crucial_words++;
-			}
-		}
-	}
-	var k = 0;
-	while (k < crucial_words_pos.length) {
-		if (crucial_words_pos[k] == -1) {
-			crucial_words_pos.splice(k, 1);
-		} else {
-			k++;
-		}
-	}
-    // determine order
-	var crucial_words_order = crucial_words_pos.sort();
-	var n_crucial_wo3 = 0;
-	for (var i = 0; i < crucial_words_pos.length; i++) {
-		if (crucial_words_pos[i] != crucial_words_order[i]) {
-			n_crucial_wo3++;
-		}
-	}
-	n_crucial_wo3 *= 2;
-    // count non crucial words
-	var n_non_crucial_words = 0;
-	var non_crucial_words = sentence.non_crucial_words;
-	var non_crucial_words_pos = new Array(non_crucial_words.length);
-	non_crucial_words_pos.fill(-1);
-	for (var i = 0; i < query.length && non_crucial_words; i++) {
-		for (var j = 0; j < non_crucial_words.length; j++) {
-			if (query[i] == words[non_crucial_words[j]]) {
-				non_crucial_words_pos[j] = i;
-				n_non_crucial_words++;
-			}
-		}
-	}
-	k = 0;
-	while (k < non_crucial_words_pos.length) {
-		if (non_crucial_words_pos[k] == -1) {
-			non_crucial_words_pos.splice(k, 1);
-		} else {
-			k++;
-		}
-	}
-    // determine order
-	var non_crucial_words_order = non_crucial_words_pos.sort();
-	var n_non_crucial_wo3 = 0;
-	for (var i = 0; i < non_crucial_words_pos.length; i++) {
-		if (non_crucial_words_pos[i] != non_crucial_words_order[i]) {
-			n_non_crucial_wo3++;
-		}
-	}
-	n_non_crucial_wo3 *= 2;
-    // count articles and trivial words
-	var n_trivial_words = 0;
-	var trivial_words = sentence.trivial_words;
-	var trivial_words_pos = new Array(trivial_words.length);
-	for (var i = 0; i < query.length && trivial_words; i++) {
-		for (var j = 0; j < trivial_words.length; j++) {
-			if (query[i] == words[trivial_words[j]]) {
-				n_trivial_words++;
-				trivial_words_pos[j] = i;
-			}
-		}
-	}
-	k = 0;
-	while (k < trivial_words_pos.length) {
-		if (trivial_words_pos[k] == -1) {
-			trivial_words_pos.splice(k, 1);
-		} else {
-			k++;
-		}
-	}
-    // count random words in between CW and outside CW
-	var non_random_words = crucial_words_order.concat(
-		non_crucial_words_order.concat(trivial_words_pos)).sort();
-	var random_words_in = 0;
-	var random_words_out = 0;
-	k = 0;
-	for (var i = 0; i < query.length; i++) {
-		if (i == non_random_words[k]){
-			k++;
-		} else if (i < crucial_words_order[0] ||
-			i > crucial_words_order[crucial_words_order.length - 1]) {
-			random_words_out++;
-		} else {
-			random_words_in++;
-		}
-	}
-	// calculate final correctness
-	var crucial_error =
-		(crucial_words.length - n_crucial_words + n_crucial_wo3 * 3 / 10)
-		* CUP / crucial_words.length;
-	var extra_error =
-		(non_crucial_words.length - n_non_crucial_words + n_non_crucial_wo3 * 3 / 10)
-		* EUP / non_crucial_words.length;
-	var trivial_error = trivial_words.length - n_trivial_words;
-	var random_error = 
-		(random_words_in * CUP / crucial_words.length +
-		random_words_out * EUP / non_crucial_words.length)
-		/ 2;
-	return 100 - crucial_error - extra_error - trivial_error - random_error;
-}
-Scene.prototype.EvaluateQuery = function(key){
-	var state = key.state;
-	var sentences = state.sentences;
-    var query = [];
-	for (var i = 0; i < state.query.words.length; i++){
-        query.push(state.query.words[i].text);
-    }
-	var next_state = {scene: -1, correctness: -1};
-    for (var i = 0; i < sentences.length; i++){
-        var correctness = EvaluateSentence(query, sentences[i]);
-		if (correctness > next_state.correctness){
-			next_state.scene = sentences[i].response;
-			next_state.correctness = correctness;
-		}
-    }
+	text.events.onInputUp.add(this.PopWordFromQuery, this);
+	this.manager.query.words.push(text);
+	this.manager.query.len += word.length + 1;
 }
