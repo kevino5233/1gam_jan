@@ -27,14 +27,14 @@ var test_state = {
                     words: ["Oh", "Cool", "Thanks"]
                 },
                 {
-                    CUP: 70,	EUP: 30, 	response: 2,
+                    CUP: 70,	EUP: 30, 	response: 3,
                     crucial_words: [0, 2],
                     non_crucial_words: [1],
                     trivial_words: [],
                     words: ["What's", "In", "It"]
                 },
                 {
-                    CUP: 70, 	EUP: 30,	response: 3,
+                    CUP: 70, 	EUP: 30,	response: 2,
                     crucial_words: [1, 2, 3],
                     non_crucial_words: [0, 4],
                     trivial_words: [5, 6],
@@ -67,7 +67,7 @@ var test_state = {
                     crucial_words: [0],
                     non_crucial_words: [],
                     trivial_words: [1, 2],
-                    words: ["What", "is", "it?"]
+                    words: ["What", "Is", "It"]
                 },
                 {
                     CUP: 70,	EUP: 30,	response: 4,

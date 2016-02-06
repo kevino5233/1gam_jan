@@ -158,17 +158,26 @@ SceneManager.prototype.EvaluateSentence = function(query, sentence) {
 	}
 	// calculate final correctness
 	var crucial_error =
-		(crucial_words.length - n_crucial_words + n_crucial_wo3 * 3 / 10)
-		* CUP / crucial_words.length;
-	var extra_error =
-		(non_crucial_words.length - n_non_crucial_words + n_non_crucial_wo3 * 3 / 10)
-		* EUP / non_crucial_words.length;
-	var trivial_error = trivial_words.length - n_trivial_words;
+        (crucial_words.length - n_crucial_words + n_crucial_wo3)
+        / 2 / crucial_words.length;
+	var extra_error = non_crucial_words.length == 0 ?
+        0 :
+        (non_crucial_words.length - n_non_crucial_words + n_non_crucial_wo3)
+        / 2 / non_crucial_words.length;
+	var trivial_error = trivial_words.length == 0 ?
+        0 :
+        trivial_words.length - n_trivial_words;
 	var random_error = 
-		(random_words_in * CUP / crucial_words.length +
-		random_words_out * EUP / non_crucial_words.length)
-		/ 2;
-	return 100 - crucial_error - extra_error - trivial_error - random_error;
+		(random_words_in * CUP / crucial_words.length
+         + (non_crucial_words.length == 0 ?
+               0 :
+               random_words_out * EUP / non_crucial_words.length))
+		/ 2; //balance out later
+	return Math.max(100
+                    - crucial_error * CUP
+                    - extra_error * EUP
+                    - trivial_error
+                    - random_error, 0);
 }
 SceneManager.prototype.EvaluateQuery = function(key){
     console.log(this);
@@ -178,8 +187,10 @@ SceneManager.prototype.EvaluateQuery = function(key){
         query.push(this.query.words[i].text);
     }
 	var next_scene = {scene: -1, correctness: -1};
+    console.log("Evaluating query");
     for (var i = 0; i < sentences.length; i++){
         var correctness = this.EvaluateSentence(query, sentences[i]);
+        console.log(correctness);
 		if (correctness > next_scene.correctness){
 			next_scene.scene = sentences[i].response;
 			next_scene.correctness = correctness;
