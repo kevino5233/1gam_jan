@@ -5,6 +5,7 @@ Scene = function(manager, scene_data){
 
 	this.dialogue = scene_data.dialogue;
 	this.retries = scene_data.retries;
+    this.OnLoad = scene_data.OnLoad;
 	this.fallback = scene_data.fallback;
 	this.wordbank = scene_data.wordbank;
 	this.sentences = scene_data.sentences;
@@ -30,27 +31,26 @@ Scene.prototype.Load = function(correctness){
 	var deadzone = this.manager.deadzone;
 	for (var i = 0; i < this.wordbank.length; i++){
 		var word = this.wordbank[i];
-		var anxiety = word.anxiety;
+		var a = word.anxiety;
 		var randx = RandomFloat(-deadzone, deadzone);
 		var randy = RandomFloat(-deadzone, deadzone);
 		var text = game.add.text(
 			this.ellipse_center_x +
 				randx +
-				Math.cos(tau * RandomFloat(0, 4)) * anxiety * 2,
+				Math.cos(tau * RandomFloat(0, 4)) * a * 2,
 			this.ellipse_center_y +
 				randy +
-				Math.sin(tau * RandomFloat(0, 4)) * anxiety * 2,
+				Math.sin(tau * RandomFloat(0, 4)) * a * 2,
 			word.text);
 		text.manager = this.manager;
 		text.centerx = centerx + randx;
 		text.centery = centery + randy;
 		text.font = "Press Start 2P";
-		text.fontSize = (100 - anxiety) * .20 + 5;
+		text.fontSize = (100 - a) * .20 + 5;
 		text.inputEnabled = true;
 		text.events.onInputUp.add(this.PushWordOnQuery, this);
 		this.add(text);
 		this.manager.floating_text.push(text);
-		var a = anxiety;
 		var b = Math.sqrt(a * a * a / 200);
 		var e_x = Math.sqrt(a * a - b * b) * (2 * RandomInt(0, 1) - 1);
 		var T = Math.ceil(Math.sqrt(3 * a / G) * Math.PI * a);

@@ -1,4 +1,4 @@
-SceneManager = function(scenes){
+SceneManager = function(scenes, ellipse_center_x, ellipse_center_y, nextscene){
     this.scenes = [];
     for (var i = 0; i < scenes.length; i++){
         this.scenes.push(new Scene(this, scenes[i]));
@@ -11,13 +11,12 @@ SceneManager = function(scenes){
 		words: [],
 		len: 0
 	};
-    this.ellipse_center_x = game_w *.5 * Math.random() + game_w * .25;
-    this.ellipse_center_y = game_h *.5 * Math.random() + game_h * .25;
     this.wordsize = 15;
+    this.ellipse_center_x = ellipse_center_x;
+    this.ellipse_center_y = ellipse_center_y;
+    this.nextscene = nextscene;
     this.LoadScene(0, 100);
 }
-
-
 SceneManager.prototype.Update = function(){
     for (var i = 0; i < this.floating_text.length; i++){
         var path = this.floating_text_paths[i];
@@ -34,9 +33,6 @@ SceneManager.prototype.Update = function(){
         this.floating_text[i].y = pos.y + this.floating_text[i].centery;
     }
 }
-SceneManager.prototype.AddScene = function(scene){
-    this.scenes.push(new Scene(this, game, scene, this.scenes.length));
-}
 SceneManager.prototype.LoadScene = function(scene_num, correctness){
     if (this.currscene){
         console.log("Destroying");
@@ -52,8 +48,17 @@ SceneManager.prototype.LoadScene = function(scene_num, correctness){
         }
     }
     if (this.scenes[scene_num].Load(correctness)){
-        console.log("Load Successful");
         this.currscene = this.scenes[scene_num];
+        if (this.currscene.retries == -1){
+            var text = game.add.text(
+                100,
+                500,
+                "Press E to continue."
+            );
+        }
+        if (this.currscene.OnLoad){
+            this.currscene.OnLoad(correctness);
+        }
     }
 }
 SceneManager.prototype.EvaluateSentence = function(query, sentence) {
@@ -168,10 +173,10 @@ SceneManager.prototype.EvaluateSentence = function(query, sentence) {
         0 :
         trivial_words.length - n_trivial_words;
 	var random_error = 
-		(random_words_in * CUP / crucial_words.length
+		(random_words_in * CUP / crucial_words.length)
          + (non_crucial_words.length == 0 ?
                0 :
-               random_words_out * EUP / non_crucial_words.length))
+               random_words_out * EUP / non_crucial_words.length)
 		/ 2; //balance out later
 	return Math.max(100
                     - crucial_error * CUP
@@ -180,7 +185,9 @@ SceneManager.prototype.EvaluateSentence = function(query, sentence) {
                     - random_error, 0);
 }
 SceneManager.prototype.EvaluateQuery = function(key){
-    console.log(this);
+    if (this.currscene.retries == -1){
+        game.state.start(this.next);
+    }
 	var sentences = this.currscene.sentences;
     var query = [];
 	for (var i = 0; i < this.query.words.length; i++){

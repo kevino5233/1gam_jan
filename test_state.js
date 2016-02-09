@@ -1,9 +1,14 @@
 var test_state = {
+    ellipse_center_x: 400,
+    ellipse_center_y: 400,
     scenes: [
 	    {
 			id: 0,
             dialogue: ["Hey, I made too much for breakfast.\nYou can have the rest."],
             retries: 3,
+            OnLoad: function(correctness){
+                console.log("Testingu");
+            },
             wordbank: [
                 {text: "Oh", 		anxiety: 50},
                 {text: "Cool", 		anxiety: 50},
@@ -50,6 +55,10 @@ var test_state = {
 				"Guess what."
 			],
             retries: 3,
+            OnLoad: function(correctness){
+                anxiety += 2;
+                console.log(anxiety);
+            },
             wordbank: [
                 {text: "What", 		anxiety: 50},
                 {text: "Is", 		anxiety: 50},
@@ -63,7 +72,7 @@ var test_state = {
             ],
             sentences: [
                 {
-                    CUP: 90, 	EUP: 10,	response: 3,
+                    CUP: 100, 	EUP: 0,	response: 3,
                     crucial_words: [0],
                     non_crucial_words: [],
                     trivial_words: [1, 2],
@@ -270,9 +279,13 @@ var test_state = {
     },
     create: function(){
         // Eventually move to initialize layer function
-        game.stage.backgroundColor = "#ffff00"
+        game.stage.backgroundColor = "#ffff00";
 		// this will be pre-defined per level state
-        this.manager = new SceneManager(this.scenes);
+        this.manager = new SceneManager(
+                this.scenes,
+                this.ellipse_center_x,
+                this.ellipse_center_y,
+                "office");
 		var key = game.input.keyboard.addKey(Phaser.Keyboard.E);
 		key.state = this;
 		key.onDown.add(this.manager.EvaluateQuery, this.manager);

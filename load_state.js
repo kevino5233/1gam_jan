@@ -9,7 +9,7 @@ var load_state = {
     loadRender: function(){
     },
     create: function(){
-        game.state.start("test");
+        game.state.start("office");
     },
     update: function(){
     },
