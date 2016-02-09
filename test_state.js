@@ -7,7 +7,6 @@ var test_state = {
             dialogue: ["Hey, I made too much for breakfast.\nYou can have the rest."],
             retries: 3,
             OnLoad: function(correctness){
-                console.log("Testingu");
             },
             wordbank: [
                 {text: "Oh", 		anxiety: 50},
@@ -29,7 +28,10 @@ var test_state = {
                     crucial_words: [2],
                     non_crucial_words: [1],
                     trivial_words: [0],
-                    words: ["Oh", "Cool", "Thanks"]
+                    words: ["Oh", "Cool", "Thanks"],
+					OnCorrect: function(correctness){
+						console.log(correctness);
+					}
                 },
                 {
                     CUP: 70,	EUP: 30, 	response: 3,

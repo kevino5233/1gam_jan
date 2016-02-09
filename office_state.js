@@ -10,7 +10,10 @@ var office_state = {
             sentences: [
                 {
                     CUP: 90, 	EUP: 10, 	response: 1,
-                    crucial_words: [0], words: ["Sup"]
+                    crucial_words: [0],
+                    non_crucial_words: [],
+                    trivial_words: [],
+					words: ["Sup"]
                 }
             ]
         },
@@ -186,7 +189,7 @@ var office_state = {
         {
             id: 5,
             dialogue: [
-                "It's because of the festival! Pretty excited myself.",
+                "It's because of the festival!\nPretty excited myself.",
                 "It's because of the festival.",
                 "Well I mean the festival is today."],
             retries: 1,

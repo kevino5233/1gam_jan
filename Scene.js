@@ -23,7 +23,7 @@ Scene.prototype.Load = function(correctness){
         index = 1;
     }
 	this.manager.dialogue_obj = game.add.text(100, 100, this.dialogue[index]);
-    this.manager.dialogue_obj.font = "Press Start 2P";
+    this.manager.dialogue_obj.font = global_font;
     this.manager.dialogue_obj.fontSize = this.manager.wordsize;
 	// Make text objects
 	var centerx = this.manager.ellipse_center_x;
@@ -45,7 +45,7 @@ Scene.prototype.Load = function(correctness){
 		text.manager = this.manager;
 		text.centerx = centerx + randx;
 		text.centery = centery + randy;
-		text.font = "Press Start 2P";
+		text.font = global_font;
 		text.fontSize = (100 - a) * .20 + 5;
 		text.inputEnabled = true;
 		text.events.onInputUp.add(this.PushWordOnQuery, this);
@@ -92,7 +92,7 @@ Scene.prototype.PushWordOnQuery = function(item){
 		word);
     text.orig = item;
 	text.manager = manager;
-	text.font = "Press Start 2P";
+	text.font = global_font;
 	text.fontSize = manager.wordsize;
 	text.inputEnabled = true;
 	text.events.onInputUp.add(this.PopWordFromQuery, this);

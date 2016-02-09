@@ -1,14 +1,8 @@
 // See wikipedia entry for Comparison Sort
+// Wait am I using this lmao. This looks useful though
 var minimum_sort = [0, 1, 3, 5, 7, 10, 13, 16, 19, 22, 26, 30, 34, 38, 42];
 
-WebFontConfig = {
-    activate: function() {
-        game.time.events.add(Phaser.Timer.SECOND, createText, this);
-    },
-    google: {
-        families: ['Press Start 2P']
-    }
-};
+var global_font = "press_start_2pregular";
 
 function RandomInt(min, max) {
 	return Math.floor(RandomFloat(min, max));

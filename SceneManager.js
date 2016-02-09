@@ -35,7 +35,6 @@ SceneManager.prototype.Update = function(){
 }
 SceneManager.prototype.LoadScene = function(scene_num, correctness){
     if (this.currscene){
-        console.log("Destroying");
         this.dialogue_obj.destroy();
         while (this.query.words.length > 0){
             var text = this.query.words.pop();
@@ -55,9 +54,8 @@ SceneManager.prototype.LoadScene = function(scene_num, correctness){
                 500,
                 "Press E to continue."
             );
-        }
-        if (this.currscene.OnLoad){
-            this.currscene.OnLoad(correctness);
+			text.font = global_font;
+			text.fontsize = this.wordsize;
         }
     }
 }
@@ -176,7 +174,8 @@ SceneManager.prototype.EvaluateSentence = function(query, sentence) {
 		(random_words_in * CUP / crucial_words.length)
          + (non_crucial_words.length == 0 ?
                0 :
-               random_words_out * EUP / non_crucial_words.length)
+               random_words_out * CUP / 2 / non_crucial_words.length)
+		 //divide by two is tentative solution to EUP = 0
 		/ 2; //balance out later
 	return Math.max(100
                     - crucial_error * CUP
@@ -186,25 +185,26 @@ SceneManager.prototype.EvaluateSentence = function(query, sentence) {
 }
 SceneManager.prototype.EvaluateQuery = function(key){
     if (this.currscene.retries == -1){
-        game.state.start(this.next);
+        game.state.start(this.nextscene);
     }
 	var sentences = this.currscene.sentences;
     var query = [];
 	for (var i = 0; i < this.query.words.length; i++){
         query.push(this.query.words[i].text);
     }
-	var next_scene = {scene: -1, correctness: -1};
-    console.log("Evaluating query");
+	var next_scene = {sentence: -1, scene: -1, correctness: -1};
     for (var i = 0; i < sentences.length; i++){
         var correctness = this.EvaluateSentence(query, sentences[i]);
-        console.log(correctness);
 		if (correctness > next_scene.correctness){
+			next_scene.sentence = i;
 			next_scene.scene = sentences[i].response;
 			next_scene.correctness = correctness;
 		}
     }
     if (next_scene.correctness > 50){
-        console.log(next_scene);
+		if (sentences[next_scene.sentence].OnCorrect){
+			sentences[next_scene.sentence].OnCorrect(next_scene.correctness);
+		}
         this.LoadScene(next_scene.scene, next_scene.correctness);
     }
 }
