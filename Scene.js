@@ -76,12 +76,6 @@ Scene.prototype.Load = function(correctness){
 	}
     return true;
 }
-Scene.prototype.PopWordFromQuery = function(item){
-	var text = this.manager.query.words.pop();
-    text.orig.visible = true;
-    text.destroy();
-	this.manager.query.len -= text.text.length + 1;
-}
 Scene.prototype.PushWordOnQuery = function(item){
 	item.visible = false;
 	var word = item.text;
@@ -95,7 +89,7 @@ Scene.prototype.PushWordOnQuery = function(item){
 	text.font = global_font;
 	text.fontSize = manager.wordsize;
 	text.inputEnabled = true;
-	text.events.onInputUp.add(this.PopWordFromQuery, this);
+	text.events.onInputUp.add(this.manager.PopWordFromQuery, this.manager);
 	this.manager.query.words.push(text);
 	this.manager.query.len += word.length + 1;
 }

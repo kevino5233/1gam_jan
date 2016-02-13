@@ -18,6 +18,9 @@ SceneManager = function(scenes, ellipse_center_x, ellipse_center_y, nextscene){
     this.LoadScene(0, 100);
 }
 SceneManager.prototype.Update = function(){
+    if (this.currscene.retries == -1 && game.input.activePointer.justPressed()){
+        game.state.start(this.nextscene);
+    }
     for (var i = 0; i < this.floating_text.length; i++){
         var path = this.floating_text_paths[i];
         var pos = path[path["pos"]];
@@ -52,7 +55,7 @@ SceneManager.prototype.LoadScene = function(scene_num, correctness){
             var text = game.add.text(
                 100,
                 500,
-                "Press E to continue."
+                "Click anywhere to continue."
             );
 			text.font = global_font;
 			text.fontsize = this.wordsize;
@@ -183,10 +186,13 @@ SceneManager.prototype.EvaluateSentence = function(query, sentence) {
                     - trivial_error
                     - random_error, 0);
 }
+SceneManager.prototype.PopWordFromQuery = function(item){
+	var text = this.query.words.pop();
+    text.orig.visible = true;
+    text.destroy();
+	this.query.len -= text.text.length + 1;
+}
 SceneManager.prototype.EvaluateQuery = function(key){
-    if (this.currscene.retries == -1){
-        game.state.start(this.nextscene);
-    }
 	var sentences = this.currscene.sentences;
     var query = [];
 	for (var i = 0; i < this.query.words.length; i++){

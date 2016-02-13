@@ -17,6 +17,8 @@ function InitializeLayers(){
 
 // Global variable for player anxiety
 var anxiety = 60;
+// Timer for submitting query. 10 seconds for now.
+var timer = 10000;
 
 // Other global variables for certain events.
 // For example checking whether you accepted

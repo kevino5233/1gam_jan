@@ -767,9 +767,10 @@ var office_state = {
                 this.ellipse_center_x,
                 this.ellipse_center_y,
                 "office");
-		var key = game.input.keyboard.addKey(Phaser.Keyboard.E);
-		key.state = this;
-		key.onDown.add(this.manager.EvaluateQuery, this.manager);
+        game.add.button(100, 475, "backspace",
+                this.manager.PopWordFromQuery, this.manager);
+        game.add.button(160, 475, "submit",
+                this.manager.EvaluateQuery, this.manager);
     },
     update: function(){
         this.manager.Update();

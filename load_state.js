@@ -1,8 +1,8 @@
 var load_state = {
     preload: function(){
         //load any assets
-        //game.load.script("webfont",
-            //"//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js");
+        game.load.image("submit", "icons/submit.png");
+        game.load.image("backspace", "icons/backspace.png");
     },
     loadUpdate: function(){
     },
