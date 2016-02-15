@@ -1,6 +1,6 @@
 var office_state = {
-    ellipse_center_x: 400,
-    ellipse_center_y: 400,
+    ellipse_center_x: 300,
+    ellipse_center_y: 300,
     scenes: [
         {
             id: 0,
@@ -42,6 +42,13 @@ var office_state = {
                     trivial_words: [0],
                     words: ["It's", "Going", "All", "Right"]
                 },
+				{
+                    CUP: 70,    EUP: 30,    response: 3,
+                    crucial_words: [1, 2, 5],
+                    non_crucial_words: [0, 3, 4],
+                    trivial_words: [],
+                    words: ["Going", "All", "Right", "How", "Are", "You"]
+				},
                 {
                     CUP: 80,    EUP: 20,    response: 3,
                     crucial_words: [0, 2],
@@ -51,10 +58,10 @@ var office_state = {
                 },
                 {
                     CUP: 80,    EUP: 20,    response: 4,
-                    crucial_words: [0, 1, 3],
-                    non_crucial_words: [2],
-                    trivial_words: [],
-                    words: ["Could", "Be", "Going", "Better"]
+                    crucial_words: [2, 3, 5],
+                    non_crucial_words: [1, 2, 4],
+                    trivial_words: [0],
+                    words: ["It's", "Good", "Could", "Be", "Going", "Better"]
                 } 
             ]
         },
@@ -147,7 +154,7 @@ var office_state = {
         {
             id: 4,
             dialogue: [
-                "So Moody! You caught Jeff's emails?",
+                "So moody! You caught Jeff's emails?",
                 "Jeez, you catch Jeff's emails?",
                 "Uhh, seems like you read Jeff's email."],
             retries: 1,
@@ -189,7 +196,7 @@ var office_state = {
         {
             id: 5,
             dialogue: [
-                "It's because of the festival!\nPretty excited myself.",
+                "It's because of the festival! Pretty excited myself.",
                 "It's because of the festival.",
                 "Well I mean the festival is today."],
             retries: 1,
@@ -275,9 +282,9 @@ var office_state = {
                 },
                 {
                     CUP: 80,    EUP: 20,    response: 10,
-                    crucial_words: [0, 2, 3, 4],
-                    non_crucial_words: [5],
-                    trivial_words: [],
+                    crucial_words: [1, 2, 3, 6],
+                    non_crucial_words: [4, 5],
+                    trivial_words: [0],
                     words: ["God", "Clients", "Never", "Know", "What",
                             "They", "Want"]
                 }
@@ -323,7 +330,7 @@ var office_state = {
                     words: ["That", "Should", "Be", "Fun"]
                 },
                 {
-                    CUP: 80,    EUP: 20,    response: 13,
+                    CUP: 80,    EUP: 20,    response: 11,
                     crucial_words: [0, 2, 3, 4],
                     non_crucial_words: [1],
                     trivial_words: [],
@@ -462,8 +469,7 @@ var office_state = {
         {
             id: 11,
             dialogue: [
-                "I'll have to check. We were supposed to pre-order\n" +
-                    "tickets I think.",
+                "I'll have to check. We were supposed to pre-order tickets I think.",
                 "Maybe. We pre-ordered tickets I think.",
                 "I don't know, we pre-ordered tickets."],
             retries: 1,
@@ -520,8 +526,7 @@ var office_state = {
         {
             id: 12,
             dialogue: [
-                "Nothing! Just seen that attitude come\n" +
-                    "up in everyone eventually.",
+                "Nothing! Just seen that attitude come up in everyone eventually.",
                 "Calm down! Just figured this attitude would come up in you.",
                 "Just figured this attitude would come up in you."],
             retries: 1,
@@ -563,8 +568,7 @@ var office_state = {
         {
 			id: 13,
             dialogue: [
-				"Me too man. I think I can hear your coffee finishing\n"+
-                    "in the break room.",
+				"Me too man. I think I can hear your coffee finishing in the break room.",
 				"Me too man. I think your coffee is done.",
 				"Yeah. I think your coffee is done."
 			],
@@ -575,8 +579,7 @@ var office_state = {
         {
 			id: 14,
             dialogue: [
-				"It's a comedy show. Something about old ladies\n" +
-                    "leaving the community for the first time.",
+				"It's a comedy show. Something about old ladies leaving their small town.",
 				"It's a comedy show. Something about old ladies.",
 				"It's a comedy show."
 			],
@@ -622,8 +625,7 @@ var office_state = {
         {
 			id: 15,
             dialogue: [
-				"It's a comedy show. Something about old ladies\n" +
-                    "leaving the community for the first time.",
+				"It's a comedy show. Something about old ladies leaving their small town.",
 				"It's a comedy show. Something about old ladies.",
 				"It's a comedy show."
 			],
@@ -679,10 +681,10 @@ var office_state = {
         {
 			id: 16,
             dialogue: [
-                "Be glad you're not going then! By the way\n" +
-                    "I think your coffee is ready.",
-                "Oh you don't have to go I guess. By the way\n" +
-                    "I think your coffee is ready.",
+                "Be glad you're not going then! By the way I think your" +
+					"coffee is ready.",
+                "Oh you don't have to go I guess. By the way I think your" +
+					"coffee is ready.",
                 "Oh well. I think your coffee is ready."],
             retries: -1,
             wordbank: [
@@ -693,10 +695,9 @@ var office_state = {
         {
 			id: 17,
             dialogue: [
-                "I'll definitely let you know. By the way\n" +
-                    "I think your coffee is ready.",
-                "I'll let you know. By the way\n" +
-                    "I think your coffee is ready.",
+                "I'll definitely let you know. By the way I think your" +
+					"coffee is ready.",
+                "I'll let you know. By the way I think your coffee is ready.",
                 "Uh, yeah. I think your coffee is ready."],
             retries: -1,
             wordbank: [
@@ -740,10 +741,8 @@ var office_state = {
         {
 			id: 19,
             dialogue: [
-                "Yeah, sorry dude. By the way\n" +
-                    "I think your coffee is ready.",
-                "Ah, that's a shame. By the way\n" +
-                    "I think your coffee is ready.",
+                "Yeah, sorry dude. By the way I think your coffee is ready.",
+                "Ah, that's a shame. By the way I think your coffee is ready.",
                 "Aight. I think your coffee is ready."],
             retries: -1,
             wordbank: [
@@ -759,18 +758,13 @@ var office_state = {
     loadRender: function(){
     },
     create: function(){
-        //maybe not needed?
-        //game.physics.startSystem(Phaser.Physics.ARCADE);
-        game.stage.backgroundColor = "#0000ff";
+        game.stage.backgroundColor = "#3385ff";
         this.manager = new SceneManager(
                 this.scenes,
                 this.ellipse_center_x,
                 this.ellipse_center_y,
-                "office");
-        game.add.button(100, 475, "backspace",
-                this.manager.PopWordFromQuery, this.manager);
-        game.add.button(160, 475, "submit",
-                this.manager.EvaluateQuery, this.manager);
+				"Co-Worker",
+                "end");
     },
     update: function(){
         this.manager.Update();

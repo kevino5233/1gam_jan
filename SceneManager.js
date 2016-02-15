@@ -1,4 +1,4 @@
-SceneManager = function(scenes, ellipse_center_x, ellipse_center_y, nextscene){
+SceneManager = function(scenes, ellipse_center_x, ellipse_center_y, speaker, nextscene){
     this.scenes = [];
     for (var i = 0; i < scenes.length; i++){
         this.scenes.push(new Scene(this, scenes[i]));
@@ -9,13 +9,27 @@ SceneManager = function(scenes, ellipse_center_x, ellipse_center_y, nextscene){
 	this.floating_text_paths = [];
 	this.query = {
 		words: [],
-		len: 0
+		linewidths: [],
+		len: 0,
+		x: 0,
+		y: 0
 	};
-    this.wordsize = 15;
     this.ellipse_center_x = ellipse_center_x;
     this.ellipse_center_y = ellipse_center_y;
+	this.speaker = speaker;
     this.nextscene = nextscene;
+	game.add.sprite(dialogue_box_x, dialogue_box_1_y, "dialogue_box");
+	game.add.sprite(dialogue_box_x, dialogue_box_2_y, "dialogue_box");
+	// Initial x values of these buttons don't really matter
+	// since they'll be invisible and the values will be
+	// corrected as soon as words are pushed
+	this.button_back = game.add.button(0, button_y, "backspace",
+			this.PopWordFromQuery, this);
+	this.button_back.visible = false;
+	this.button_submit = game.add.button(0, button_y, "submit",
+			this.EvaluateQuery, this);
     this.LoadScene(0, 100);
+	this.button_submit.visible = false;
 }
 SceneManager.prototype.Update = function(){
     if (this.currscene.retries == -1 && game.input.activePointer.justPressed()){
@@ -43,22 +57,27 @@ SceneManager.prototype.LoadScene = function(scene_num, correctness){
             var text = this.query.words.pop();
             text.destroy();
         }
-        this.query.len = 0;
+        this.query.x = 0;
+        this.query.y = 0;
+		this.button_back.y = button_y;
+		this.button_submit.y = button_y;
         while (this.floating_text.length > 0){
             var text = this.floating_text.pop();
             text.destroy();
         }
     }
     if (this.scenes[scene_num].Load(correctness)){
+		this.button_back.visible = false;
+		this.button_submit.visible = false;
         this.currscene = this.scenes[scene_num];
         if (this.currscene.retries == -1){
             var text = game.add.text(
-                100,
-                500,
-                "Click anywhere to continue."
-            );
+				dialogue_box_x + text_offset,
+				dialogue_box_2_y + text_offset,
+				"Click anywhere to continue.");
+			text.fill = "#FFFFFF";
 			text.font = global_font;
-			text.fontsize = this.wordsize;
+			text.fontSize = global_font_size;
         }
     }
 }
@@ -186,11 +205,63 @@ SceneManager.prototype.EvaluateSentence = function(query, sentence) {
                     - trivial_error
                     - random_error, 0);
 }
+SceneManager.prototype.PushWordOnQuery = function(item){
+	item.visible = false;
+	var word = item.text;
+	if (this.query.x + word.length + 1 > query_text_w){
+		this.query.linewidths.push(this.query.x);
+		this.query.x = 0;
+		this.query.y += 1;
+		this.button_back.y += query_y_height;
+		this.button_submit.y += query_y_height;
+	}
+	var text = game.add.text(
+		dialogue_box_x + text_offset + this.query.x * global_font_size,
+		dialogue_box_2_y + text_offset + this.query.y * query_y_height,
+		word);
+    text.orig = item;
+    text.fill = "#FFFFFF";
+	text.font = global_font;
+	text.fontSize = global_font_size;
+	text.inputEnabled = true;
+	this.query.words.push(text);
+	this.query.x += word.length + 1;
+	this.button_back.visible = true;
+	this.button_submit.visible = true;
+	this.button_back.x = 
+		dialogue_box_x + text_offset + this.query.x * global_font_size;
+	this.button_submit.x =
+		dialogue_box_x + text_offset + button_submit_x + this.query.x * global_font_size;
+}
 SceneManager.prototype.PopWordFromQuery = function(item){
 	var text = this.query.words.pop();
+	this.query.x -= text.text.length + 1;
     text.orig.visible = true;
     text.destroy();
-	this.query.len -= text.text.length + 1;
+	if (this.query.x <= 0){
+		if (this.query.words.length == 0){
+			this.button_back.visible = false;
+			this.button_submit.visible = false;
+		} else {
+			this.query.y -= 1;
+			this.query.x = this.query.linewidths.pop();
+			this.button_back.y -= query_y_height;
+			this.button_submit.y -= query_y_height;
+			this.button_back.x = 
+				dialogue_box_x + text_offset +
+				this.query.x * global_font_size;
+			this.button_submit.x =
+				dialogue_box_x + text_offset + button_submit_x +
+				this.query.x * global_font_size;
+		}
+	} else {
+		this.button_back.x = 
+			dialogue_box_x + text_offset +
+			this.query.x * global_font_size;
+		this.button_submit.x =
+			dialogue_box_x + text_offset + button_submit_x +
+			this.query.x * global_font_size;
+	}
 }
 SceneManager.prototype.EvaluateQuery = function(key){
 	var sentences = this.currscene.sentences;

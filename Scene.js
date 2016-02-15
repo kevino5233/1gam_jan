@@ -22,9 +22,26 @@ Scene.prototype.Load = function(correctness){
     } else if (correctness < 90){
         index = 1;
     }
-	this.manager.dialogue_obj = game.add.text(100, 100, this.dialogue[index]);
+	var dialogue_words_array = this.dialogue[index].split(" ");
+	var dialogue_words = this.manager.speaker + ": ";
+	var currlen = dialogue_words.length;
+	for (var i = 0; i < dialogue_words_array.length; i++){
+		var newlen = currlen + dialogue_words_array[i].length + 1;
+		if (newlen < dialogue_text_w){
+			dialogue_words += dialogue_words_array[i] + " ";
+			currlen = newlen;
+		} else {
+			dialogue_words += "\n" + dialogue_words_array[i] + " ";
+			currlen = 0;
+		}
+	}
+	this.manager.dialogue_obj = game.add.text(
+		dialogue_box_x + text_offset,
+		dialogue_box_1_y + text_offset,
+		dialogue_words);
+    this.manager.dialogue_obj.fill = "#FFFFFF";
     this.manager.dialogue_obj.font = global_font;
-    this.manager.dialogue_obj.fontSize = this.manager.wordsize;
+    this.manager.dialogue_obj.fontSize = global_font_size;
 	// Make text objects
 	var centerx = this.manager.ellipse_center_x;
 	var centery = this.manager.ellipse_center_y;
@@ -47,8 +64,18 @@ Scene.prototype.Load = function(correctness){
 		text.centery = centery + randy;
 		text.font = global_font;
 		text.fontSize = (100 - a) * .20 + 5;
+		text.fill = "#FFFFFF";
+		text.setShadow(1, 1, "rgba(0,0,0,0.3)", 10);
 		text.inputEnabled = true;
-		text.events.onInputUp.add(this.PushWordOnQuery, this);
+		text.events.onInputUp.add(this.manager.PushWordOnQuery, this.manager);
+		text.events.onInputOver.add(
+			function(item){
+				item.fill = "#FF1AFF";
+			}, this);
+		text.events.onInputOut.add(
+			function(item){
+				item.fill = "#FFFFFF";
+			}, this);
 		this.add(text);
 		this.manager.floating_text.push(text);
 		var b = Math.sqrt(a * a * a / 200);
@@ -61,13 +88,28 @@ Scene.prototype.Load = function(correctness){
 		var path = [];
 		path["pos"] = 0;
 		path["dpos"] = 1;
+		// Fix to use a matrices to do roatte around instead of 
+		// the bullshit I'm doing.
 		for (var j = 0; j < T; j++){
 			var R = theta >= tau && theta < 3 * tau ? R1 : R2;
 			var pos = [];
-			pos["x"] = R * Math.cos(theta) - e_x;
-			pos["y"] = b *
-				Math.sqrt(Math.max(0, 1 - pos["x"] * pos["x"] / a / a)) *
+			var text_x = R * Math.cos(theta) - e_x;
+			var text_y = b *
+				Math.sqrt(Math.max(0, 1 - text_x * text_x / a / a)) *
 				(theta >= 0 && theta < Math.PI ? 1 : -1);
+			if (text_x + text.centerx < 0){
+				text_x = -text.centerx;
+			} else if (text_x + text.centerx >=
+					game_w - word.text.length * global_font_size){
+				text_x = game_w - word.text.length * global_font_size - text.centerx;
+			}
+			if (text_y + text.centery < dialogue_box_1_y + dialogue_box_h){
+				text_y = dialogue_box_1_y + dialogue_box_h - text.centery;
+			} else if (text_y - text.centery >= dialogue_box_2_y - global_font_size){
+				text_y = dialogue_box_2_y - global_font_size - text.centery;
+			}
+			pos["x"] = text_x;
+			pos["y"] = text_y;
 			path.push(pos);
 			theta += dtheta;
 			theta %= circle;
@@ -75,21 +117,4 @@ Scene.prototype.Load = function(correctness){
 		this.manager.floating_text_paths.push(path);
 	}
     return true;
-}
-Scene.prototype.PushWordOnQuery = function(item){
-	item.visible = false;
-	var word = item.text;
-	var manager = item.manager;
-	var text = game.add.text(
-		100 + manager.query.len * manager.wordsize,
-		500,
-		word);
-    text.orig = item;
-	text.manager = manager;
-	text.font = global_font;
-	text.fontSize = manager.wordsize;
-	text.inputEnabled = true;
-	text.events.onInputUp.add(this.manager.PopWordFromQuery, this.manager);
-	this.manager.query.words.push(text);
-	this.manager.query.len += word.length + 1;
 }

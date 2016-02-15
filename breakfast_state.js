@@ -1,10 +1,10 @@
 var breakfast_state = {
-    ellipse_center_x: 200,
-    ellipse_center_y: 200,
+    ellipse_center_x: 300,
+    ellipse_center_y: 300,
     scenes: [
 	    {
 			id: 0,
-            dialogue: ["Hey, I made too much for breakfast.\nYou can have the rest."],
+            dialogue: ["Hey, I made too much for breakfast. You can have the rest."],
             retries: 3,
             OnLoad: function(correctness){
             },
@@ -92,7 +92,7 @@ var breakfast_state = {
         {
 			id: 2,
             dialogue: [
-				"Oh it's no biggie! Better than letting it\ngo to waste.",
+				"Oh it's no biggie! Better than letting it go to waste.",
 				"Yeah sure. Wouldn't want it to go to waste.",
 				"Yeah..."
 			],
@@ -155,6 +155,13 @@ var breakfast_state = {
                     non_crucial_words: [2],
                     trivial_words: [0],
                     words: ["Are", "You", "Fucking", "Serious"]
+                },
+                {
+                    CUP: 90,	EUP: 10,	response: 6,
+                    crucial_words: [1, 3, 4],
+                    non_crucial_words: [2],
+                    trivial_words: [0],
+                    words: ["Are", "You", "Fucking", "Kidding", "Me"]
                 },
                 {
                     CUP: 95,	EUP: 5,	response: 6,
@@ -281,12 +288,13 @@ var breakfast_state = {
     },
     create: function(){
         // Eventually move to initialize layer function
-        game.stage.backgroundColor = "#ffff33";
+        game.stage.backgroundColor = "#ff5c33";
 		// this will be pre-defined per level state
         this.manager = new SceneManager(
                 this.scenes,
                 this.ellipse_center_x,
                 this.ellipse_center_y,
+				"Roommate",
                 "office");
     },
     update: function(){
