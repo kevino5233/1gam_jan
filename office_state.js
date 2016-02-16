@@ -43,6 +43,13 @@ var office_state = {
                     words: ["It's", "Going", "All", "Right"]
                 },
 				{
+                    CUP: 90,    EUP: 10,    response: 2,
+                    crucial_words: [1, 2],
+                    non_crucial_words: [0],
+                    trivial_words: [],
+                    words: ["Going", "All", "Right"]
+				},
+				{
                     CUP: 70,    EUP: 30,    response: 3,
                     crucial_words: [1, 2, 5],
                     non_crucial_words: [0, 3, 4],

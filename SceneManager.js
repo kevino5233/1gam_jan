@@ -235,8 +235,10 @@ SceneManager.prototype.PushWordOnQuery = function(item){
 }
 SceneManager.prototype.PopWordFromQuery = function(item){
 	var text = this.query.words.pop();
+    var orig = text.orig;
 	this.query.x -= text.text.length + 1;
-    text.orig.visible = true;
+    orig.visible = true;
+    orig.fill = "#FFFFFF";
     text.destroy();
 	if (this.query.x <= 0){
 		if (this.query.words.length == 0){

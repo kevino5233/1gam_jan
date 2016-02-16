@@ -6,7 +6,7 @@ var intro_state = {
     loadRender: function(){
     },
     create: function(){
-        game.stage.backgroundColor = "#d633ff";
+        game.stage.backgroundColor = "#EB99FF";
 		var style = { font: global_font_size + "px " + global_font};
 		game.add.text(50, 100,
 			"In this game, you talk by clicking on\n" +

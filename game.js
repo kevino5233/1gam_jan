@@ -7,7 +7,7 @@ var global_font_size = 15;
 // dialogue box dimensions
 var dialogue_box_w = 600;
 var dialogue_box_h = 100;
-var dialogue_text_w = 35;
+var dialogue_text_w = 30;
 // location of dialogue boxes
 var dialogue_box_x = 100;
 var dialogue_box_1_y = 25;
@@ -46,7 +46,7 @@ var G = 4;
 var game_w = 800;
 var game_h = 600;
 
-var game = new Phaser.Game(game_w, game_h, Phaser.AUTO);
+var game = new Phaser.Game(game_w, game_h, Phaser.AUTO, "Phaser-Game");
 
 game.state.add("boot", boot_state);
 game.state.add("load", load_state);
