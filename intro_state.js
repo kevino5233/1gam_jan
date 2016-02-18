@@ -21,7 +21,7 @@ var intro_state = {
 			"Click anywhere to start.", style);
 		game.add.sprite(50, 200, "backspace");
 		game.add.sprite(50, 250, "submit");
-		game.add.audio("gnossiene_2", 1, true).play();
+		//game.add.audio("gnossiene_2", 1, true).play();
     },
     update: function(){
 		if (game.input.activePointer.justPressed()){

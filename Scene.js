@@ -23,25 +23,23 @@ Scene.prototype.Load = function(correctness){
         index = 1;
     }
 	var dialogue_words_array = this.dialogue[index].split(" ");
-	var dialogue_words = this.manager.speaker + ": ";
-	var currlen = dialogue_words.length;
+	var dialogue_chars_array = (this.manager.speaker + ": ").split("");
+	var currlen = dialogue_chars_array.length;
 	for (var i = 0; i < dialogue_words_array.length; i++){
 		var newlen = currlen + dialogue_words_array[i].length + 1;
 		if (newlen < dialogue_text_w){
-			dialogue_words += dialogue_words_array[i] + " ";
 			currlen = newlen;
 		} else {
-			dialogue_words += "\n" + dialogue_words_array[i] + " ";
+			dialogue_chars_array.push("\n");
 			currlen = 0;
 		}
+		dialogue_chars_array =
+			dialogue_chars_array.concat(dialogue_words_array[i].split(""));
+		dialogue_chars_array.push(" ");
 	}
-	this.manager.dialogue_obj = game.add.text(
-		dialogue_box_x + text_offset,
-		dialogue_box_1_y + text_offset,
-		dialogue_words);
-    this.manager.dialogue_obj.fill = "#FFFFFF";
-    this.manager.dialogue_obj.font = global_font;
-    this.manager.dialogue_obj.fontSize = global_font_size;
+	this.manager.dialogue_chars = dialogue_chars_array;
+	this.manager.dialogue_frames = 0;
+	this.manager.dialogue_pos = 0;
 	// Make text objects
 	var centerx = this.manager.ellipse_center_x;
 	var centery = this.manager.ellipse_center_y;

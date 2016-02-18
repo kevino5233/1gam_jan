@@ -13,10 +13,10 @@ var dialogue_box_x = 100;
 var dialogue_box_1_y = 25;
 var dialogue_box_2_y = 475;
 // In context of dialogue box dimensions
-var text_offset = 25;
+var text_offset = 20;
 var query_text_w = 30;
 var query_y_height = 25;
-var button_y = 495;
+var button_y = 490;
 var button_submit_x = 40;
 
 function RandomInt(min, max) {

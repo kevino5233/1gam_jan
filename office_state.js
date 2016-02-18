@@ -74,7 +74,7 @@ var office_state = {
         },
         {
             id: 2,
-            dialogue: ["That's good", "Good, good.", "Good, good."],
+            dialogue: ["Good to hear!", "That's good.", "That's good."],
             retries: 1,
             wordbank: [
                 {text: "Yeah",          anxiety: 20},
