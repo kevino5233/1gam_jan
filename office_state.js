@@ -766,7 +766,9 @@ var office_state = {
     },
     create: function(){
         game.stage.backgroundColor = "#3385ff";
+        InitializeLayers(this);
         this.manager = new SceneManager(
+                this,
                 this.scenes,
                 this.ellipse_center_x,
                 this.ellipse_center_y,
@@ -779,5 +781,6 @@ var office_state = {
     resize: function(){
     },
     shutdown: function(){
+        DestroyLayers(this);
     }
 }

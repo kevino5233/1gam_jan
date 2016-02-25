@@ -74,7 +74,8 @@ Scene.prototype.Load = function(correctness){
 			function(item){
 				item.fill = "#FFFFFF";
 			}, this);
-		this.add(text);
+        this.manager.state.floating_text_layer.add(text);
+		//this.add(text);
 		this.manager.floating_text.push(text);
 		var b = Math.sqrt(a * a * a / 200);
 		var e_x = Math.sqrt(a * a - b * b) * (2 * RandomInt(0, 1) - 1);
@@ -98,12 +99,14 @@ Scene.prototype.Load = function(correctness){
 			if (text_x + text.centerx < 0){
 				text_x = -text.centerx;
 			} else if (text_x + text.centerx >=
-					game_w - word.text.length * global_font_size){
-				text_x = game_w - word.text.length * global_font_size - text.centerx;
+                        game_w - word.text.length * global_font_size){
+				text_x =
+                    game_w - word.text.length * global_font_size - text.centerx;
 			}
 			if (text_y + text.centery < dialogue_box_1_y + dialogue_box_h){
 				text_y = dialogue_box_1_y + dialogue_box_h - text.centery;
-			} else if (text_y - text.centery >= dialogue_box_2_y - global_font_size){
+			} else if (text_y - text.centery
+                        >= dialogue_box_2_y - global_font_size){
 				text_y = dialogue_box_2_y - global_font_size - text.centery;
 			}
 			pos["x"] = text_x;

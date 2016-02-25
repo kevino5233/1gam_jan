@@ -25,9 +25,24 @@ function RandomInt(min, max) {
 function RandomFloat(min, max) {
 	return Math.random() * (max - min + 1) + min
 }
-function InitializeLayers(){
+function InitializeLayers(state){
     // Create layers
     // Design protocol for background. Probably not very complicated.
+    // state.background = game.add.group();
+    state.floating_text_layer = game.add.group();
+    state.dialogue_ui_layer = game.add.group();
+    state.dialogue_text_layer = game.add.group();
+    state.general_ui_layer = game.add.group();
+}
+
+function DestroyLayers(state){
+    // Create layers
+    // Design protocol for background. Probably not very complicated.
+    // state.background.destroy(true);
+    state.floating_text_layer.destroy(true);
+    state.dialogue_ui_layer.destroy(true);
+    state.dialogue_text_layer.destroy(true);
+    state.general_ui_layer.destroy(true);
 }
 
 // Global variable for player anxiety

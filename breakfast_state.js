@@ -287,10 +287,11 @@ var breakfast_state = {
     loadRender: function(){
     },
     create: function(){
-        // Eventually move to initialize layer function
+        InitializeLayers(this);
         game.stage.backgroundColor = "#ff5c33";
 		// this will be pre-defined per level state
         this.manager = new SceneManager(
+                this,
                 this.scenes,
                 this.ellipse_center_x,
                 this.ellipse_center_y,
@@ -303,5 +304,6 @@ var breakfast_state = {
     resize: function(){
     },
     shutdown: function(){
+        DestroyLayers(this);
     }
 }

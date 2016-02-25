@@ -1,4 +1,5 @@
-SceneManager = function(scenes, ellipse_center_x, ellipse_center_y, speaker, nextscene){
+SceneManager = function(state, scenes, ellipse_center_x, ellipse_center_y,
+        speaker, nextscene){
     this.scenes = [];
     for (var i = 0; i < scenes.length; i++){
         this.scenes.push(new Scene(this, scenes[i]));
@@ -21,26 +22,31 @@ SceneManager = function(scenes, ellipse_center_x, ellipse_center_y, speaker, nex
 	this.errorsound = game.add.audio("error");
 	this.pushpopsound = game.add.audio("pushpop");
     this.nextscene = nextscene;
-	game.add.sprite(dialogue_box_x, dialogue_box_1_y, "dialogue_box");
-	game.add.sprite(dialogue_box_x, dialogue_box_2_y, "dialogue_box");
+    this.state = state;
+	this.state.dialogue_ui_layer.add(
+        game.add.sprite(dialogue_box_x, dialogue_box_1_y, "dialogue_box"));
+	this.state.dialogue_ui_layer.add(
+        game.add.sprite(dialogue_box_x, dialogue_box_2_y, "dialogue_box"));
 	this.dialogue_obj = game.add.text(
 		dialogue_box_x + text_offset,
 		dialogue_box_1_y + text_offset, "");
     this.dialogue_obj.fill = "#FFFFFF";
     this.dialogue_obj.font = global_font;
     this.dialogue_obj.fontSize = global_font_size;
+    this.state.dialogue_text_layer.add(this.dialogue_obj);
 	// Initial x values of these buttons don't really matter
 	// since they'll be invisible and the values will be
 	// corrected as soon as words are pushed
 	this.button_back = game.add.button(0, button_y, "backspace",
 			this.PopWordFromQuery, this);
-	this.button_back.visible = false;
+    this.state.general_ui_layer.add(this.button_back);
 	this.button_submit = game.add.button(0, button_y, "submit",
 			this.EvaluateQuery, this);
+    this.state.general_ui_layer.add(this.button_submit);
+    this.state.general_ui_layer.visible = false;
 	this.error_timer_len = 60;
 	this.error_timer_pos = 60;
     this.LoadScene(0, 100);
-	this.button_submit.visible = false;
 }
 SceneManager.prototype.Update = function(){
 	if (this.dialogue_pos < this.dialogue_chars.length){
@@ -58,7 +64,9 @@ SceneManager.prototype.Update = function(){
 			this.dialogue_pos++;	
 		}
 		this.dialogue_frames++;
-	}
+	} else {
+        this.state.floating_text_layer.visible = true;
+    }
 	if (this.error_timer_pos < this.error_timer_len){
 		this.error_timer_pos++;
 		if (this.error_timer_pos == this.error_timer_len){
@@ -99,9 +107,9 @@ SceneManager.prototype.LoadScene = function(scene_num, correctness){
         }
     }
     if (this.scenes[scene_num].Load(correctness)){
-		this.button_back.visible = false;
-		this.button_submit.visible = false;
         this.currscene = this.scenes[scene_num];
+        this.state.general_ui_layer.visible = false;
+        this.state.floating_text_layer.visible = false;
         if (this.currscene.retries == -1){
             var text = game.add.text(
 				dialogue_box_x + text_offset,
@@ -110,6 +118,7 @@ SceneManager.prototype.LoadScene = function(scene_num, correctness){
 			text.fill = "#FFFFFF";
 			text.font = global_font;
 			text.fontSize = global_font_size;
+            this.state.dialogue_text_layer.add(text);
         }
     }
 }
@@ -257,10 +266,10 @@ SceneManager.prototype.PushWordOnQuery = function(item){
 	text.font = global_font;
 	text.fontSize = global_font_size;
 	text.inputEnabled = true;
+    this.state.dialogue_text_layer.add(text);
 	this.query.words.push(text);
 	this.query.x += word.length + 1;
-	this.button_back.visible = true;
-	this.button_submit.visible = true;
+    this.state.general_ui_layer.visible = true;
 	this.button_back.x = 
 		dialogue_box_x + text_offset + this.query.x * global_font_size;
 	this.button_submit.x =
@@ -276,8 +285,7 @@ SceneManager.prototype.PopWordFromQuery = function(item){
     text.destroy();
 	if (this.query.x <= 0){
 		if (this.query.words.length == 0){
-			this.button_back.visible = false;
-			this.button_submit.visible = false;
+            this.state.general_ui_layer.visible = false;
 		} else {
 			this.query.y -= 1;
 			this.query.x = this.query.linewidths.pop();
