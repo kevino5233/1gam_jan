@@ -77,14 +77,18 @@ function PassageToJson(passage){
 							story.passage(sentence_word.substring(1)).id - 1;
 						reached_details = true;
 					} else {
-						sentence_json.words.push(sentence_word);
 						if (sentence_word.startsWith("*")){
 							sentence_json.crucial_words.push(j - 1);
+							sentence_word = 
+								sentence_word.substring(1, sentence_word.length - 1);
 						} else if (sentence_word.startsWith("~~")){
 							sentence_json.trivial_words.push(j - 1);
+							sentence_word = 
+								sentence_word.substring(2, sentence_word.length - 2);
 						} else {
 							sentence_json.non_crucial_words.push(j - 1);
 						}
+						sentence_json.words.push(sentence_word);
 					}
 				}
 			}
@@ -118,7 +122,7 @@ function PassageToJson(passage){
 			alert("Error: missing sentence options in passage " + passage.name);
 			return;
 		}
-		if (!has_fallback){
+		if (!has_fallback && scene_json.id != 0){
 			alert("Error: missing fallback dialogue in passage " + passage.name);
 			return;
 		}
@@ -126,7 +130,15 @@ function PassageToJson(passage){
 	output_json.push(scene_json);
 }
 
-
 var twine_passages = story.passages;
 twine_passages.forEach(PassageToJson);
-console.log(JSON.stringify(output_json));
+
+var blob = new Blob(
+	["var " + story.name + "_scene=" + JSON.stringify(output_json)],
+	{type: "application/json"});
+
+var download_link = document.createElement("A");
+download_link.innerHTML = "Download story JSON";
+download_link.id = "story-json-link";
+download_link.href = window.URL.createObjectURL(blob);
+document.body.insertBefore(download_link, document.getElementById("passage"));

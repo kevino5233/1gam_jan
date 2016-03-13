@@ -292,7 +292,7 @@ var breakfast_state = {
 		// this will be pre-defined per level state
         this.manager = new SceneManager(
                 this,
-                this.scenes,
+                breakfast_scene,
                 this.ellipse_center_x,
                 this.ellipse_center_y,
 				"Roommate",

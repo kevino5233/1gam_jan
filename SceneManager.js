@@ -125,15 +125,22 @@ SceneManager.prototype.LoadScene = function(scene_num, correctness){
 SceneManager.prototype.EvaluateSentence = function(query, sentence) {
 	var CUP = sentence.CUP;
 	var EUP = sentence.EUP;
-	var words = sentence.words;
+	var words = [];
+	for (var i = 0; i < sentence.words.length; i++){
+		words.push(sentence.words[i].toUpperCase());
+	}
+	var query_words = [];
+	for (var i = 0; i < query.length; i++){
+		query_words.push(query[i].toUpperCase());
+	}
     // count crucial words
 	var n_crucial_words = 0;
 	var crucial_words = sentence.crucial_words;
 	var crucial_words_pos = new Array(crucial_words.length);
 	crucial_words_pos.fill(-1);
-	for (var i = 0; i < query.length && crucial_words; i++) {
+	for (var i = 0; i < query_words.length && crucial_words; i++) {
 		for (var j = 0; j < crucial_words.length; j++) {
-			if (query[i] == words[crucial_words[j]]) {
+			if (query_words[i] == words[crucial_words[j]]) {
 				crucial_words_pos[j] = i;
 				n_crucial_words++;
 			}
@@ -161,9 +168,9 @@ SceneManager.prototype.EvaluateSentence = function(query, sentence) {
 	var non_crucial_words = sentence.non_crucial_words;
 	var non_crucial_words_pos = new Array(non_crucial_words.length);
 	non_crucial_words_pos.fill(-1);
-	for (var i = 0; i < query.length && non_crucial_words; i++) {
+	for (var i = 0; i < query_words.length && non_crucial_words; i++) {
 		for (var j = 0; j < non_crucial_words.length; j++) {
-			if (query[i] == words[non_crucial_words[j]]) {
+			if (query_words[i] == words[non_crucial_words[j]]) {
 				non_crucial_words_pos[j] = i;
 				n_non_crucial_words++;
 			}
@@ -190,9 +197,9 @@ SceneManager.prototype.EvaluateSentence = function(query, sentence) {
 	var n_trivial_words = 0;
 	var trivial_words = sentence.trivial_words;
 	var trivial_words_pos = new Array(trivial_words.length);
-	for (var i = 0; i < query.length && trivial_words; i++) {
+	for (var i = 0; i < query_words.length && trivial_words; i++) {
 		for (var j = 0; j < trivial_words.length; j++) {
-			if (query[i] == words[trivial_words[j]]) {
+			if (query_words[i] == words[trivial_words[j]]) {
 				n_trivial_words++;
 				trivial_words_pos[j] = i;
 			}
@@ -212,7 +219,7 @@ SceneManager.prototype.EvaluateSentence = function(query, sentence) {
 	var random_words_in = 0;
 	var random_words_out = 0;
 	k = 0;
-	for (var i = 0; i < query.length; i++) {
+	for (var i = 0; i < query_words.length; i++) {
 		if (i == non_random_words[k]){
 			k++;
 		} else if (i < crucial_words_order[0] ||
