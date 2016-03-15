@@ -48,6 +48,14 @@ SceneManager = function(state, scenes, ellipse_center_x, ellipse_center_y,
 	this.error_timer_pos = 60;
     this.LoadScene(0, 100);
 }
+SceneManager.prototype.TriggerRetryDialogue = function(){
+    this.currscene.retries--;
+    if (this.currscene.retries > 0)
+        this.currscene.LoadDialogueText(this.currscene.fallback);
+    else
+        this.LoadScene(this.currscene.fallback_scene, 0);
+    this.timer = new Timer(this.state, 10, this.TriggerRetryDialogue, this);
+}
 SceneManager.prototype.Update = function(){
 	if (this.dialogue_pos < this.dialogue_chars.length){
 		if (this.dialogue_frames % 2 == 0){
@@ -64,8 +72,9 @@ SceneManager.prototype.Update = function(){
 			this.dialogue_pos++;	
 		}
 		this.dialogue_frames++;
-	} else {
+	} else if (!this.state.floating_text_layer.visible){
         this.state.floating_text_layer.visible = true;
+        this.timer = new Timer(this.state, 10, this.TriggerRetryDialogue, this);
     }
 	if (this.error_timer_pos < this.error_timer_len){
 		this.error_timer_pos++;
@@ -73,8 +82,11 @@ SceneManager.prototype.Update = function(){
 			this.button_submit.loadTexture("submit");
 		}
 	}
-    if (this.currscene.retries == -1 && game.input.activePointer.justPressed()){
-        game.state.start(this.nextscene);
+    if (game.input.activePointer.justPressed()){
+        if (this.currscene.retries == -1){
+        } else if (this.currscene.retries == -2){
+            game.state.start(this.nextscene);
+        }
     }
     for (var i = 0; i < this.floating_text.length; i++){
         var path = this.floating_text_paths[i];
@@ -110,7 +122,7 @@ SceneManager.prototype.LoadScene = function(scene_num, correctness){
         this.currscene = this.scenes[scene_num];
         this.state.general_ui_layer.visible = false;
         this.state.floating_text_layer.visible = false;
-        if (this.currscene.retries == -1){
+        if (this.currscene.retries < 0){
             var text = game.add.text(
 				dialogue_box_x + text_offset,
 				dialogue_box_2_y + text_offset,

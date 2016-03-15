@@ -4,6 +4,7 @@ var load_state = {
         game.load.image("submit", "assets/icons/submit.png");
         game.load.image("backspace", "assets/icons/backspace.png");
         game.load.image("dialogue_box", "assets/icons/dialogue_box.png");
+        game.load.image("timer_ico", "assets/icons/time_bubble.png");
         game.load.image("mail", "assets/icons/mail_ico.png");
         game.load.image("twitter", "assets/icons/tw_ico.png");
 		game.load.audio("gnossiene_2", "assets/music/gnossiene_2.mp3");
@@ -35,6 +36,7 @@ var load_state = {
 		}
 		if (i == this.sounds.length){
 			game.state.start("intro");
+            //game.state.start("test");
 		}
     },
     resize: function(){

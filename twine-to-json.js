@@ -13,7 +13,13 @@ function PassageToJson(passage){
 	var wordbank_mode = false;
 	var has_sentences = false;
 	var has_fallback = false;
-	var scene_json = {id: passage.id - 1, dialogue: [], sentences: [], wordbank: []};
+    var has_fall_in = false;
+	var scene_json = {
+        id: passage.id - 1,
+        dialogue: [],
+        sentences: [],
+        wordbank: []
+    };
 	var tags = passage.tags;
 	for (var i = 0; i < tags.length; i++){
 		if (tags[i] == "high-pressure"){
@@ -26,8 +32,14 @@ function PassageToJson(passage){
 			scene_json.retries = 3;
 			has_retries = true;
 		} else if (tags[i] == "dialogue-only"){
+            scene_json.retries = -1;
+			has_retries = true;
 			dialogue_only = true;
-		}
+		} else if (tags[i] == "final-passage"){
+            scene_json.retries = -2;
+			has_retries = true;
+			dialogue_only = true;
+        }
 	}
 	if (!has_retries){
 		scene_json.retries = 3;
@@ -41,13 +53,16 @@ function PassageToJson(passage){
 		if (line.startsWith("```")){
 			wordbank_mode = !wordbank_mode;
 			if (wordbank_mode && has_wordbank){
-				alert("Warning: Multiple wordbanks at passage " + passage.name + ".");
+				alert("Warning: Multiple wordbanks at passage "
+                    + passage.name
+                    + ".");
 			}
 			has_wordbank = true;
 		} else if (wordbank_mode){
 			var word = line.split(" ");
 			if (word.length != 2){
-				alert("Error: Malformed wordbank at passage " + passage.name + ".\n"
+				alert("Error: Malformed wordbank at passage "
+                    + passage.name + ".\n"
 					+ word.toString());
 				return;
 			}
@@ -59,8 +74,12 @@ function PassageToJson(passage){
 			has_sentences = true;
 			var reached_details = false;
 			var sentence = line.split(/\[+|\]+\s*|\s+/);
-			var sentence_json =
-				{crucial_words: [], non_crucial_words: [], trivial_words: [], words: []};
+			var sentence_json = {
+                crucial_words: [],
+                non_crucial_words: [],
+                trivial_words: [],
+                words: []
+            };
 			for (var j = 0; j < sentence.length; j++){
 				var sentence_word = sentence[j];
 				if (sentence_word.trim().length == 0){
@@ -79,12 +98,14 @@ function PassageToJson(passage){
 					} else {
 						if (sentence_word.startsWith("*")){
 							sentence_json.crucial_words.push(j - 1);
-							sentence_word = 
-								sentence_word.substring(1, sentence_word.length - 1);
+							sentence_word =
+                                sentence_word.substring(
+                                    1, sentence_word.length - 1);
 						} else if (sentence_word.startsWith("~~")){
 							sentence_json.trivial_words.push(j - 1);
 							sentence_word = 
-								sentence_word.substring(2, sentence_word.length - 2);
+								sentence_word.substring(
+                                    2, sentence_word.length - 2);
 						} else {
 							sentence_json.non_crucial_words.push(j - 1);
 						}
@@ -102,8 +123,21 @@ function PassageToJson(passage){
 					+ passage.name);
 			}
 			has_fallback = true;
-			scene_json.fallback = line.substring(2);
-		}
+            var pipe_split_line = line.split("|");
+			scene_json.fallback = pipe_split_line[0].substring(2).trim();
+            scene_json.fallback_scene = passage(pipe_split_line[1].trim()).id - 1;
+		} else if (line[0] == '*'){
+			if (!has_dialogue){
+				alert("Fall-in dialogue before regular dialogue at passage "
+					+ passage.name);
+			}
+			if (!has_fallback){
+				alert("Fall-in dialogue before fallback dialogue at passage "
+					+ passage.name);
+			}
+            has_fall_in = true;
+            scene_json.fall_in = line.substring(2);
+        }
 	}
 	if (!has_speaker){
 		alert("Warning: No speaker in passage " + passage.name);
@@ -126,7 +160,11 @@ function PassageToJson(passage){
 			alert("Error: missing fallback dialogue in passage " + passage.name);
 			return;
 		}
-	}
+	} else if (has_sentences){
+        alert("Error: Dialogue-only passage has sentence options in passage "
+            + passage.name);
+        return;
+    }
 	output_json.push(scene_json);
 }
 

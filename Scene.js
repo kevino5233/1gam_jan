@@ -14,15 +14,8 @@ Scene = function(manager, scene_data){
 Scene.prototype = Object.create(Phaser.Group.prototype);
 Scene.prototype.constructor = Scene;
 
-Scene.prototype.Load = function(correctness){
-    if (correctness <= 50) return false;
-	var index = 0;
-    if (correctness < 70){
-        index = 2;
-    } else if (correctness < 90){
-        index = 1;
-    }
-	var dialogue_words_array = this.dialogue[index].split(" ");
+Scene.prototype.LoadDialogueText = function(text){
+	var dialogue_words_array = text.split(" ");
 	var dialogue_chars_array = (this.manager.speaker + ": ").split("");
 	var currlen = dialogue_chars_array.length;
 	for (var i = 0; i < dialogue_words_array.length; i++){
@@ -40,13 +33,27 @@ Scene.prototype.Load = function(correctness){
 	this.manager.dialogue_chars = dialogue_chars_array;
 	this.manager.dialogue_frames = 0;
 	this.manager.dialogue_pos = 0;
-	// Make text objects
+}
+
+Scene.prototype.Load = function(correctness){
+    if (correctness <= 50){
+        // Use fallback dialogue
+        this.LoadDialogueText(this.fall_in);
+    } else {
+        var index = 0;
+        if (correctness < 70){
+            index = 2;
+        } else if (correctness < 90){
+            index = 1;
+        }
+        this.LoadDialogueText(this.dialogue[index]);
+    }
 	var centerx = this.manager.ellipse_center_x;
 	var centery = this.manager.ellipse_center_y;
 	var deadzone = this.manager.deadzone;
 	for (var i = 0; i < this.wordbank.length; i++){
 		var word = this.wordbank[i];
-		var a = word.anxiety;
+		var a = 100 - word.anxiety;
 		var randx = RandomFloat(-deadzone, deadzone);
 		var randy = RandomFloat(-deadzone, deadzone);
 		var text = game.add.text(
@@ -61,7 +68,7 @@ Scene.prototype.Load = function(correctness){
 		text.centerx = centerx + randx;
 		text.centery = centery + randy;
 		text.font = global_font;
-		text.fontSize = (100 - a) * .20 + 5;
+		text.fontSize = a * .20 + 5;
 		text.fill = "#FFFFFF";
 		text.setShadow(1, 1, "rgba(0,0,0,0.3)", 10);
 		text.inputEnabled = true;
@@ -82,8 +89,8 @@ Scene.prototype.Load = function(correctness){
 		var T = Math.ceil(Math.sqrt(3 * a / G) * Math.PI * a);
 		var theta = (tau * i) % circle; //initialize as actual angle
 		var dtheta = circle / T * (2 * RandomInt(0, 1) - 1);
-		var R1 = a - e_x;
-		var R2 = a + e_x;
+		var R1 = 100 - a - e_x;
+		var R2 = 100 - a + e_x;
 		var path = [];
 		path["pos"] = 0;
 		path["dpos"] = 1;
