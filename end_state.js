@@ -15,7 +15,7 @@ var end_state = {
 			"any suggestions or criticism is highly\n" +
 			"encouraged. I need it to make better games!\n", style);
 		game.add.text(110, 270, "hello@kevino-is.me", style);
-		game.add.text(110, 340, "@hbd_kevino", style);
+		game.add.text(110, 340, "@kevino_is_me", style);
 		game.add.sprite(50, 250, "mail");
 		game.add.sprite(50, 325, "twitter");
     },

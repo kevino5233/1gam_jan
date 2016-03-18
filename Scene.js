@@ -3,10 +3,13 @@ Scene = function(manager, scene_data){
 
 	Phaser.Group.call(this, game);
 
+	this.id = scene_data.id;
 	this.dialogue = scene_data.dialogue;
 	this.retries = scene_data.retries;
     this.OnLoad = scene_data.OnLoad;
 	this.fallback = scene_data.fallback;
+	this.fall_in = scene_data.fall_in;
+	this.fallback_scene = scene_data.fallback_scene;
 	this.wordbank = scene_data.wordbank;
 	this.sentences = scene_data.sentences;
 }

@@ -50,11 +50,16 @@ SceneManager = function(state, scenes, ellipse_center_x, ellipse_center_y,
 }
 SceneManager.prototype.TriggerRetryDialogue = function(){
     this.currscene.retries--;
-    if (this.currscene.retries > 0)
+    if (this.currscene.retries > 0) {
         this.currscene.LoadDialogueText(this.currscene.fallback);
-    else
-        this.LoadScene(this.currscene.fallback_scene, 0);
-    this.timer = new Timer(this.state, 10, this.TriggerRetryDialogue, this);
+		//this.timer = new Timer(this.state, 10, this.TriggerRetryDialogue, this);
+		this.timer.Reset();
+    } else {
+        if (!this.LoadScene(this.currscene.fallback_scene, 100))
+			console.log("shit fucked up");
+		else
+			console.log(this.currscene.id);
+	}
 }
 SceneManager.prototype.Update = function(){
 	if (this.dialogue_pos < this.dialogue_chars.length){
@@ -74,7 +79,9 @@ SceneManager.prototype.Update = function(){
 		this.dialogue_frames++;
 	} else if (!this.state.floating_text_layer.visible){
         this.state.floating_text_layer.visible = true;
-        this.timer = new Timer(this.state, 10, this.TriggerRetryDialogue, this);
+        if (this.currscene.retries >= 0){
+			this.timer = new Timer(this.state, 10, this.TriggerRetryDialogue, this);
+		}
     }
 	if (this.error_timer_pos < this.error_timer_len){
 		this.error_timer_pos++;
@@ -132,7 +139,9 @@ SceneManager.prototype.LoadScene = function(scene_num, correctness){
 			text.fontSize = global_font_size;
             this.state.dialogue_text_layer.add(text);
         }
+		return true;
     }
+	return false;
 }
 SceneManager.prototype.EvaluateSentence = function(query, sentence) {
 	var CUP = sentence.CUP;
@@ -345,10 +354,14 @@ SceneManager.prototype.EvaluateQuery = function(key){
 		if (sentences[next_scene.sentence].OnCorrect){
 			sentences[next_scene.sentence].OnCorrect(next_scene.correctness);
 		}
+		this.timer.Stop();
         this.LoadScene(next_scene.scene, next_scene.correctness);
     } else {
+		this.retries--;
 		this.errorsound.play();
 		this.error_timer_pos = 0;
+		this.timer.Reset();
 		this.button_submit.loadTexture("backspace");
+		this.currscene.LoadDialogueText(this.currscene.fall_in);
 	}
 }

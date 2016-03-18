@@ -35,7 +35,7 @@ function PassageToJson(passage){
             scene_json.retries = -1;
 			has_retries = true;
 			dialogue_only = true;
-		} else if (tags[i] == "final-passage"){
+		} else if (tags[i] == "end-passage"){
             scene_json.retries = -2;
 			has_retries = true;
 			dialogue_only = true;
@@ -125,7 +125,14 @@ function PassageToJson(passage){
 			has_fallback = true;
             var pipe_split_line = line.split("|");
 			scene_json.fallback = pipe_split_line[0].substring(2).trim();
-            scene_json.fallback_scene = passage(pipe_split_line[1].trim()).id - 1;
+			var fallback_passage_name = pipe_split_line[1].trim();
+			var fallback_passage = story.passage(pipe_split_line[1].trim())
+			if (!fallback_passage){
+				alert("Error: Fallback scene is invalid at passage " + passage.name);
+				return;
+			} else {
+				scene_json.fallback_scene = fallback_passage.id - 1;
+			}
 		} else if (line[0] == '*'){
 			if (!has_dialogue){
 				alert("Fall-in dialogue before regular dialogue at passage "
