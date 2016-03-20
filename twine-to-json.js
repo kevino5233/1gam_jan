@@ -59,7 +59,7 @@ function PassageToJson(passage){
 			}
 			has_wordbank = true;
 		} else if (wordbank_mode){
-			var word = line.split(" ");
+			var word = line.split(/\s+/);
 			if (word.length != 2){
 				alert("Error: Malformed wordbank at passage "
                     + passage.name + ".\n"
@@ -92,9 +92,15 @@ function PassageToJson(passage){
 					}
 				} else {
 					if (sentence_word[0] == "|"){
-						sentence_json.response =
-							story.passage(sentence_word.substring(1)).id - 1;
-						reached_details = true;
+						var next_passage = story.passage(sentence_word.substring(1));
+						if (!next_passage){
+							alert("Error: Destination scene \"" + sentence_word.substring(1) +
+								  "\"is invalid at passage " + passage.name);
+							return;
+						} else {
+							sentence_json.response = next_passage.id - 1;
+							reached_details = true;
+						}
 					} else {
 						if (sentence_word.startsWith("*")){
 							sentence_json.crucial_words.push(j - 1);
@@ -128,7 +134,8 @@ function PassageToJson(passage){
 			var fallback_passage_name = pipe_split_line[1].trim();
 			var fallback_passage = story.passage(pipe_split_line[1].trim())
 			if (!fallback_passage){
-				alert("Error: Fallback scene is invalid at passage " + passage.name);
+				alert("Error: Fallback scene \"" + pipe_split_line[1].trim()
+					  + "\"is invalid at passage " + passage.name);
 				return;
 			} else {
 				scene_json.fallback_scene = fallback_passage.id - 1;
@@ -186,4 +193,5 @@ var download_link = document.createElement("A");
 download_link.innerHTML = "Download story JSON";
 download_link.id = "story-json-link";
 download_link.href = window.URL.createObjectURL(blob);
+download_link.download= story.name + ".json";
 document.body.insertBefore(download_link, document.getElementById("passage"));

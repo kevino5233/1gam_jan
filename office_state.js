@@ -769,7 +769,7 @@ var office_state = {
         InitializeLayers(this);
         this.manager = new SceneManager(
                 this,
-                this.scenes,
+				office_scene,
                 this.ellipse_center_x,
                 this.ellipse_center_y,
 				"Co-Worker",

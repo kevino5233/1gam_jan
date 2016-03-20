@@ -25,7 +25,8 @@ var intro_state = {
     },
     update: function(){
 		if (game.input.activePointer.justPressed()){
-			game.state.start("breakfast");
+			//game.state.start("breakfast");
+			game.state.start("office");
 		}
     },
     resize: function(){
