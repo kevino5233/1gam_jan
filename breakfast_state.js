@@ -17,7 +17,7 @@ var breakfast_state = {
                 this.ellipse_center_x,
                 this.ellipse_center_y,
 				"Roommate",
-                "end");
+                "office");
     },
     update: function(){
         this.manager.Update();

@@ -39,18 +39,18 @@ Scene.prototype.LoadDialogueText = function(text){
 }
 
 Scene.prototype.Load = function(correctness){
-    if (correctness <= 50){
-        // Use fallback dialogue
-        this.LoadDialogueText(this.fall_in);
-    } else {
-        var index = 0;
-        if (correctness < 70){
-            index = 2;
-        } else if (correctness < 90){
-            index = 1;
-        }
-        this.LoadDialogueText(this.dialogue[index]);
-    }
+	var index = 0;
+	if (correctness < 50){
+		if (this.dialogue.length < 4){
+			return false;
+		}
+		index = 3;
+	} else if (correctness < 70){
+		index = 2;
+	} else if (correctness < 90){
+		index = 1;
+	}
+	this.LoadDialogueText(this.dialogue[index]);
 	var centerx = this.manager.ellipse_center_x;
 	var centery = this.manager.ellipse_center_y;
 	var deadzone = this.manager.deadzone;
@@ -75,6 +75,7 @@ Scene.prototype.Load = function(correctness){
 		text.fill = "#FFFFFF";
 		text.setShadow(1, 1, "rgba(0,0,0,0.3)", 10);
 		text.inputEnabled = true;
+		text.input.useHandCursor = true;
 		text.events.onInputUp.add(this.manager.PushWordOnQuery, this.manager);
 		text.events.onInputOver.add(
 			function(item){

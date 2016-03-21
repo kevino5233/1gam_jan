@@ -20,29 +20,32 @@ function PassageToJson(passage){
         sentences: [],
         wordbank: []
     };
+	var dialogue_len = 3;
 	var tags = passage.tags;
 	for (var i = 0; i < tags.length; i++){
-		if (tags[i] == "high-pressure"){
+		var passage_tag = tags[i];
+		if (passage_tag == "start-passage"){
+			dialogue_len = 1;
+		} else if (passage_tag == "high-pressure"){
 			scene_json.retries = 1;
 			has_retries = true;
-		} else if (tags[i] == "normal-pressure"){
+		} else if (passage_tag == "low-pressure"){
 			scene_json.retries = 2;
 			has_retries = true;
-		} else if (tags[i] == "low-pressure"){
-			scene_json.retries = 3;
-			has_retries = true;
-		} else if (tags[i] == "dialogue-only"){
+		} else if (passage_tag == "dialogue-only"){
             scene_json.retries = -1;
 			has_retries = true;
 			dialogue_only = true;
-		} else if (tags[i] == "end-passage"){
+		} else if (passage_tag == "fallback-passage"){
+			dialogue_len = 4;
+		} else if (passage_tag == "end-passage"){
             scene_json.retries = -2;
 			has_retries = true;
 			dialogue_only = true;
         }
 	}
 	if (!has_retries){
-		scene_json.retries = 3;
+		scene_json.retries = 2;
 	}
 	var passage_lines = passage.source.split(/\n/);
 	for (var i = 0; i < passage_lines.length; i++){
@@ -133,12 +136,18 @@ function PassageToJson(passage){
 			scene_json.fallback = pipe_split_line[0].substring(2).trim();
 			var fallback_passage_name = pipe_split_line[1].trim();
 			var fallback_passage = story.passage(pipe_split_line[1].trim())
-			if (!fallback_passage){
-				alert("Error: Fallback scene \"" + pipe_split_line[1].trim()
+			if (fallback_passage){
+				if (fallback_passage.tags.includes("fallback-passage")){
+					scene_json.fallback_scene = fallback_passage.id - 1;
+				} else {
+					alert("Error: Fallback scene \"" + fallback_passage_name
+						  + "\"is not a fallback passage " + passage.name);
+					return;
+				}
+			} else {
+				alert("Error: Fallback scene \"" + fallback_passage_name
 					  + "\"is invalid at passage " + passage.name);
 				return;
-			} else {
-				scene_json.fallback_scene = fallback_passage.id - 1;
 			}
 		} else if (line[0] == '*'){
 			if (!has_dialogue){
@@ -179,6 +188,11 @@ function PassageToJson(passage){
             + passage.name);
         return;
     }
+	if (scene_json.dialogue.length != dialogue_len){
+        alert("Error: Not enough dialogue from " + scene_json.speaker
+			  + " in passage " + passage.name);
+        return;
+	}
 	output_json.push(scene_json);
 }
 
