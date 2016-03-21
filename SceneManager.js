@@ -55,7 +55,7 @@ SceneManager.prototype.TriggerRetryDialogue = function(){
 		//this.timer = new Timer(this.state, 10, this.TriggerRetryDialogue, this);
 		this.timer.Reset();
     } else {
-        if (!this.LoadScene(this.currscene.fallback_scene, 100))
+        if (!this.LoadScene(this.currscene.fallback_scene, 0))
 			console.log("shit fucked up");
 		else
 			console.log(this.currscene.id);

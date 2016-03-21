@@ -5,9 +5,7 @@ Technically it is in some passable alpha form but I'd like to
 make this into a fully fledged web game for people to play. 
 You can play the most current build at [http://www.cs.utexas.edu/~kevinosu/1gam_jan/](http://www.cs.utexas.edu/~kevinosu/1gam_jan/)!
 
-- Timing infrastructure. Send to server? lmaooooo
 - Better writing design
-    - currently the most pressing issue is not accounting for
     "bad" inputs by the user
     - examples:
         - Mei said "Don't tell me" when the roommate said
@@ -15,15 +13,25 @@ You can play the most current build at [http://www.cs.utexas.edu/~kevinosu/1gam_
         - Mei said "It's all right" and the co-worker responded
         "Good to hear!"
     - take matthewit's suggestion of making the game aware
+    when you are inputing nonsensical things
     - perhaps make the mouse icon change when over
     the floating word?
         - despite reading the instructions it was still
         unclear to linh how to play?
-    when you are inputing nonsensical things
+	-Make passages more meaningful
+	-come up with better inaction/flub dialogue
+		- randomize responses? Could be better
+		- Add a "sorry what did you say" option when flubbing or 
+		not saying anything.
+			-takes up a retry?
+		- do more than "make the game aware"
+			-Reflect incoherence in NPC response
+    - currently the most pressing issue is not accounting for
 - fix query algo
 - Change text tweening
 	- Make high anxiety move fast, low anxiety move slow (opposite of rn)
 	- parametric eqs
 	- physics sim? lel
+	- shit fucking warps lmao
 - Intro panes to scenarios 
 - ART!!!!!
