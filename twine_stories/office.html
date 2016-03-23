@@ -17,6 +17,8 @@ office
 }
 
 
+
+
 </style><script role="script" id="twine-user-script" type="text/twine-javascript">// Copy and paste this into your twine javascript section
 
 var output_json = [];
@@ -33,6 +35,7 @@ function PassageToJson(passage){
 	var has_sentences = false;
 	var has_fallback = false;
     var has_fall_in = false;
+    var needs_change = false;
 	var scene_json = {
         id: passage.id - 1,
         dialogue: [],
@@ -61,6 +64,8 @@ function PassageToJson(passage){
             scene_json.retries = -2;
 			has_retries = true;
 			dialogue_only = true;
+		} else if (passage_tag == "needs-change"){
+            needs_change = true;
         }
 	}
 	if (!has_retries){
@@ -72,7 +77,10 @@ function PassageToJson(passage){
 		if (line.length == 0){
 			continue;
 		}
-		if (line.startsWith("```")){
+        if (line.startsWith("//") && needs_change){
+            alert("Passage \"" + passage.name + "\" needs attention.\n" + line.substring(3));
+            needs_change = false;
+        } else if (line.startsWith("```")){
 			wordbank_mode = !wordbank_mode;
 			if (wordbank_mode && has_wordbank){
 				alert("Warning: Multiple wordbanks at passage "
@@ -181,6 +189,9 @@ function PassageToJson(passage){
             scene_json.fall_in = line.substring(2);
         }
 	}
+    if (needs_change){
+        alert("Passage \"" + passage.name + "\" needs attention.");
+    }
 	if (!has_speaker){
 		alert("Warning: No speaker in passage " + passage.name);
 		return;
@@ -208,8 +219,8 @@ function PassageToJson(passage){
         return;
     }
 	if (scene_json.dialogue.length != dialogue_len){
-        alert("Error: Not enough dialogue from " + scene_json.speaker
-			  + " in passage " + passage.name);
+        alert("Error: Expected " + dialogue_len + "dialogue options from " + scene_json.speaker
+			  + " in passage " + passage.name + ", got " + scene_json.dialogue.length);
         return;
 	}
 	output_json.push(scene_json);
@@ -228,6 +239,7 @@ download_link.id = "story-json-link";
 download_link.href = window.URL.createObjectURL(blob);
 download_link.download= story.name + ".json";
 document.body.insertBefore(download_link, document.getElementById("passage"));
+
 </script><tw-passagedata pid="1" name="Office0" tags="no-pressure start-passage" position="19,15"># Tim
 
 + Sup
@@ -264,8 +276,9 @@ Better	75
 
 [[~~It&#39;s~~ going *all* *right* |Office2]] 90 10
 [[Going *All* *right* |Office2]] 90 10
-[[Going *All* *good* |Office2]] 90 10
+[[All *good* |Office2]] 70 30
 [[Going *All* *Right* how are *you* |Office3]] 90 10
+[[*good* how are *you* |Office3]] 90 10
 [[~~It&#39;s~~ good *could* *be* going *better |Office4]] 80 20</tw-passagedata>
 <tw-passagedata pid="3" name="Office2" tags="" position="19,163"># Tim
 
@@ -345,9 +358,9 @@ They		55
 Want		55
 ```
 
-[[Guess *We&#39;ll* *Have* to *deal* with it |Office8]] 60 40
-[[God *Clients* *Never* *Know* what *they* *want* |Office10]] 80 20</tw-passagedata>
-<tw-passagedata pid="6" name="Office5" tags="" position="24,326"># Tim
+[[Guess *We&#39;ll* *Have* to *deal* with it |Office8]] 70 30
+[[God *Clients* *Never* *Know* what *they* *want* |Office10]] 90 10</tw-passagedata>
+<tw-passagedata pid="6" name="Office5" tags="" position="30,320"># Tim
 
 + Yeah because of the festival! Pretty excited.
 + Yeah because of the festival!
@@ -374,11 +387,11 @@ Annoying	50
 ```
 
 [[Have *you* *checked* your *email* |Office6]] 80 20
-[[*What* are *you* *up* to * *tonight* |Office7]] 90 10
+[[*What* are *you* *up* to *tonight* |Office7]] 90 10
 [[*What* are *you* *doing* *tonight* |Office7]] 90 10
 [[Are *you* *doing* *anything* *tonight* |Office7]] 90 10
 [[~~It&#39;s~~ *Still* *Annoying* |Office9]] 100 0</tw-passagedata>
-<tw-passagedata pid="7" name="Office6" tags="" position="441,414"># Tim
+<tw-passagedata pid="7" name="Office6" tags="" position="439,386"># Tim
 
 + Yeah, These clients are ridiculous.
 + These clients man.
@@ -406,7 +419,7 @@ Want		55
 
 [[Guess *We&#39;ll* *Have* to *deal* with it |Office8]] 60 40
 [[God *Clients* *Never* *Know* what *they* *want* |Office10]] 80 20</tw-passagedata>
-<tw-passagedata pid="8" name="Office7" tags="" position="175,449"># Tim
+<tw-passagedata pid="8" name="Office7" tags="" position="170,422"># Tim
 
 + Going to see a show! Forgot what it was called...
 + Going to see a show!
@@ -424,16 +437,13 @@ Have		25
 Checked		25
 Email		25
 Your		25
-Mind		75
-If			75
-I			75
-Tag			75
-Along		75
+What&#39;s		60
+It			60
+About		60
 ```
 
 [[Have *you* *checked* your *email* |Office6]] 80 20
-[[That *Should* *Be* Fun* |Office13]] 90 10
-[[*Mind* *If* I *Tag* *Along*|Office11]] 90 10</tw-passagedata>
+[[*What&#39;s* *it* *about* |Office14]] 100 0</tw-passagedata>
 <tw-passagedata pid="9" name="Office8" tags="fallback-passage" position="780,378"># Tim
 
 + Man, you always seem to just take things.
@@ -463,13 +473,15 @@ Something	75
 
 [[What ~~The~~ ~~Fuck~~ else *am* *I* *supposed* to *do* |Office10]] 75 25
 [[*what* are *you* *trying* to *say |Office12]] 75 25</tw-passagedata>
-<tw-passagedata pid="10" name="Office10" tags="" position="484,577"># Tim
+<tw-passagedata pid="10" name="Office10" tags="needs-change" position="499,591">// Change the dialogue options or the resultant end dialogue to make this section feel more natural. &quot;I sure hope not&quot; -&gt; &quot;Me too man&quot; doesn&#39;t always make sense? Especially with certain dialogue possibilities`
 
-+ Ouch! Don&#39;t worry, you get used to it.
-+ You get ued to it.
-+ You get used to it.
+# Tim
+
++ Nothing! Just seen that attitude come up in everyone eventually.
++ Just figured this attitude would come up in you.
++ I uhh, thought you&#39;d become like this.
 - ... | Office13
-* Say what? You get used to it.
+* Huh? Just saying this attitude would come up eventually.
 
 ```
 Whatever	50
@@ -483,9 +495,9 @@ Guess		50
 So			50
 ```
 
-[[*Whatever* *You* *Say* |Office13]] 100 0
-[[I *Sure* *Hope* *Not* |Office13]] 90 10
-[[I *guess* *so* |Office13]] 90 10</tw-passagedata>
+[[*Whatever* *You* *Say* |Office19]] 100 0
+[[I *Sure* *Hope* *Not* |Office20]] 90 10
+[[I *guess* *so* |Office19]] 90 10</tw-passagedata>
 <tw-passagedata pid="11" name="Office9" tags="" position="21,562"># Tim
 
 + Can&#39;t be helped I guess.
@@ -511,54 +523,22 @@ Checked		25
 Email		25
 ```
 
-[[Yeah *I* *Guess* |Office13]]
+[[Yeah *I* *Guess* |Office13]] 85 15
 [[Have *you* *checked* your *email* |Office6]] 80 20
 [[*What* are *you* *up* to * *tonight* |Office7]] 90 10
 [[*What* are *you* *doing* *tonight* |Office7]] 90 10
 [[Are *you* *doing* *anything* *tonight* |Office7]] 90 10</tw-passagedata>
-<tw-passagedata pid="12" name="Office13" tags="dialogue-only end-passage fallback-passage" position="216,904"># Roommate
+<tw-passagedata pid="12" name="Office13" tags="dialogue-only end-passage fallback-passage" position="216,904"># Tim
 
-+ Me too man. I think your coffee is done.
 + Yeah. I think your coffee is done.
-+ Yeah. I think your coffee is done.
-+ I think your coffee is done.</tw-passagedata>
-<tw-passagedata pid="13" name="Office11" tags="" position="495,706"># Tim
-
-+ I&#39;ll have to check. We were supposed to pre-order tickets I think.
-+ We were uh, supposed to pre-order tickets I think.
-+ We were uh, supposed to pre-order tickets I think.
-- So yeah...we had to pre-order tickets. | Office13
-* What was that? We may not have tickets for you.
-
-```
-Actually	40
-Never		40
-Mind		40
-Well		75
-Just		75
-Let			75
-Me			75
-Know		75
-Then		75
-What&#39;s		60
-About		60
-It			60
-Guess		50
-I&#39;m			50
-Not			50
-Going		50
-Then		50
-```
-
-[[Actually *never* *mind* |Office19]] 95 5
-[[~~Well~~ *just* let *me* *know* ~~then~~|Office17]] 85 15
-[[*What&#39;s* *It* *About* |Office14]] 100 0
-[[Guess I&#39;m *not* *going* *then* |Office18]] 85 15</tw-passagedata>
-<tw-passagedata pid="14" name="Office12" tags="" position="797,707"># Tim
++ I think your coffee is done.
++ I think your coffee is done.
++ Hey uh, I think your coffee is done.</tw-passagedata>
+<tw-passagedata pid="13" name="Office12" tags="needs-change" position="842,662"># Tim
 
 + Nothing! Just seen that attitude come up in everyone eventually.
 + Just figured this attitude would come up in you.
-+ Just figured this attitude would come up in you.
++ I uhh, thought you&#39;d become like this.
 - ... | Office13
 * Huh? Just saying this attitude would come up eventually.
 
@@ -574,20 +554,10 @@ Guess		50
 So			50
 ```
 
-[[*Whatever* *You* *Say* |Office13]] 100 0
-[[I *Sure* *Hope* *Not* |Office13]] 90 10
-[[I *guess* *so* |Office13]] 90 10</tw-passagedata>
-<tw-passagedata pid="15" name="Office19" tags="dialogue-only end-passage" position="883,1072"># Tim
-
-+ Yeah, sorry dude. By the way I think your coffee is ready.
-+ Yeah uh, sorry. By the way your coffee is done I think.
-+ Sorry. By the way your coffee is done I think.`</tw-passagedata>
-<tw-passagedata pid="16" name="Office17" tags="dialogue-only end-passage" position="442,1081"># Tim
-
-+ I&#39;ll definitely let you know! By the way I think your coffee is ready.
-+ Yeah uh, I&#39;ll let you know. By the way your coffee is done I think.
-+ I&#39;ll uhh...let you know. By the way your coffee is done I think.</tw-passagedata>
-<tw-passagedata pid="17" name="Office14" tags="" position="827,855"># Tim
+[[*Whatever* *You* *Say* |Office19]] 100 0
+[[I *Sure* *Hope* *Not* |Office20]] 90 10
+[[I *guess* *so* |Office19]] 90 10</tw-passagedata>
+<tw-passagedata pid="14" name="Office14" tags="" position="450,716"># Tim
 
 + It&#39;s a comedy show. It&#39;s called Anything Goes I think?
 + Umm, it&#39;s a comedy show I think. Anything goes.
@@ -610,32 +580,90 @@ Guess		30
 
 [[~~Oh~~ Sounds kinda *lame* |Office16]] 70 30
 [[~~That~~ *could* *be* *good* I guess |Office17]] 85 15</tw-passagedata>
-<tw-passagedata pid="18" name="Office18" tags="" position="683,1069"># Tim
-
-+ Yeah sorry. I&#39;ll let you know though.
-+ Yeah uh, sorry. I&#39;ll let you know.
-+ Uhh, sorry.
-- Yeah... | Office13
-* Huh? Sorry man.
-
-```
-Actually	60
-Never		60
-Mind		60
-It&#39;s		60
-Ok			60
-I			60
-Understand	60
-```
-
-[[Actually *never* *mind* |Office19]] 95 5
-[[It&#39;s ok *I* *understand* |Office19]] 100 0</tw-passagedata>
-<tw-passagedata pid="19" name="Office16" tags="dialogue-only end-passage fallback-passage" position="220,1060"># Tim
+<tw-passagedata pid="15" name="Office16" tags="dialogue-only end-passage fallback-passage" position="440,933"># Tim
 
 + Be glad you&#39;re not going then! By the way I think your coffee is ready.
 + Oh okay, guess you&#39;re not going. By the way your coffee is done I think.
 + Oh...I guess you wouldn&#39;t want to go. By the way your coffee is done I think.
 + Umm...I guess you won&#39;t be going? Oh, I think your coffee is done.</tw-passagedata>
+<tw-passagedata pid="16" name="Office17" tags="" position="715,557"># Tim
+
++ Yeah I hope it&#39;s good.
++ Hope it&#39;s good.
++ Uhh yeah it&#39;ll be good I think.
+- ... | Office13
+* Sorry, what was that?
+
+```
+Yeah	20
+Traffic 60
+Was		60
+Hella	60
+Busy	60
+Today	60
+Have	15
+Checked	15
+Your	15
+Email	15
+```
+
+[[*Traffic* was ~~hella~~ *busy* ~~today~~ |Office11]] 80 20
+[[Have *You* *checked* ~~your~~ *email* |Office6]] 80 20</tw-passagedata>
+<tw-passagedata pid="17" name="Office11" tags="" position="963,484"># Tim
+
++ Yeah because of the festival! Pretty excited.
++ Yeah because of the festival!
++ Yeah the festival is today.
+- ... | Office13
+* Say what? You say something about the festival?
+
+```
+What		75
+Are			75
+You			15
+Doing		75
+Anything	75
+Up			75
+To			75
+Tonight		75
+Have		25
+Checked		25
+Email		25
+Your		25
+It&#39;s		50
+Still		50
+Annoying	50
+```
+
+[[Have *you* *checked* your *email* |Office6]] 80 20
+[[*What* are *you* *up* to *tonight* |Office18]] 90 10
+[[*What* are *you* *doing* *tonight* |Office18]] 90 10
+[[Are *you* *doing* *anything* *tonight* |Office18]] 90 10
+[[~~It&#39;s~~ *Still* *Annoying* |Office9]] 100 0</tw-passagedata>
+<tw-passagedata pid="18" name="Office18" tags="" position="946,240"># Tim
+
++ We were just talking about that dude.
++ Were we just talking about that? Yeah!
++ I&#39;m uhh gonna...wait I already told you!
+- No worries though. | Office13
+* What? I already told you my plans.
+
+```
+Oh			25
+Sorry		25
+Have		35
+Checked		35
+Email		35
+Your		35
+```
+
+[[Have *you* *checked* your *email* |Office6]] 80 20</tw-passagedata>
+<tw-passagedata pid="19" name="Office19" tags="" position="671,804">Double-click this passage to edit it.</tw-passagedata>
+<tw-passagedata pid="20" name="Office20" tags="dialogue-only end-passage" position="1043,833"># Tim
+
++ Me too man. I think your coffee is done.
++ Yeah. I think your coffee is done.
++ Yeah. I think your coffee is done.</tw-passagedata>
 </tw-storydata>
 
 
