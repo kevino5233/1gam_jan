@@ -98,14 +98,8 @@ SceneManager.prototype.Update = function(){
     for (var i = 0; i < this.floating_text.length; i++){
         var path = this.floating_text_paths[i];
         var pos = path[path["pos"]];
-        path["pos"] += path["dpos"];
-        if (path["pos"] == 0 && path["dpos"] == -1){
-            path["pos"] = 1;
-            path["dpos"] = 1;
-        } else if (path["pos"] == path.length){
-            path["pos"] = path.length - 1;
-            path["dpos"] = -1;
-        }
+        path["pos"]++;
+        path["pos"] %= path.length;
         this.floating_text[i].x = pos.x + this.floating_text[i].centerx;
         this.floating_text[i].y = pos.y + this.floating_text[i].centery;
     }

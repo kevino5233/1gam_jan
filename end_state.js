@@ -19,9 +19,8 @@ var end_state = {
 		game.add.sprite(50, 250, "mail");
 		game.add.sprite(50, 325, "twitter");
 		var style_2 = { font: global_font_size + "px " + global_font, fill: "green"};
-		var play_again_text = game.add.text(50, 400, "Play again?", style_2);
+		var play_again_text = game.add.text(50, 430, "Play again?", style_2);
 		play_again_text.inputEnabled = true;
-		play_again_text.input.useHandCursor = true;
 		play_again_text.events.onInputUp.add(
 			function(item){
 				game.state.start("breakfast");

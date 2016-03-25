@@ -1,5 +1,5 @@
 var office_state = {
-    ellipse_center_x: 300,
+    ellipse_center_x: 400,
     ellipse_center_y: 300,
     preload: function(){
     },
