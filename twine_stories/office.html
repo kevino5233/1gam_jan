@@ -19,6 +19,8 @@ office
 
 
 
+
+
 </style><script role="script" id="twine-user-script" type="text/twine-javascript">// Copy and paste this into your twine javascript section
 
 var output_json = [];
@@ -240,6 +242,8 @@ download_link.href = window.URL.createObjectURL(blob);
 download_link.download= story.name + ".json";
 document.body.insertBefore(download_link, document.getElementById("passage"));
 
+
+
 </script><tw-passagedata pid="1" name="Office0" tags="no-pressure start-passage" position="19,15"># Tim
 
 + Sup
@@ -276,10 +280,10 @@ Better	75
 
 [[~~It&#39;s~~ going *all* *right* |Office2]] 90 10
 [[Going *All* *right* |Office2]] 90 10
-[[All *good* |Office2]] 70 30
+[[All *good* |Office2]] 60 40
 [[Going *All* *Right* how are *you* |Office3]] 90 10
 [[*good* how are *you* |Office3]] 90 10
-[[~~It&#39;s~~ good *could* *be* going *better |Office4]] 80 20</tw-passagedata>
+[[~~It&#39;s~~ good *could* *be* going *better* |Office4]] 80 20</tw-passagedata>
 <tw-passagedata pid="3" name="Office2" tags="" position="19,163"># Tim
 
 + Good to hear!
@@ -305,7 +309,7 @@ Email	15
 
 [[*How* *About* *you* |Office3]] 100 0
 [[*Traffic* was ~~hella~~ *busy* |Office5]] 80 20
-[[Have *You* *checked* ~~your~~ *email* |Office6]] 80 20</tw-passagedata>
+[[Have *You* *checked* your *email* |Office6]] 80 20</tw-passagedata>
 <tw-passagedata pid="4" name="Office3" tags="fallback-passage" position="321,180"># Tim
 
 + Not too bad. Got big plans for tonight.
@@ -329,10 +333,9 @@ Email		25
 Your		25
 ```
 
-[[*Cool* |Office13]] 100 0
-[[Have *You* *checked* ~~your~~ *email* |Office6]] 80 20
+[[Have *You* *checked* your *email* |Office6]] 80 20
 [[*What* ~~Are~~ *you* *up* to *tonight* |Office7]] 80 20</tw-passagedata>
-<tw-passagedata pid="5" name="Office4" tags="" position="600,177"># Tim
+<tw-passagedata pid="5" name="Office4" tags="" position="570,156"># Tim
 
 + Ouch! Seems like you read Jeff&#39;s email too.
 + Seems like you read Jeff&#39;s emails.
@@ -391,35 +394,28 @@ Annoying	50
 [[*What* are *you* *doing* *tonight* |Office7]] 90 10
 [[Are *you* *doing* *anything* *tonight* |Office7]] 90 10
 [[~~It&#39;s~~ *Still* *Annoying* |Office9]] 100 0</tw-passagedata>
-<tw-passagedata pid="7" name="Office6" tags="" position="439,386"># Tim
+<tw-passagedata pid="7" name="Office6" tags="" position="464,307"># Tim
 
-+ Yeah, These clients are ridiculous.
++ Yeah, these clients are ridiculous.
 + These clients man.
-+ The clients are ridiculous.
++ Uhh, yeah. Clients man.
 - What do you make of the clients? | Office8
 * Huh? Did you say something about the clients?
 
 ```
-Yeah		5
-Guess		15
-We&#39;ll		15
-Have		15
-To			15
-Deal		15
-With		15
-It			15
-God			55
-Clients		55
-Never		55
-Know		55
-What		55
-They		55
-Want		55
+Oh		30
+I		30
+Haven&#39;t	30
+Read	30
+It		30
+Myself	30
+Yeah	30
+Guess	30
 ```
 
-[[Guess *We&#39;ll* *Have* to *deal* with it |Office8]] 60 40
-[[God *Clients* *Never* *Know* what *they* *want* |Office10]] 80 20</tw-passagedata>
-<tw-passagedata pid="8" name="Office7" tags="" position="170,422"># Tim
+[[~~Oh~~ I *haven&#39;t* *read* *it* myself |Office21]] 80 20
+[[~~Oh~~ ~~Yeah~~ *I* *guess* |Office8]] 90 10</tw-passagedata>
+<tw-passagedata pid="8" name="Office7" tags="" position="155,412"># Tim
 
 + Going to see a show! Forgot what it was called...
 + Going to see a show!
@@ -444,7 +440,7 @@ About		60
 
 [[Have *you* *checked* your *email* |Office6]] 80 20
 [[*What&#39;s* *it* *about* |Office14]] 100 0</tw-passagedata>
-<tw-passagedata pid="9" name="Office8" tags="fallback-passage" position="780,378"># Tim
+<tw-passagedata pid="9" name="Office8" tags="fallback-passage high-pressure" position="742,353"># Tim
 
 + Man, you always seem to just take things.
 + Taking it as always I see.
@@ -473,31 +469,35 @@ Something	75
 
 [[What ~~The~~ ~~Fuck~~ else *am* *I* *supposed* to *do* |Office10]] 75 25
 [[*what* are *you* *trying* to *say |Office12]] 75 25</tw-passagedata>
-<tw-passagedata pid="10" name="Office10" tags="needs-change" position="499,591">// Change the dialogue options or the resultant end dialogue to make this section feel more natural. &quot;I sure hope not&quot; -&gt; &quot;Me too man&quot; doesn&#39;t always make sense? Especially with certain dialogue possibilities`
+<tw-passagedata pid="10" name="Office10" tags="high-pressure" position="1188,364"># Tim
 
-# Tim
-
-+ Nothing! Just seen that attitude come up in everyone eventually.
-+ Just figured this attitude would come up in you.
-+ I uhh, thought you&#39;d become like this.
-- ... | Office13
-* Huh? Just saying this attitude would come up eventually.
++ I&#39;m saying speak up about these goddamn clients!
++ Like, speak up about these clients!
++ Like, speak up or something.
+- If you have something to say about the clients, say it! | Office20
+* What? Do you have something to say about the clients or not?
 
 ```
-Whatever	50
-You			50
-Say			50
-I			50
-Sure		50
-Hope		50
-Not			50
-Guess		50
-So			50
+Whatever	20
+You			20
+Say			20
+I			20
+Guess		20
+So			20
+Yeah		50
+Maybe		50
+You&#39;re		50
+Right		50
+Clients		75
+So			75
+Are			75
+Stupid		75
 ```
 
-[[*Whatever* *You* *Say* |Office19]] 100 0
-[[I *Sure* *Hope* *Not* |Office20]] 90 10
-[[I *guess* *so* |Office19]] 90 10</tw-passagedata>
+[[*Whatever* *You* *Say* |Office20]] 100 0
+[[I *guess* *so* |Office20]] 90 10
+[[~~Yeah~~ Maybe *You&#39;re* *Right* |Office24]] 90 10
+[[~~Yeah~~ *Clients* Are So *Stupid* |Office24]] 70 30</tw-passagedata>
 <tw-passagedata pid="11" name="Office9" tags="" position="21,562"># Tim
 
 + Can&#39;t be helped I guess.
@@ -528,36 +528,35 @@ Email		25
 [[*What* are *you* *up* to * *tonight* |Office7]] 90 10
 [[*What* are *you* *doing* *tonight* |Office7]] 90 10
 [[Are *you* *doing* *anything* *tonight* |Office7]] 90 10</tw-passagedata>
-<tw-passagedata pid="12" name="Office13" tags="dialogue-only end-passage fallback-passage" position="216,904"># Tim
+<tw-passagedata pid="12" name="Office13" tags="dialogue-only end-passage fallback-passage" position="211,714"># Tim
 
-+ Yeah. I think your coffee is done.
-+ I think your coffee is done.
-+ I think your coffee is done.
-+ Hey uh, I think your coffee is done.</tw-passagedata>
-<tw-passagedata pid="13" name="Office12" tags="needs-change" position="842,662"># Tim
++ Yeah. I think your coffee is done. You should get it from the break room. You&#39;ll need it for today&#39;s meeting.
++ I think your coffee in the break room is done.
++ Well uh...your coffee&#39;s done in the break room I think.
++ ...your coffee in the break room is done.</tw-passagedata>
+<tw-passagedata pid="13" name="Office12" tags="high-pressure" position="510.0001,437"># Tim
 
-+ Nothing! Just seen that attitude come up in everyone eventually.
-+ Just figured this attitude would come up in you.
-+ I uhh, thought you&#39;d become like this.
-- ... | Office13
-* Huh? Just saying this attitude would come up eventually.
++ I&#39;m saying if you don&#39;t like the clients say so!
++ Just...the clients aren&#39;t our boss.
++ I&#39;m just...never mind.
+- ... | Office20
+* What? Just forget it.
 
 ```
-Whatever	50
-You			50
-Say			50
-I			50
-Sure		50
-Hope		50
-Not			50
-Guess		50
-So			50
+Whatever	20
+You			60
+Say			60
+I&#39;m			60
+Just		60
+Thinking	60
+About		60
+The			60
+Company		60
 ```
 
-[[*Whatever* *You* *Say* |Office19]] 100 0
-[[I *Sure* *Hope* *Not* |Office20]] 90 10
-[[I *guess* *so* |Office19]] 90 10</tw-passagedata>
-<tw-passagedata pid="14" name="Office14" tags="" position="450,716"># Tim
+[[*Whatever* You Say |Office20]] 85 15
+[[~~I&#39;m~~ just *thinking* *about* the *company* |Office22]] 80 20</tw-passagedata>
+<tw-passagedata pid="14" name="Office14" tags="" position="385,512"># Tim
 
 + It&#39;s a comedy show. It&#39;s called Anything Goes I think?
 + Umm, it&#39;s a comedy show I think. Anything goes.
@@ -580,13 +579,13 @@ Guess		30
 
 [[~~Oh~~ Sounds kinda *lame* |Office16]] 70 30
 [[~~That~~ *could* *be* *good* I guess |Office17]] 85 15</tw-passagedata>
-<tw-passagedata pid="15" name="Office16" tags="dialogue-only end-passage fallback-passage" position="440,933"># Tim
+<tw-passagedata pid="15" name="Office16" tags="dialogue-only end-passage fallback-passage" position="413,749"># Tim
 
-+ Be glad you&#39;re not going then! By the way I think your coffee is ready.
-+ Oh okay, guess you&#39;re not going. By the way your coffee is done I think.
-+ Oh...I guess you wouldn&#39;t want to go. By the way your coffee is done I think.
++ Be glad you&#39;re not going then! By the way I think your coffee is ready. You should get it from the break room. You&#39;ll need it for today&#39;s meeting.
++ Oh okay, guess you&#39;re not going. By the way your coffee in the break room is done.
++ Oh...I guess you wouldn&#39;t want to go. By the way your your coffee&#39;s done in the break room I think.
 + Umm...I guess you won&#39;t be going? Oh, I think your coffee is done.</tw-passagedata>
-<tw-passagedata pid="16" name="Office17" tags="" position="715,557"># Tim
+<tw-passagedata pid="16" name="Office17" tags="" position="799,553"># Tim
 
 + Yeah I hope it&#39;s good.
 + Hope it&#39;s good.
@@ -608,8 +607,8 @@ Email	15
 ```
 
 [[*Traffic* was ~~hella~~ *busy* ~~today~~ |Office11]] 80 20
-[[Have *You* *checked* ~~your~~ *email* |Office6]] 80 20</tw-passagedata>
-<tw-passagedata pid="17" name="Office11" tags="" position="963,484"># Tim
+[[Have *You* *checked* your *email* |Office6]] 80 20</tw-passagedata>
+<tw-passagedata pid="17" name="Office11" tags="" position="955,479"># Tim
 
 + Yeah because of the festival! Pretty excited.
 + Yeah because of the festival!
@@ -640,30 +639,132 @@ Annoying	50
 [[*What* are *you* *doing* *tonight* |Office18]] 90 10
 [[Are *you* *doing* *anything* *tonight* |Office18]] 90 10
 [[~~It&#39;s~~ *Still* *Annoying* |Office9]] 100 0</tw-passagedata>
-<tw-passagedata pid="18" name="Office18" tags="" position="946,240"># Tim
+<tw-passagedata pid="18" name="Office18" tags="" position="969,234"># Tim
 
 + We were just talking about that dude.
-+ Were we just talking about that? Yeah!
++ Were we just talking about that?
 + I&#39;m uhh gonna...wait I already told you!
 - No worries though. | Office13
 * What? I already told you my plans.
 
 ```
-Oh			25
-Sorry		25
-Have		35
-Checked		35
-Email		35
-Your		35
+Oh			20
+Sorry		20
+Have		40
+You			40
+Checked		40
+Email		40
+Your		40
 ```
 
 [[Have *you* *checked* your *email* |Office6]] 80 20</tw-passagedata>
-<tw-passagedata pid="19" name="Office19" tags="" position="671,804">Double-click this passage to edit it.</tw-passagedata>
-<tw-passagedata pid="20" name="Office20" tags="dialogue-only end-passage" position="1043,833"># Tim
+<tw-passagedata pid="19" name="Office20" tags="dialogue-only end-passage fallback-passage" position="737,792"># Tim
 
-+ Me too man. I think your coffee is done.
-+ Yeah. I think your coffee is done.
-+ Yeah. I think your coffee is done.</tw-passagedata>
++ Yeah, whatever. I think your coffee is done. You should go get it from the break room. You&#39;ll need it for today&#39;s meeting.
++ Yeah, whatever. Your coffee in the break room is done.
++ Whatever...well your coffee&#39;s done in the break room I think.
++ Your coffee in the break room is done.</tw-passagedata>
+<tw-passagedata pid="20" name="Office21" tags="high-pressure" position="827,109"># Tim
+
++ Clients changed their demands again. We need at least a month extra and they want the same deadline. Its bullshit.
++ Clients changed demands. And they won&#39;t change the deadline. Bullshit.
++ Clients. More demands, same deadline. So bullshit.
+- What do you make of the clients? | Office8
+* Huh? Did you say something about the clients?
+
+```
+Yeah		5
+Guess		15
+We&#39;ll		15
+Have		15
+To			15
+Deal		15
+I			40
+Mean		40
+It&#39;s		40
+What		40
+The			40
+Clients		40
+Want		40
+God			65
+Never		65
+Know		65
+What		65
+They		65
+```
+
+[[~~Yeah~~ Guess *We&#39;ll* *Have* to *deal* |Office8]] 85 15
+[[~~Yeah~~ ~~I~~ mean *it&#39;s* *what* the *clients* *want* |Office19]] 85 15
+[[God *Clients* *Never* *Know* what *they* *want* |Office23]] 80 20</tw-passagedata>
+<tw-passagedata pid="21" name="Office19" tags="high-pressure" position="1116,115"># Tim
+
++ You serious? You think that&#39;s okay for the clients to push us around like that?
++ You think it&#39;s okay for clients to do that to us?
++ You...think that&#39;s okay of the clients.
+- It&#39;s okay for the clients to do that? | Office13
+* Huh? Tell me if you think clients should be doing that.
+
+```
+What		45
+The			45
+Fuck		45
+Am			45
+Supposed	45
+To			45
+Do			45
+I			15
+Guess		15
+I&#39;m			75
+Just		75
+Thinking	75
+About		75
+The			75
+Company		75
+```
+
+
+
+[[~~I&#39;m~~ just *thinking* *about* the *company* |Office22]] 80 20
+[[What ~~The~~ ~~Fuck~~ else *am* *I* *supposed* to *do* |Office10]] 75 25</tw-passagedata>
+<tw-passagedata pid="22" name="Office22" tags="dialogue-only end-passage" position="981,794"># Tim
+
++ You don&#39;t believe that. Whatever, go get your coffee from the break room. I&#39;ll talk to you at today&#39;s meeting.
++ Yeah right. Whatever, your coffee&#39;s done in the break room.
++ Right...well uh, coffee&#39;s done in the break room.</tw-passagedata>
+<tw-passagedata pid="23" name="Office23" tags="high-pressure" position="1401,301"># Tim
+
++ Right? Wish Jeff would stop bending over for clients all the time.
++ Yeah, Jeff always bends over for them.
++ Yeah, fuckin&#39; Jeff.
+- Man, Jeff gets on my nerves. | Office13
+* What was that? These clients have a hold on Jeff.
+
+```
+Yeah		15
+Guess		40
+We&#39;ll		40
+Have		40
+To			40
+Deal		40
+God			30
+I			15
+Can&#39;t		60
+Stand		60
+Jeff		60
+Clients		50
+Are			50
+So			50
+Stupid		50
+```
+
+[[~~Yeah~~ Guess *We&#39;ll* *Have* to *deal* |Office20]] 85 15
+[[~~Yeah~~ ~~God~~ I *Can&#39;t* *Stand* *Jeff* |Office24]] 90 10
+[[~~Yeah~~ ~~God~~ *Clients* Are So *Stupid* |Office24]] 70 30</tw-passagedata>
+<tw-passagedata pid="24" name="Office24" tags="dialogue-only end-passage" position="1197,595"># Tim
+
++ Right? Looks like we&#39;ll have plenty to bring up during the meeting. By the way I hear your coffee finishing in the break room.
++ Yeah, bring it up during the meeting today. By the way I hear your coffee finishing in the break room.
++ We&#39;ll talk more during the meeting today. Oh, your coffee in the break room is done I think.</tw-passagedata>
 </tw-storydata>
 
 

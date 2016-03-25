@@ -50,7 +50,7 @@ SceneManager = function(state, scenes, ellipse_center_x, ellipse_center_y,
 }
 SceneManager.prototype.TriggerRetryDialogue = function(){
     this.currscene.retries--;
-    if (this.currscene.retries > 0) {
+    if (this.currscene.retries >= 0) {
         this.currscene.LoadDialogueText(this.currscene.fallback);
 		//this.timer = new Timer(this.state, 10, this.TriggerRetryDialogue, this);
 		this.timer.Reset();
