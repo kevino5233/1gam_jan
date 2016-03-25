@@ -8,6 +8,7 @@ var global_font_size = 15;
 var timer_icon_x = 100;
 var timer_icon_y = 440;
 var timer_icon_w = 30;
+var timer_icon_h = 30;
 // dialogue box dimensions
 var dialogue_box_w = 600;
 var dialogue_box_h = 100;

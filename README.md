@@ -14,10 +14,6 @@ You can play the most current build at [http://www.cs.utexas.edu/~kevinosu/eggs_
         "Good to hear!"
     - take matthewit's suggestion of making the game aware
     when you are inputing nonsensical things
-    - perhaps make the mouse icon change when over
-    the floating word?
-        - despite reading the instructions it was still
-        unclear to linh how to play?
 	-Make passages more meaningful
 	-come up with better inaction/flub dialogue
 		- randomize responses? Could be better
@@ -28,10 +24,5 @@ You can play the most current build at [http://www.cs.utexas.edu/~kevinosu/eggs_
 			-Reflect incoherence in NPC response
     - currently the most pressing issue is not accounting for
 - fix query algo
-- Change text tweening
-	- Make high anxiety move fast, low anxiety move slow (opposite of rn)
-	- parametric eqs
-	- physics sim? lel
-	- shit fucking warps lmao
 - Intro panes to scenarios 
 - ART!!!!!

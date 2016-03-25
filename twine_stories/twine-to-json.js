@@ -14,6 +14,7 @@ function PassageToJson(passage){
 	var has_sentences = false;
 	var has_fallback = false;
     var has_fall_in = false;
+    var needs_change = false;
 	var scene_json = {
         id: passage.id - 1,
         dialogue: [],
@@ -42,6 +43,8 @@ function PassageToJson(passage){
             scene_json.retries = -2;
 			has_retries = true;
 			dialogue_only = true;
+		} else if (passage_tag == "needs-change"){
+            needs_change = true;
         }
 	}
 	if (!has_retries){
@@ -53,7 +56,10 @@ function PassageToJson(passage){
 		if (line.length == 0){
 			continue;
 		}
-		if (line.startsWith("```")){
+        if (line.startsWith("//") && needs_change){
+            alert("Passage \"" + passage.name + "\" needs attention.\n" + line.substring(3));
+            needs_change = false;
+        } else if (line.startsWith("```")){
 			wordbank_mode = !wordbank_mode;
 			if (wordbank_mode && has_wordbank){
 				alert("Warning: Multiple wordbanks at passage "
@@ -162,6 +168,9 @@ function PassageToJson(passage){
             scene_json.fall_in = line.substring(2);
         }
 	}
+    if (needs_change){
+        alert("Passage \"" + passage.name + "\" needs attention.");
+    }
 	if (!has_speaker){
 		alert("Warning: No speaker in passage " + passage.name);
 		return;
@@ -189,8 +198,8 @@ function PassageToJson(passage){
         return;
     }
 	if (scene_json.dialogue.length != dialogue_len){
-        alert("Error: Not enough dialogue from " + scene_json.speaker
-			  + " in passage " + passage.name);
+        alert("Error: Expected " + dialogue_len + "dialogue options from " + scene_json.speaker
+			  + " in passage " + passage.name + ", got " + scene_json.dialogue.length);
         return;
 	}
 	output_json.push(scene_json);

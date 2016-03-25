@@ -40,19 +40,19 @@ Scene.prototype.LoadDialogueText = function(text){
 
 Scene.prototype.Load = function(correctness){
 	var index = 0;
-	if (correctness < 50){
+	if (correctness < 60){
 		if (this.dialogue.length < 4){
 			return false;
 		}
 		index = 3;
-	} else if (correctness < 70){
+	} else if (correctness < 75){
 		index = 2;
 	} else if (correctness < 90){
 		index = 1;
 	}
 	this.LoadDialogueText(this.dialogue[index]);
-	var centerx = this.manager.ellipse_center_x;
-	var centery = this.manager.ellipse_center_y;
+	var manager_centerx = this.manager.ellipse_center_x;
+	var manager_centery = this.manager.ellipse_center_y;
 	var deadzone = this.manager.deadzone;
 	for (var i = 0; i < this.wordbank.length; i++){
 		var word = this.wordbank[i];
@@ -68,14 +68,13 @@ Scene.prototype.Load = function(correctness){
 				Math.sin(tau * RandomFloat(0, 4)) * a * 2,
 			word.text);
 		text.manager = this.manager;
-		text.centerx = centerx + randx;
-		text.centery = centery + randy;
+		text.centerx = manager_centerx + randx;
+		text.centery = manager_centery + randy;
 		text.font = global_font;
 		text.fontSize = a * .20 + 5;
 		text.fill = "#FFFFFF";
-		text.setShadow(1, 1, "rgba(0,0,0,0.3)", 10);
+		text.setShadow(1, 1, "rgba(0,0,0,1.0)", 10);
 		text.inputEnabled = true;
-		text.input.useHandCursor = true;
 		text.events.onInputUp.add(this.manager.PushWordOnQuery, this.manager);
 		text.events.onInputOver.add(
 			function(item){
@@ -88,38 +87,26 @@ Scene.prototype.Load = function(correctness){
         this.manager.state.floating_text_layer.add(text);
 		//this.add(text);
 		this.manager.floating_text.push(text);
-		var b = Math.sqrt(a * a * a / 200);
-		var e_x = Math.sqrt(a * a - b * b) * (2 * RandomInt(0, 1) - 1);
 		var T = Math.ceil(Math.sqrt(3 * a / G) * Math.PI * a);
 		var theta = (tau * i) % circle; //initialize as actual angle
 		var dtheta = circle / T * (2 * RandomInt(0, 1) - 1);
-		var R1 = 100 - a - e_x;
-		var R2 = 100 - a + e_x;
+		var h_radius = a / 2;
+		var v_radius = Math.sqrt(a) * 5;
 		var path = [];
 		path["pos"] = 0;
-		path["dpos"] = 1;
-		// Fix to use a matrices to do roatte around instead of 
-		// the bullshit I'm doing.
 		for (var j = 0; j < T; j++){
-			var R = theta >= tau && theta < 3 * tau ? R1 : R2;
 			var pos = [];
-			var text_x = R * Math.cos(theta) - e_x;
-			var text_y = b *
-				Math.sqrt(Math.max(0, 1 - text_x * text_x / a / a)) *
-				(theta >= 0 && theta < Math.PI ? 1 : -1);
-			if (text_x + text.centerx < 0){
-				text_x = -text.centerx;
-			} else if (text_x + text.centerx >=
-                        game_w - word.text.length * global_font_size){
-				text_x =
-                    game_w - word.text.length * global_font_size - text.centerx;
-			}
-			if (text_y + text.centery < dialogue_box_1_y + dialogue_box_h){
-				text_y = dialogue_box_1_y + dialogue_box_h - text.centery;
-			} else if (text_y - text.centery
-                        >= dialogue_box_2_y - global_font_size){
-				text_y = dialogue_box_2_y - global_font_size - text.centery;
-			}
+            var text_x = h_radius * Math.cos(theta);
+            var text_y = v_radius * Math.sin(theta);
+            if (text_x + text.centerx < 0) {
+                text_x = 0;
+            } else if (text_x + text.centerx > game_w) {
+                text_x = game_w;
+            } if (text_y + text.centery < dialogue_box_1_y + dialogue_box_h) {
+                text_y = dialogue_box_1_y + dialogue_box_h - text.centery;
+            } else if (text_y + text.centery + text.fontSize + 10 > timer_icon_y) {
+                text_y = timer_icon_y - text.fontSize - 10 - text.centery;
+            }
 			pos["x"] = text_x;
 			pos["y"] = text_y;
 			path.push(pos);
