@@ -40,12 +40,12 @@ Scene.prototype.LoadDialogueText = function(text){
 
 Scene.prototype.Load = function(correctness){
 	var index = 0;
-	if (correctness < 50){
+	if (correctness < 60){
 		if (this.dialogue.length < 4){
 			return false;
 		}
 		index = 3;
-	} else if (correctness < 70){
+	} else if (correctness < 75){
 		index = 2;
 	} else if (correctness < 90){
 		index = 1;
