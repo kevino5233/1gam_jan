@@ -15,7 +15,7 @@ var office_state = {
 				office_scene,
                 this.ellipse_center_x,
                 this.ellipse_center_y,
-				"Co-Worker",
+				"Tim",
                 "end");
     },
     update: function(){

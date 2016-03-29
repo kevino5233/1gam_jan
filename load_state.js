@@ -15,6 +15,8 @@ var load_state = {
     loadUpdate: function(){
     },
     loadRender: function(){
+        game.stage.backgroundColor = "#EB99FF";
+		game.add.text(100, 200, "Loading...", { font: global_font_size + "px " + global_font});
     },
     create: function(){
 		this.sounds = [];
@@ -22,9 +24,6 @@ var load_state = {
 		this.sounds.push(game.add.audio("speech"));
 		this.sounds.push(game.add.audio("error"));
 		this.sounds.push(game.add.audio("pushpop"));
-        game.stage.backgroundColor = "#EB99FF";
-		var style = { font: global_font_size + "px " + global_font};
-		game.add.text(100, 200, "Loading...", style);
     },
     update: function(){
 		var i = 0;

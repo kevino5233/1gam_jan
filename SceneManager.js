@@ -344,7 +344,7 @@ SceneManager.prototype.EvaluateQuery = function(key){
 			next_scene.correctness = correctness;
 		}
     }
-    if (next_scene.correctness > 50){
+    if (next_scene.correctness >= 60){
 		if (sentences[next_scene.sentence].OnCorrect){
 			sentences[next_scene.sentence].OnCorrect(next_scene.correctness);
 		}

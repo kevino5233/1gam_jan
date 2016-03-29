@@ -16,7 +16,7 @@ var breakfast_state = {
                 breakfast_scene,
                 this.ellipse_center_x,
                 this.ellipse_center_y,
-				"Roommate",
+				"Kevin",
                 "office");
     },
     update: function(){
