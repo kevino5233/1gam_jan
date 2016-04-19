@@ -1,6 +1,4 @@
 var office_state = {
-    ellipse_center_x: 400,
-    ellipse_center_y: 300,
     preload: function(){
     },
     loadUpdate: function(){
@@ -13,8 +11,6 @@ var office_state = {
         this.manager = new SceneManager(
                 this,
 				office_scene,
-                this.ellipse_center_x,
-                this.ellipse_center_y,
 				"Tim",
                 "end");
     },

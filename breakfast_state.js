@@ -1,6 +1,4 @@
 var breakfast_state = {
-    ellipse_center_x: 400,
-    ellipse_center_y: 300,
     preload: function(){
     },
     loadUpdate: function(){
@@ -14,8 +12,6 @@ var breakfast_state = {
         this.manager = new SceneManager(
                 this,
                 breakfast_scene,
-                this.ellipse_center_x,
-                this.ellipse_center_y,
 				"Kevin",
                 "office");
     },

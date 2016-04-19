@@ -1,5 +1,4 @@
-SceneManager = function(state, scenes, ellipse_center_x, ellipse_center_y,
-        speaker, nextscene){
+SceneManager = function(state, scenes, speaker, nextscene){
     this.scenes = [];
     for (var i = 0; i < scenes.length; i++){
         this.scenes.push(new Scene(this, scenes[i]));
@@ -15,8 +14,6 @@ SceneManager = function(state, scenes, ellipse_center_x, ellipse_center_y,
 		x: 0,
 		y: 0
 	};
-    this.ellipse_center_x = ellipse_center_x;
-    this.ellipse_center_y = ellipse_center_y;
 	this.speaker = speaker;
 	this.speechsound = game.add.audio("speech");
 	this.errorsound = game.add.audio("error");
@@ -46,19 +43,16 @@ SceneManager = function(state, scenes, ellipse_center_x, ellipse_center_y,
     this.state.general_ui_layer.visible = false;
 	this.error_timer_len = 60;
 	this.error_timer_pos = 60;
+    this.timer_sprites = [];
+    this.timer_len = 20 * 60;
+    this.timer_curr = this.timer_len;
     this.LoadScene(0, 100);
 }
 SceneManager.prototype.TriggerRetryDialogue = function(){
     this.currscene.retries--;
     if (this.currscene.retries >= 0) {
         this.currscene.LoadDialogueText(this.currscene.fallback);
-		//this.timer = new Timer(this.state, 10, this.TriggerRetryDialogue, this);
-		this.timer.Reset();
     } else {
-        if (!this.LoadScene(this.currscene.fallback_scene, 0))
-			console.log("shit fucked up");
-		else
-			console.log(this.currscene.id);
 	}
 }
 SceneManager.prototype.Update = function(){
@@ -79,10 +73,31 @@ SceneManager.prototype.Update = function(){
 		this.dialogue_frames++;
 	} else if (!this.state.floating_text_layer.visible){
         this.state.floating_text_layer.visible = true;
-        if (this.currscene.retries >= 0){
-			this.timer = new Timer(this.state, 10, this.TriggerRetryDialogue, this);
-		}
+        this.timer_curr = this.timer_len;
+        for (var i = 0; i < 20; i++){
+            var timer_sprite = game.add.sprite(
+                timer_icon_x + timer_icon_w * i,
+                timer_icon_y,
+                "timer_ico");
+            this.state.dialogue_ui_layer.add(timer_sprite);
+            this.timer_sprites.push(timer_sprite);
+        }
+    } else {
+        this.timer_curr--;
+        if (this.timer_curr < this.timer_len
+                && this.timer_curr % 60 == 0){
+            this.timer_sprites.pop().destroy();
+            if (this.timer_curr == 5 * 60){
+                this.currscene.LoadDialogueText(
+                    this.currscene.fallback);
+            } else if (this.timer_curr <= 0
+                    && !this.LoadScene(
+                            this.currscene.fallback_scene, 0)){
+                console.log("shit fucked up");
+            }
+        }
     }
+
 	if (this.error_timer_pos < this.error_timer_len){
 		this.error_timer_pos++;
 		if (this.error_timer_pos == this.error_timer_len){
@@ -132,6 +147,11 @@ SceneManager.prototype.LoadScene = function(scene_num, correctness){
 			text.font = global_font;
 			text.fontSize = global_font_size;
             this.state.dialogue_text_layer.add(text);
+        } else {
+            while (this.timer_sprites.length > 0){
+                var timer_sprite = this.timer_sprites.pop();
+                timer_sprite.destroy();
+            }
         }
 		return true;
     }
@@ -348,13 +368,12 @@ SceneManager.prototype.EvaluateQuery = function(key){
 		if (sentences[next_scene.sentence].OnCorrect){
 			sentences[next_scene.sentence].OnCorrect(next_scene.correctness);
 		}
-		this.timer.Stop();
+		this.next_scene_timer.Stop();
         this.LoadScene(next_scene.scene, next_scene.correctness);
     } else {
 		this.retries--;
 		this.errorsound.play();
 		this.error_timer_pos = 0;
-		this.timer.Reset();
 		this.button_submit.loadTexture("backspace");
 		this.currscene.LoadDialogueText(this.currscene.fall_in);
 	}

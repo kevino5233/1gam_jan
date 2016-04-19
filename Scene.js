@@ -5,7 +5,7 @@ Scene = function(manager, scene_data){
 
 	this.id = scene_data.id;
 	this.dialogue = scene_data.dialogue;
-	this.retries = scene_data.retries;
+	this.retries = scene_data.retries; 
     this.OnLoad = scene_data.OnLoad;
 	this.fallback = scene_data.fallback;
 	this.fall_in = scene_data.fall_in;
@@ -51,8 +51,8 @@ Scene.prototype.Load = function(correctness){
 		index = 1;
 	}
 	this.LoadDialogueText(this.dialogue[index]);
-	var manager_centerx = this.manager.ellipse_center_x;
-	var manager_centery = this.manager.ellipse_center_y;
+	var centerx = game_w / 2;
+	var centery = game_h / 2;
 	var deadzone = this.manager.deadzone;
 	for (var i = 0; i < this.wordbank.length; i++){
 		var word = this.wordbank[i];
@@ -60,16 +60,16 @@ Scene.prototype.Load = function(correctness){
 		var randx = RandomFloat(-deadzone, deadzone);
 		var randy = RandomFloat(-deadzone, deadzone);
 		var text = game.add.text(
-			this.ellipse_center_x +
+                centerx +
 				randx +
 				Math.cos(tau * RandomFloat(0, 4)) * a * 2,
-			this.ellipse_center_y +
+                centery +
 				randy +
 				Math.sin(tau * RandomFloat(0, 4)) * a * 2,
 			word.text);
 		text.manager = this.manager;
-		text.centerx = manager_centerx + randx;
-		text.centery = manager_centery + randy;
+		text.centerx = centerx + randx;
+		text.centery = centery + randy;
 		text.font = global_font;
 		text.fontSize = a * .20 + 5;
 		text.fill = "#FFFFFF";
