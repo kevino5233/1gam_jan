@@ -3,6 +3,7 @@ var load_state = {
         //load any assets
         game.load.image("submit", "assets/icons/submit.png");
         game.load.image("backspace", "assets/icons/backspace.png");
+        game.load.image("clear", "assets/icons/clear.png");
         game.load.image("dialogue_box", "assets/icons/dialogue_box.png");
         game.load.image("timer_ico", "assets/icons/time_bubble.png");
         game.load.image("mail", "assets/icons/mail_ico.png");

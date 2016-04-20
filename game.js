@@ -1,10 +1,23 @@
+// Global variables
+// Make dynamic eventually
+var game_w = 800;
+var game_h = 600;
+var game_fps = 60;
+// Math
+var tau = Math.PI / 2;
+var circle = Math.PI * 2;
+var G = 4;
 // See wikipedia entry for Comparison Sort
 // Wait am I using this lmao. This looks useful though
 var minimum_sort = [0, 1, 3, 5, 7, 10, 13, 16, 19, 22, 26, 30, 34, 38, 42];
 //font config stuff
 var global_font = "press_start_2pregular";
 var global_font_size = 15;
-// Timer stuff
+// Timer lengths 
+var normal_timer_len = 15;
+var pressure_timer_length = 10;
+var backup_dialogue_time = 5;
+// Timer positions
 var timer_icon_x = 100;
 var timer_icon_y = 440;
 var timer_icon_w = 30;
@@ -21,50 +34,42 @@ var dialogue_box_2_y = 475;
 var text_offset = 20;
 var query_text_w = 30;
 var query_y_height = 25;
-var button_y = 490;
-var button_submit_x = 40;
-
+var button_y = 400;
+var submit_button_x = 180;
+var backspace_button_x = 140;
+var clear_button_x = 100;
+// Functions for getting random numbers
 function RandomInt(min, max) {
-	return Math.floor(RandomFloat(min, max));
+    // DOn't call another function. reduces function overhead.
+	return Math.floor(Math.random() * (max - min + 1) + min);
 }
 function RandomFloat(min, max) {
 	return Math.random() * (max - min + 1) + min
 }
+// Create layers
+// Design protocol for background. Probably not very complicated.
+// state.background = game.add.group();
 function InitializeLayers(state){
-    // Create layers
-    // Design protocol for background. Probably not very complicated.
-    // state.background = game.add.group();
     state.floating_text_layer = game.add.group();
     state.dialogue_ui_layer = game.add.group();
     state.dialogue_text_layer = game.add.group();
     state.general_ui_layer = game.add.group();
 }
-
+// Destroys layers. I think this increases memory performance.
+// idk its fucking javascript
 function DestroyLayers(state){
-    // Create layers
-    // Design protocol for background. Probably not very complicated.
-    // state.background.destroy(true);
     state.floating_text_layer.destroy(true);
     state.dialogue_ui_layer.destroy(true);
     state.dialogue_text_layer.destroy(true);
     state.general_ui_layer.destroy(true);
 }
-
 // Global variable for player anxiety
 var anxiety = 60;
-// Timer for submitting query. 10 seconds for now.
-var timer = 10000;
-
 // Other global variables for certain events.
 // For example checking whether you accepted
 // an invitation to a party.
+// TODO ACTUALLY ADD THESE
 var event_happened = false; //example
-
-var tau = Math.PI / 2;
-var circle = Math.PI * 2;
-var G = 4;
-var game_w = 800;
-var game_h = 600;
 
 var game = new Phaser.Game(game_w, game_h, Phaser.AUTO, "Phaser-Game");
 

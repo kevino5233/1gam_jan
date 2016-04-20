@@ -34,90 +34,35 @@ SceneManager = function(state, scenes, speaker, nextscene){
 	// Initial x values of these buttons don't really matter
 	// since they'll be invisible and the values will be
 	// corrected as soon as words are pushed
-	this.button_back = game.add.button(0, button_y, "backspace",
+	this.button_back = game.add.button(backspace_button_x, button_y, "backspace",
 			this.PopWordFromQuery, this);
-    this.state.general_ui_layer.add(this.button_back);
-	this.button_submit = game.add.button(0, button_y, "submit",
+	this.button_submit = game.add.button(submit_button_x, button_y, "submit",
 			this.EvaluateQuery, this);
+	this.button_clear = game.add.button(clear_button_x, button_y, "clear",
+			this.ClearQuery, this);
+    this.state.general_ui_layer.add(this.button_back);
     this.state.general_ui_layer.add(this.button_submit);
+    this.state.general_ui_layer.add(this.button_clear);
     this.state.general_ui_layer.visible = false;
 	this.error_timer_len = 60;
 	this.error_timer_pos = 60;
     this.timer_sprites = [];
-    this.timer_len = 20 * 60;
+    this.timer_len = normal_timer_len * game_fps;
     this.timer_curr = this.timer_len;
     this.LoadScene(0, 100);
 }
-SceneManager.prototype.TriggerRetryDialogue = function(){
-    this.currscene.retries--;
-    if (this.currscene.retries >= 0) {
-        this.currscene.LoadDialogueText(this.currscene.fallback);
-    } else {
-	}
-}
-SceneManager.prototype.Update = function(){
-	if (this.dialogue_pos < this.dialogue_chars.length){
-		if (this.dialogue_frames % 2 == 0){
-			if (this.dialogue_pos == 0){
-				this.dialogue_obj.setText(this.dialogue_chars[this.dialogue_pos]);
-			} else {
-				this.dialogue_obj.setText(
-					this.dialogue_obj.text
-					+ this.dialogue_chars[this.dialogue_pos]);
-			}
-			if (this.dialogue_pos % 4 == 0){
-				this.speechsound.play();
-			}
-			this.dialogue_pos++;	
-		}
-		this.dialogue_frames++;
-	} else if (!this.state.floating_text_layer.visible){
-        this.state.floating_text_layer.visible = true;
-        this.timer_curr = this.timer_len;
-        for (var i = 0; i < 20; i++){
-            var timer_sprite = game.add.sprite(
-                timer_icon_x + timer_icon_w * i,
-                timer_icon_y,
-                "timer_ico");
-            this.state.dialogue_ui_layer.add(timer_sprite);
-            this.timer_sprites.push(timer_sprite);
-        }
-    } else {
-        this.timer_curr--;
-        if (this.timer_curr < this.timer_len
-                && this.timer_curr % 60 == 0){
-            this.timer_sprites.pop().destroy();
-            if (this.timer_curr == 5 * 60){
-                this.currscene.LoadDialogueText(
-                    this.currscene.fallback);
-            } else if (this.timer_curr <= 0
-                    && !this.LoadScene(
-                            this.currscene.fallback_scene, 0)){
-                console.log("shit fucked up");
-            }
-        }
+SceneManager.prototype.ClearQuery = function(){
+    this.pushpopsound.play();
+    while (this.query.words.length > 0){
+        var text = this.query.words.pop();
+        var orig = text.orig;
+        this.query.x -= text.text.length + 1;
+        orig.visible = true;
+        orig.fill = "#FFFFFF";
+        text.destroy();
     }
-
-	if (this.error_timer_pos < this.error_timer_len){
-		this.error_timer_pos++;
-		if (this.error_timer_pos == this.error_timer_len){
-			this.button_submit.loadTexture("submit");
-		}
-	}
-    if (game.input.activePointer.justPressed()){
-        if (this.currscene.retries == -1){
-        } else if (this.currscene.retries == -2){
-            game.state.start(this.nextscene);
-        }
-    }
-    for (var i = 0; i < this.floating_text.length; i++){
-        var path = this.floating_text_paths[i];
-        var pos = path[path["pos"]];
-        path["pos"]++;
-        path["pos"] %= path.length;
-        this.floating_text[i].x = pos.x + this.floating_text[i].centerx;
-        this.floating_text[i].y = pos.y + this.floating_text[i].centery;
-    }
+    this.query.x = 0;
+    this.query.y = 0;
 }
 SceneManager.prototype.LoadScene = function(scene_num, correctness){
     if (this.currscene){
@@ -127,8 +72,6 @@ SceneManager.prototype.LoadScene = function(scene_num, correctness){
         }
         this.query.x = 0;
         this.query.y = 0;
-		this.button_back.y = button_y;
-		this.button_submit.y = button_y;
         while (this.floating_text.length > 0){
             var text = this.floating_text.pop();
             text.destroy();
@@ -138,6 +81,10 @@ SceneManager.prototype.LoadScene = function(scene_num, correctness){
         this.currscene = this.scenes[scene_num];
         this.state.general_ui_layer.visible = false;
         this.state.floating_text_layer.visible = false;
+        while (this.timer_sprites.length > 0){
+            var timer_sprite = this.timer_sprites.pop();
+            timer_sprite.destroy();
+        }
         if (this.currscene.retries < 0){
             var text = game.add.text(
 				dialogue_box_x + text_offset,
@@ -147,11 +94,6 @@ SceneManager.prototype.LoadScene = function(scene_num, correctness){
 			text.font = global_font;
 			text.fontSize = global_font_size;
             this.state.dialogue_text_layer.add(text);
-        } else {
-            while (this.timer_sprites.length > 0){
-                var timer_sprite = this.timer_sprites.pop();
-                timer_sprite.destroy();
-            }
         }
 		return true;
     }
@@ -296,8 +238,6 @@ SceneManager.prototype.PushWordOnQuery = function(item){
 		this.query.linewidths.push(this.query.x);
 		this.query.x = 0;
 		this.query.y += 1;
-		this.button_back.y += query_y_height;
-		this.button_submit.y += query_y_height;
 	}
 	var text = game.add.text(
 		dialogue_box_x + text_offset + this.query.x * global_font_size,
@@ -312,10 +252,6 @@ SceneManager.prototype.PushWordOnQuery = function(item){
 	this.query.words.push(text);
 	this.query.x += word.length + 1;
     this.state.general_ui_layer.visible = true;
-	this.button_back.x = 
-		dialogue_box_x + text_offset + this.query.x * global_font_size;
-	this.button_submit.x =
-		dialogue_box_x + text_offset + button_submit_x + this.query.x * global_font_size;
 }
 SceneManager.prototype.PopWordFromQuery = function(item){
 	this.pushpopsound.play();
@@ -332,21 +268,7 @@ SceneManager.prototype.PopWordFromQuery = function(item){
 			this.query.y -= 1;
 			this.query.x = this.query.linewidths.pop();
 			this.button_back.y -= query_y_height;
-			this.button_submit.y -= query_y_height;
-			this.button_back.x = 
-				dialogue_box_x + text_offset +
-				this.query.x * global_font_size;
-			this.button_submit.x =
-				dialogue_box_x + text_offset + button_submit_x +
-				this.query.x * global_font_size;
 		}
-	} else {
-		this.button_back.x = 
-			dialogue_box_x + text_offset +
-			this.query.x * global_font_size;
-		this.button_submit.x =
-			dialogue_box_x + text_offset + button_submit_x +
-			this.query.x * global_font_size;
 	}
 }
 SceneManager.prototype.EvaluateQuery = function(key){
@@ -368,7 +290,6 @@ SceneManager.prototype.EvaluateQuery = function(key){
 		if (sentences[next_scene.sentence].OnCorrect){
 			sentences[next_scene.sentence].OnCorrect(next_scene.correctness);
 		}
-		this.next_scene_timer.Stop();
         this.LoadScene(next_scene.scene, next_scene.correctness);
     } else {
 		this.retries--;
@@ -377,4 +298,70 @@ SceneManager.prototype.EvaluateQuery = function(key){
 		this.button_submit.loadTexture("backspace");
 		this.currscene.LoadDialogueText(this.currscene.fall_in);
 	}
+}
+SceneManager.prototype.Update = function(){
+	if (this.dialogue_pos < this.dialogue_chars.length){
+		if (this.dialogue_frames % 2 == 0){
+			if (this.dialogue_pos == 0){
+				this.dialogue_obj.setText(this.dialogue_chars[this.dialogue_pos]);
+			} else {
+				this.dialogue_obj.setText(
+					this.dialogue_obj.text
+					+ this.dialogue_chars[this.dialogue_pos]);
+			}
+			if (this.dialogue_pos % 4 == 0){
+				this.speechsound.play();
+			}
+			this.dialogue_pos++;	
+		}
+		this.dialogue_frames++;
+	} else {
+        if (game.input.activePointer.justPressed()){
+            if (this.currscene.retries == -1){
+            } else if (this.currscene.retries == -2){
+                game.state.start(this.nextscene);
+            }
+        }
+        if (!this.state.floating_text_layer.visible && this.currscene.retries >= 0){
+            this.state.floating_text_layer.visible = true;
+            this.timer_curr = this.timer_len;
+            for (var i = 0; i < normal_timer_len; i++){
+                var timer_sprite = game.add.sprite(
+                    timer_icon_x + timer_icon_w * i,
+                    timer_icon_y,
+                    "timer_ico");
+                this.state.dialogue_ui_layer.add(timer_sprite);
+                this.timer_sprites.push(timer_sprite);
+            }
+        } else if (this.currscene.retries >= 0){
+            this.timer_curr--;
+            if (this.timer_curr < this.timer_len
+                    && this.timer_curr % game_fps == 0){
+                this.timer_sprites.pop().destroy();
+                if (this.timer_curr == backup_dialogue_time * game_fps){
+                    this.currscene.LoadDialogueText(
+                        this.currscene.fallback);
+                } else if (this.timer_curr <= 0
+                        && !this.LoadScene(
+                                this.currscene.fallback_scene, 0)){
+                    console.log("shit fucked up");
+                }
+            }
+        }
+    }
+
+	if (this.error_timer_pos < this.error_timer_len){
+		this.error_timer_pos++;
+		if (this.error_timer_pos == this.error_timer_len){
+			this.button_submit.loadTexture("submit");
+		}
+	}
+    for (var i = 0; i < this.floating_text.length; i++){
+        var path = this.floating_text_paths[i];
+        var pos = path[path["pos"]];
+        path["pos"]++;
+        path["pos"] %= path.length;
+        this.floating_text[i].x = pos.x + this.floating_text[i].centerx;
+        this.floating_text[i].y = pos.y + this.floating_text[i].centery;
+    }
 }
