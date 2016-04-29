@@ -41,10 +41,12 @@ Scene.prototype.LoadDialogueText = function(text){
 Scene.prototype.Load = function(correctness){
 	var index = 0;
 	if (correctness < 60){
-		if (this.dialogue.length < 4){
-			return false;
-		}
-		index = 3;
+		if (this.dialogue.length == 4){
+            index = 3;
+		} else if (this.dialogue.length == 1){
+            index = 0;
+        }
+        return false;
 	} else if (correctness < 75){
 		index = 2;
 	} else if (correctness < 90){
@@ -56,7 +58,7 @@ Scene.prototype.Load = function(correctness){
 	var deadzone = this.manager.deadzone;
 	for (var i = 0; i < this.wordbank.length; i++){
 		var word = this.wordbank[i];
-		var a = 100 - word.anxiety;
+		var a = word.anxiety;
 		var randx = RandomFloat(-deadzone, deadzone);
 		var randy = RandomFloat(-deadzone, deadzone);
 		var text = game.add.text(
@@ -68,10 +70,8 @@ Scene.prototype.Load = function(correctness){
 				Math.sin(tau * RandomFloat(0, 4)) * a * 2,
 			word.text);
 		text.manager = this.manager;
-		text.centerx = centerx + randx;
-		text.centery = centery + randy;
 		text.font = global_font;
-		text.fontSize = a * .1 + 10;
+		text.fontSize = (100 - a) * .12 + 8;
 		text.fill = "#FFFFFF";
 		text.setShadow(1, 1, "rgba(0,0,0,1.0)", 10);
 		text.inputEnabled = true;
@@ -95,16 +95,17 @@ Scene.prototype.Load = function(correctness){
 		path["pos"] = 0;
 		for (var j = 0; j < T; j++){
 			var pos = [];
-            var text_x = h_radius * Math.cos(theta);
-            var text_y = v_radius * Math.sin(theta);
-            if (text_x + text.centerx < 0) {
+            var text_x = h_radius * Math.cos(theta) + centerx + randx;
+            var text_y = v_radius * Math.sin(theta) + centery + randy;
+            if (text_x < 0) {
                 text_x = 0;
-            } else if (text_x + text.centerx > game_w) {
-                text_x = game_w;
-            } if (text_y + text.centery < dialogue_box_1_y + dialogue_box_h) {
-                text_y = dialogue_box_1_y + dialogue_box_h - text.centery;
-            } else if (text_y + text.centery + text.fontSize + 10 > timer_icon_y) {
-                text_y = timer_icon_y - text.fontSize - 10 - text.centery;
+            } else if (text_x > game_w) {
+                text_x = game_w - word.text.length * text.fontsize;
+            }
+            if (text_y < dialogue_box_1_y + dialogue_box_h) {
+                text_y = dialogue_box_1_y + dialogue_box_h + 10;
+            } else if (text_y + text.fontSize + 10 > timer_icon_y) {
+                text_y = timer_icon_y - text.fontSize - 10;
             }
 			pos["x"] = text_x;
 			pos["y"] = text_y;

@@ -336,11 +336,11 @@ SceneManager.prototype.Update = function(){
         } else if (this.currscene.retries >= 0){
             this.timer_curr--;
             if (this.timer_curr < this.timer_len
+                    && this.timer_curr >= 0
                     && this.timer_curr % game_fps == 0){
                 this.timer_sprites.pop().destroy();
                 if (this.timer_curr == backup_dialogue_time * game_fps){
-                    this.currscene.LoadDialogueText(
-                        this.currscene.fallback);
+                    this.currscene.LoadDialogueText(this.currscene.fallback);
                 } else if (this.timer_curr <= 0
                         && !this.LoadScene(
                                 this.currscene.fallback_scene, 0)){
@@ -361,7 +361,7 @@ SceneManager.prototype.Update = function(){
         var pos = path[path["pos"]];
         path["pos"]++;
         path["pos"] %= path.length;
-        this.floating_text[i].x = pos.x + this.floating_text[i].centerx;
-        this.floating_text[i].y = pos.y + this.floating_text[i].centery;
+        this.floating_text[i].x = pos.x;
+        this.floating_text[i].y = pos.y;
     }
 }
