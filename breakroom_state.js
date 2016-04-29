@@ -1,4 +1,4 @@
-var office_state = {
+var breakroom_state = {
     preload: function(){
     },
     loadUpdate: function(){
@@ -6,13 +6,14 @@ var office_state = {
     loadRender: function(){
     },
     create: function(){
-        game.stage.backgroundColor = "#3385ff";
         InitializeLayers(this);
+        game.stage.backgroundColor = "#ffff80";
+		// this will be pre-defined per level state
         this.manager = new SceneManager(
                 this,
-				office_scene,
-				"Tim",
-                "breakroom");
+                breakroom_scene,
+				"Jeff",
+                "end");
     },
     update: function(){
         this.manager.Update();

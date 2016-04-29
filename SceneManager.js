@@ -225,8 +225,8 @@ SceneManager.prototype.EvaluateSentence = function(query, sentence) {
 		 //divide by two is tentative solution to EUP = 0
 		/ 2; //balance out later
 	return Math.max(100
-                    - crucial_error * CUP
-                    - extra_error * EUP
+                    - Math.floor(crucial_error * CUP)
+                    - Math.floor(extra_error * EUP)
                     - trivial_error
                     - random_error, 0);
 }

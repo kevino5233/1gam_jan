@@ -2,7 +2,7 @@
 <html>
 <head>
 <title>
-office
+breakroom
 </title>
 <meta charset="utf-8">
 <style>a,body{color:#222}body{font:18px "Helvetica Neue",Helvetica,Arial,sans-serif}#passage{max-width:38em;margin:0 auto;line-height:145%}a{text-decoration:none;border-bottom:2px solid #bbb}a:hover{color:#cc8929;border-color:#cc8929}a:active{color:#ffb040;border-color:#ffb040}tw-storydata{display:none}@media screen and (max-device-width:480px){#passage{font-size:70%}}</style>
@@ -10,18 +10,12 @@ office
 <body>
 <div id="passage"></div>
 
-<tw-storydata name="office" startnode="1" creator="Twine" creator-version="2.0.11" ifid="64D920B5-11C9-4062-9ED8-CF81F6DE6417" format="Snowman" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">#story-json-link {
+<tw-storydata name="breakroom" startnode="1" creator="Twine" creator-version="2.0.11" ifid="09499101-3DB7-450E-8197-5D3CF62E58AF" format="Snowman" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">#story-json-link {
+	text-decoration: underline;
 	text-decoration-color: blue;
 	color: blue;
 	font-size: 20px;
-}
-
-
-
-
-
-
-</style><script role="script" id="twine-user-script" type="text/twine-javascript">// Copy and paste this into your twine javascript section
+}</style><script role="script" id="twine-user-script" type="text/twine-javascript">// Copy and paste this into your twine javascript section
 
 var output_json = [];
 
@@ -48,7 +42,7 @@ function PassageToJson(passage){
 	var tags = passage.tags;
 	for (var i = 0; i < tags.length; i++){
 		var passage_tag = tags[i];
-		if (passage_tag == "start-passage"){
+		if (passage_tag == "start-passage" || passage_tag == "fallback-only"){
 			dialogue_len = 1;
 		} else if (passage_tag == "high-pressure"){
 			scene_json.retries = 1;
@@ -161,12 +155,14 @@ function PassageToJson(passage){
 					+ passage.name);
 			}
 			has_fallback = true;
-            var pipe_split_line = line.split("|");
+            var pipe_split_line = line.split(/[|]/);			console.log(pipe_split_line);
+
 			scene_json.fallback = pipe_split_line[0].substring(2).trim();
 			var fallback_passage_name = pipe_split_line[1].trim();
 			var fallback_passage = story.passage(pipe_split_line[1].trim())
 			if (fallback_passage){
-				if (fallback_passage.tags.includes("fallback-passage")){
+				if (fallback_passage.tags.includes("fallback-passage") || 
+				    fallback_passage.tags.includes("fallback-only")){
 					scene_json.fallback_scene = fallback_passage.id - 1;
 				} else {
 					alert("Error: Fallback scene \"" + fallback_passage_name
@@ -242,530 +238,1343 @@ download_link.href = window.URL.createObjectURL(blob);
 download_link.download= story.name + ".json";
 document.body.insertBefore(download_link, document.getElementById("passage"));
 
+</script><tw-passagedata pid="1" name="Breakroom0" tags="start-passage" position="66,11"># Jeff
 
-
-</script><tw-passagedata pid="1" name="Office0" tags="no-pressure start-passage" position="19,15"># Tim
-
-+ Sup
-- ... | Office1
-* YOU HAVE ENCOUNTERED A BUG.
++ Good morning! How&#39;s it going?
+- You doing okay? | Breakroom5
+* Sorry, I didn&#39;t quite catch that?
 
 ```
-Sup 1
+It&#39;s 20
+Going 40
+Aight 40
+Your 20
+Email 60
+How 40
+Are 40
+Making 80
+Waves 80
+Tim 99
+Is 20
+Pretty 60
+Been 80
+Upset 99
+You 40
 ```
 
-[[*Sup* |Office1]] 100 0</tw-passagedata>
-<tw-passagedata pid="2" name="Office1" tags="fallback-passage" position="216,20"># Tim
+[[~~Aight~~ *How* are *you* |Breakroom9]] 61 29
 
-+ How&#39;s it going
-+ How&#39;s it going
-+ How&#39;s it going
-+ How&#39;s it going
-- ...you doing okay? | Office3
-* Huh? Just tell me how you&#39;re doing.
+[[~~Been~~ *Pretty* *Upset* |Breakroom1]] 60 40
 
-```
-It&#39;s 	50
-Going 	60
-All 	50
-Right	30
-Good	30
-How		30
-Are		30
-You		30
-Could	75
-Be		75
-Better	75
-```
+[[*Tim* ~~Is~~ ~~been~~ Pretty *Upset* |Breakroom2]] 72 18
 
-[[~~It&#39;s~~ going *all* *right* |Office2]] 90 10
-[[Going *All* *right* |Office2]] 90 10
-[[All *good* |Office2]] 60 40
-[[Going *All* *Right* how are *you* |Office3]] 90 10
-[[*good* how are *you* |Office3]] 90 10
-[[~~It&#39;s~~ good *could* *be* going *better* |Office4]] 80 20</tw-passagedata>
-<tw-passagedata pid="3" name="Office2" tags="" position="19,163"># Tim
+[[~~It&#39;s~~ Going *Aight* |Breakroom3]] 60 20
 
-+ Good to hear!
-+ That&#39;s good
-+ That&#39;s good
-- ... | Office13
-* Sorry, what was that?
+[[Your *Email* Is *Making* *Waves* |Breakroom4]] 75 19
+
+[[Your *Email* Been *Making* *Waves* |Breakroom4]] 75 19
+
+[[*Tim* Is *Making* *Waves* |Breakroom3]] 75 19
+
+[[*Tim* Been *Making* *Waves* |Breakroom3]] 75 19</tw-passagedata>
+<tw-passagedata pid="2" name="Breakroom2" tags="" position="196,106"># Jeff
+
++ Haha! Oh is he? Classic Tim.
++ Haha! Oh Tim.
++ Haha! Oh Tim.
+- He&#39;s always complaining. | Breakroom13
+* Sorry, could you say that again?
 
 ```
-Yeah	20
-How		40
-About	40
-You		40
-Traffic 60
-Was		60
-Hella	60
-Busy	60
-Have	15
-Checked	15
-Your	15
-Email	15
+Of 20
+Course 20
+You 80
+Always 80
+Concede 80
+To 20
+Clients 60
+Know 60
+He 60
+Needs 60
+To 60
+Chill 60
+Disagrees 80
+With 80
+About 80
 ```
 
-[[*How* *About* *you* |Office3]] 100 0
-[[*Traffic* was ~~hella~~ *busy* |Office5]] 80 20
-[[Have *You* *checked* your *email* |Office6]] 80 20</tw-passagedata>
-<tw-passagedata pid="4" name="Office3" tags="fallback-passage" position="321,180"># Tim
+[[~~of~~ ~~course~~ he *always* *concedes* to *clients* |Breakroom11]] 75 25
 
-+ Not too bad. Got big plans for tonight.
-+ Not too bad.
-+ Not bad.
-+ Alright then.
-- ... | Office13
+[[~~of~~ ~~course~~ he *always* *disagrees* with *clients* |Breakroom13]] 75 25
+
+[[~~of~~ ~~course~~ *you* *always* *disagrees* with *clients* |Breakroom11]] 60 40
+
+[[~~of~~ ~~course~~ *you* *always* *concedes* to *clients* |Breakroom6]] 60 40
+
+[[He *needs* to *chill* ~~you~~ ~~know~~ |Breakroom13]] 81 19
+
+[[You *needs* to *chill* |Breakroom14]] 81 19</tw-passagedata>
+<tw-passagedata pid="3" name="Breakroom3" tags="" position="344,59"># Jeff
+
++ Uh huh. Great!
++ Uh huh. That&#39;s good.
++ Uh huh.
+- .... | Breakroom5
 * What was that?
 
 ```
-Cool		5
-What		75
-Are			75
-You			15
-Up			75
-To			75
-Tonight		75
-Have		25
-Checked		25
-Email		25
-Your		25
+Actually 99
+There 99
+Is 60
+Something 99
+Address 99
+To 20
+So 40
+How	40
+Goes 40
+It	40
+You 40
 ```
 
-[[Have *You* *checked* your *email* |Office6]] 80 20
-[[*What* ~~Are~~ *you* *up* to *tonight* |Office7]] 80 20</tw-passagedata>
-<tw-passagedata pid="5" name="Office4" tags="" position="570,156"># Tim
+[[So ~~actually~~ *there *is *something* to address |Breakroom6]] 69 21
 
-+ Ouch! Seems like you read Jeff&#39;s email too.
-+ Seems like you read Jeff&#39;s emails.
-+ Seems like you read Jeff&#39;s emails.
-- Well, did you read the emails? | Office8
-* What? I asked if you read Jeff&#39;s email.
+[[So ~~actually~~ *there *is *something* about you |Breakroom6]] 69 21
 
-```
-Yeah		5
-Guess		15
-We&#39;ll		15
-Have		15
-To			15
-Deal		15
-With		15
-It			15
-God			55
-Clients		55
-Never		55
-Know		55
-What		55
-They		55
-Want		55
-```
+[[*something* *goes* *there* |Breakroom8]] 60 40
 
-[[Guess *We&#39;ll* *Have* to *deal* with it |Office8]] 70 30
-[[God *Clients* *Never* *Know* what *they* *want* |Office10]] 90 10</tw-passagedata>
-<tw-passagedata pid="6" name="Office5" tags="" position="30,320"># Tim
+[[~~So~~ *how* *goes* it |Breakroom9]] 75 25
 
-+ Yeah because of the festival! Pretty excited.
-+ Yeah because of the festival!
-+ Yeah the festival is today.
-- ... | Office13
-* Say what? You say something about the festival?
+[[~~So~~ *how* is *you* |Breakroom9]] 75 25
+
+[[~~So~~ *how* *about* *you* |Breakroom9]] 100 0
+
+[[*you* |Breakroom9]] 60 0
+</tw-passagedata>
+<tw-passagedata pid="4" name="Breakroom5" tags="fallback-passage" position="704,125">#Jeff
+
++ Yup. Glad you agree. Got any plans for tonight?
++ Yup. Got any plans for tonight?
++ Any plans for tonight?
++ Any plans for tonight?
+- No? | Breakroom9
+* Um, that doesn&#39;t answer my question.
 
 ```
-What		75
-Are			75
-You			15
-Doing		75
-Anything	75
-Up			75
-To			75
-Tonight		75
-Have		25
-Checked		25
-Email		25
-Your		25
-It&#39;s		50
-Still		50
-Annoying	50
+Not				20
+Particularly	20
+Tim				80
+Mentioned		80
+Going			80
+To				80
+A				80
+Show			80
+What			40
+About			60
+You				60
 ```
 
-[[Have *you* *checked* your *email* |Office6]] 80 20
-[[*What* are *you* *up* to *tonight* |Office7]] 90 10
-[[*What* are *you* *doing* *tonight* |Office7]] 90 10
-[[Are *you* *doing* *anything* *tonight* |Office7]] 90 10
-[[~~It&#39;s~~ *Still* *Annoying* |Office9]] 100 0</tw-passagedata>
-<tw-passagedata pid="7" name="Office6" tags="" position="464,307"># Tim
+[[*Not* *Particularly* |Breakroom20]] 75 0
 
-+ Yeah, these clients are ridiculous.
-+ These clients man.
-+ Uhh, yeah. Clients man.
-- What do you make of the clients? | Office8
-* Huh? Did you say something about the clients?
+[[Tim Mentioned *Going* *to* a *show* |Breakroom21]] 74 20
 
-```
-Oh		30
-I		30
-Haven&#39;t	30
-Read	30
-The		30
-Email	30
-Myself	30
-Yeah	30
-Guess	30
-```
+[[*Not* *Particularly* what about *you* |Breakroom22]] 80 10
 
-[[~~Oh~~ I *haven&#39;t* *read* the *email* myself |Office21]] 75 25
-[[~~Oh~~ ~~Yeah~~ *I* *guess* |Office8]] 90 10</tw-passagedata>
-<tw-passagedata pid="8" name="Office7" tags="" position="155,412"># Tim
+[[Tim Mentioned *Going* *to* a *show* what about *you* |Breakroom22]] 75 25</tw-passagedata>
+<tw-passagedata pid="5" name="Breakroom4" tags="" position="517,0"># Jeff
 
-+ Going to see a show! Forgot what it was called...
-+ Going to see a show!
-+ Seein&#39; a show.
-- ... | Office13
-* What was that? I&#39;m seeing a show tonight.
++ Is it? Well that&#39;s okay. Calvin Claw&#39;n is an important customer and I think it&#39;s important to maintain a healthy relationship with them.
++ Yeah? That&#39;s okay. Calvin Claw&#39;n is a valued customer so I&#39;m glad they&#39;re happy.
++ Oh. Well Calvin Claw&#39;n is important to us. Their satisfaction matters greatly.
+- I hope you can understand the goals of our company. | Breakroom5
+* Umm, I don&#39;t think I understand.
 
 ```
-Yeah		10
-Oh			10
-It			10
-Cool		10
-That		10
-Have		25
-Checked		25
-Email		25
-Your		25
-What&#39;s		60
-It			60
-About		60
+You 80
+Always 80
+Concede 80
+To 20
+Clients 80
+So 40
+Suppose 40
+Yeah 20
+But 60
+The 60
+New 60
+Demands 60
+Are 60
+Ridiculous 60
 ```
 
-[[Have *you* *checked* your *email* |Office6]] 80 20
-[[*What&#39;s* *it* *about* |Office14]] 100 0</tw-passagedata>
-<tw-passagedata pid="9" name="Office8" tags="fallback-passage high-pressure" position="742,353"># Tim
+[[*You* *Always* *concede* to clients |Breakroom23]] 61 39
 
-+ Man, you always seem to just take things.
-+ Taking it as always I see.
-+ Taking it as always I see.
-+ Well...you just gonna take it?
-- ...you gonna take that too? | Office13
-* What? So you&#39;re just gonna take it?
+[[~~yeah~~ but the *new clients *demands* are *ridiculous |Breakroom23]] 75 25
 
-```
-What		15
-The			15
-Fuck		15
-Else		15
-Am			15
-I			15
-Supposed	15
-To			15
-Do			15
-Are			40
-You			50
-Trying		75
-To			75
-Say			75
-Something	75
-```
+[[*suppose* *so* |Breakroom5]] 100 0
 
-[[What ~~The~~ ~~Fuck~~ else *am* *I* *supposed* to *do* |Office10]] 75 25
-[[*what* are *you* *trying* to *say |Office12]] 75 25</tw-passagedata>
-<tw-passagedata pid="10" name="Office10" tags="high-pressure" position="1188,364"># Tim
+[[*You* are ~~so~~ ridiculous |Breakroom14]] 74 16
 
-+ I&#39;m saying speak up about these goddamn clients!
-+ Like, speak up about these clients!
-+ Like, speak up or something.
-- If you have something to say about the clients, say it! | Office20
-* What? Do you have something to say about the clients or not?
+[[*You* are ~~so~~ new |Breakroom17]] 74 16</tw-passagedata>
+<tw-passagedata pid="6" name="Breakroom6" tags="" position="506,130"># Jeff
+
++ Oh man, is this about the new demands?
++ This is about the new demands isn&#39;t it.
++ ...new client demands I&#39;m guessing?
+- Well? Is it? | Breakroom48
+* Huh? What does that mean?
 
 ```
-Whatever	20
-You			20
-Say			20
-I			20
-Guess		20
-So			20
-Yeah		50
-Maybe		50
-You&#39;re		50
-Right		50
-Clients		75
-So			75
-Are			75
-Stupid		75
+The 60
+New 60
+Demands 60
+Are	60
+Ridiculous 60
+Try 80
+Pushing 80
+Back 80
+For 80
+Once 80
+Is 60
+You 40
+Know 40
+What 40
+Forget 20
+It	20
+Can 60
 ```
 
-[[*Whatever* *You* *Say* |Office20]] 100 0
-[[I *guess* *so* |Office20]] 90 10
-[[~~Yeah~~ Maybe *You&#39;re* *Right* |Office24]] 90 10
-[[~~Yeah~~ *Clients* Are So *Stupid* |Office24]] 70 30</tw-passagedata>
-<tw-passagedata pid="11" name="Office9" tags="" position="21,562"># Tim
+[[*Forget* the *new* *demands* |Breakroom23]] 74 11
 
-+ Can&#39;t be helped I guess.
-+ Yeah yeah.
-+ Yeah yeah.
-- ... | Office13
-* Yeah 
+[[The *new* *demands* are *ridiculous* |Breakroom23]] 75 16
 
-```
-Yeah		15
-I			15
-Guess		15
-What		75
-Are			75
-You			15
-Doing		75
-Anything	75
-Up			75
-To			75
-Tonight		75
-Have		25
-Checked		25
-Email		25
-```
+[[*Can* the new *demands* |Breakroom23]] 81 19
 
-[[Yeah *I* *Guess* |Office13]] 85 15
-[[Have *you* *checked* your *email* |Office6]] 80 20
-[[*What* are *you* *up* to * *tonight* |Office7]] 90 10
-[[*What* are *you* *doing* *tonight* |Office7]] 90 10
-[[Are *you* *doing* *anything* *tonight* |Office7]] 90 10</tw-passagedata>
-<tw-passagedata pid="12" name="Office13" tags="dialogue-only end-passage fallback-passage" position="211,714"># Tim
+[[You *pushing* the *new* *demands* is *ridiculous* |Breakroom23]] 71 20
 
-+ Yeah. I think your coffee is done. You should get it from the break room. You&#39;ll need it for today&#39;s meeting.
-+ I think your coffee in the break room is done.
-+ Well uh...your coffee&#39;s done in the break room I think.
-+ ...your coffee in the break room is done.</tw-passagedata>
-<tw-passagedata pid="13" name="Office12" tags="high-pressure" position="510.0001,437"># Tim
+[[*Forget* pushing the *new* *demands* |Breakroom23]] 75 14
 
-+ I&#39;m saying if you don&#39;t like the clients say so!
-+ Just...the clients aren&#39;t our boss.
-+ I&#39;m just...never mind.
-- ... | Office20
-* What? Just forget it.
+[[*Can* *you* *forget* the *demands* for once |Breakroom23]] 60 31
+
+[[*Can* *You* *Try* *Pushing* back ~~demands~~ for once |Breakroom19]] 60 31
+
+[[*You* are *ridiculous* |Breakroom14]] 70 20
+
+[[You know what *forget* *it* |Breakroom25]] 80 19</tw-passagedata>
+<tw-passagedata pid="7" name="Breakroom1" tags="" position="65,195"># Jeff
+
++ Oh I&#39;m sorry to hear that.
++ Oh. Sorry to hear that.
++ Oh. Sorry.
+- You doing okay? | Breakroom7
+* Um, I don&#39;t think I understand.
 
 ```
-Whatever	20
-You			60
-Say			60
-I&#39;m			60
-Just		60
-Thinking	60
-About		60
-The			60
-Company		60
+Job 99
+Is 50
+Kind 80
+Of 80
+A 80
+Drag 99
+Can&#39;t 40
+Really 40
+Tell 20
+All 99
+You 99
+Do 99
+Is 99
+Bow 99
+Down 99
+To 20
+To 20
+Clients 99
+And 20
+Are 60
 ```
 
-[[*Whatever* You Say |Office20]] 85 15
-[[~~I&#39;m~~ just *thinking* *about* the *company* |Office22]] 80 20</tw-passagedata>
-<tw-passagedata pid="14" name="Office14" tags="" position="385,512"># Tim
+[[*work and ~~the~~ *clients* |Breakroom6]] 81 19
 
-+ It&#39;s a comedy show. It&#39;s called Anything Goes I think?
-+ Umm, it&#39;s a comedy show I think. Anything goes.
-+ Oh uhhh, a comedy show I think?
-- Yeah, a comedy. | Office16
-* What? It&#39;s a comedy I think.
+[[~~The~~ *Clients* and *work* |Breakroom6]] 81 19
 
-```
-Oh			50
-Sounds		75
-Kinda		75
-Lame		75
-That		60
-Could		60
-Be			60
-Good		60
-I			30
-Guess		30
-```
+[[*Work* |Breakroom6]] 80 10
 
-[[~~Oh~~ Sounds kinda *lame* |Office16]] 70 30
-[[~~That~~ *could* *be* *good* I guess |Office17]] 85 15</tw-passagedata>
-<tw-passagedata pid="15" name="Office16" tags="dialogue-only end-passage fallback-passage" position="413,749"># Tim
+[[~~The~~ *Clients* |Breakroom6]] 80 10
 
-+ Be glad you&#39;re not going then! By the way I think your coffee is ready. You should get it from the break room. You&#39;ll need it for today&#39;s meeting.
-+ Oh okay, guess you&#39;re not going. By the way your coffee in the break room is done.
-+ Oh...I guess you wouldn&#39;t want to go. By the way your your coffee&#39;s done in the break room I think.
-+ Umm...I guess you won&#39;t be going? Oh, I think your coffee is done.</tw-passagedata>
-<tw-passagedata pid="16" name="Office17" tags="" position="799,553"># Tim
+[[*You* Are Kind of *A* *Drag* |Breakroom6]] 74 19
 
-+ Yeah I hope it&#39;s good.
-+ Hope it&#39;s good.
-+ Uhh yeah it&#39;ll be good I think.
-- ... | Office13
-* Sorry, what was that?
+[[*Job* Is Kind of *A* *Drag*|Breakroom6]] 74 19
+
+[[All *You* do is *bow* down *to* *clients* |Breakroom6]] 60 40
+
+[[*Job* *is* to *bow* down *to* *clients* |Breakroom6]] 74 26</tw-passagedata>
+<tw-passagedata pid="8" name="Breakroom7" tags="fallback-only" position="34,320"># Jeff
+
++ Well you can talk when you want to. I&#39;ll be here to listen.
+- Man did I lose those cups again? | Breakroom9
+* What was that?
 
 ```
-Yeah	20
-Traffic 60
-Was		60
-Hella	60
-Busy	60
-Today	60
-Have	15
-Checked	15
-Your	15
-Email	15
+Work 99
+Is 99
+Kind 99
+Of 99
+A 99
+Drag 99
+Clients 99
+How 80
+Are 80
+You 80
+Doing 80
+Want 60
+These 60
+Cups 60
+Here 60
 ```
 
-[[*Traffic* was ~~hella~~ *busy* ~~today~~ |Office11]] 80 20
-[[Have *You* *checked* your *email* |Office6]] 80 20</tw-passagedata>
-<tw-passagedata pid="17" name="Office11" tags="" position="955,479"># Tim
+[[*How* are *these* *cups* here |Breakroom8]] 60 25
 
-+ Yeah because of the festival! Pretty excited.
-+ Yeah because of the festival!
-+ Yeah the festival is today.
-- ... | Office13
-* Say what? You say something about the festival?
+[[Want *these* *cups* |Breakroom8]] 60 25
 
-```
-What		75
-Are			75
-You			15
-Doing		75
-Anything	75
-Up			75
-To			75
-Tonight		75
-Have		25
-Checked		25
-Email		25
-Your		25
-It&#39;s		50
-Still		50
-Annoying	50
-```
+[[you *want* these *cups* |Breakroom8]] 74 20
 
-[[Have *you* *checked* your *email* |Office6]] 80 20
-[[*What* are *you* *up* to *tonight* |Office18]] 90 10
-[[*What* are *you* *doing* *tonight* |Office18]] 90 10
-[[Are *you* *doing* *anything* *tonight* |Office18]] 90 10
-[[~~It&#39;s~~ *Still* *Annoying* |Office9]] 100 0</tw-passagedata>
-<tw-passagedata pid="18" name="Office18" tags="" position="969,234"># Tim
+[[Are *these* *cups* what *you* *want* |Breakroom8]] 74 20
 
-+ We were just talking about that dude.
-+ Were we just talking about that?
-+ I&#39;m uhh gonna...wait I already told you!
-- No worries though. | Office13
-* What? I already told you my plans.
+[[*What* are *these* *cups* doing here |Breakroom8]] 75 21
+
+[[*What* are *you* *doing* here |Breakroom9]] 81 19
+
+[[*How* are *you* *doing* |Breakroom9]] 74 11
+
+[[*How* is *work* |Breakroom26]] 70 21
+
+[[*How* are *clients* |Breakroom26]] 70 21
+
+[[*work* is kind of *a* *drag* |Breakroom6]] 74 19
+
+[[*Clients* are kind of *a* *drag* |Breakroom6]] 74 19
+
+[[*You* Are Kind of *A* *Drag* |Breakroom6]] 74 19</tw-passagedata>
+<tw-passagedata pid="9" name="Breakroom11" tags="" position="412,434"># Jeff
+
++ Haha! Nice one!
++ Ha, nice one!
++ Ha, nice one!
+- Oh that&#39;s good. | Breakroom5
+* Say what?
 
 ```
-Oh			20
-Sorry		20
-Have		40
-You			40
-Checked		40
-Email		40
-Your		40
+Work 99
+Clients 99
+How 80
+Are 80
+You 80
+Doing 80
+Want 60
+These 60
+Cups 60
+Here 60
 ```
 
-[[Have *you* *checked* your *email* |Office6]] 80 20</tw-passagedata>
-<tw-passagedata pid="19" name="Office20" tags="dialogue-only end-passage fallback-passage" position="737,792"># Tim
+[[*How* are *these* *cups* here |Breakroom8]] 60 25
 
-+ Yeah, whatever. I think your coffee is done. You should go get it from the break room. You&#39;ll need it for today&#39;s meeting.
-+ Yeah, whatever. Your coffee in the break room is done.
-+ Whatever...well your coffee&#39;s done in the break room I think.
-+ Your coffee in the break room is done.</tw-passagedata>
-<tw-passagedata pid="20" name="Office21" tags="high-pressure" position="827,109"># Tim
+[[Want *these* *cups* |Breakroom8]] 60 25
 
-+ Clients changed their demands again. We need at least a month extra and they want the same deadline. Its bullshit.
-+ Clients changed demands. And they won&#39;t change the deadline. Bullshit.
-+ Clients. More demands, same deadline. So bullshit.
-- What do you make of the clients? | Office8
-* Huh? Did you say something about the clients?
+[[you *want* these *cups* |Breakroom8]] 74 20
 
-```
-Yeah		5
-Guess		15
-We&#39;ll		15
-Have		15
-To			15
-Deal		15
-I			40
-Mean		40
-It&#39;s		40
-What		40
-The			40
-Clients		40
-Want		40
-God			65
-Never		65
-Know		65
-What		65
-They		65
-```
+[[*What* are *these* *cups* doing here |Breakroom8]] 75 21
 
-[[~~Yeah~~ Guess *We&#39;ll* *Have* to *deal* |Office8]] 85 15
-[[~~Yeah~~ ~~I~~ mean *it&#39;s* *what* the *clients* *want* |Office19]] 85 15
-[[God *Clients* *Never* *Know* what *they* *want* |Office23]] 80 20</tw-passagedata>
-<tw-passagedata pid="21" name="Office19" tags="high-pressure" position="1116,115"># Tim
+[[*What* are *you* *doing* here |Breakroom9]] 81 19
 
-+ You serious? You think that&#39;s okay for the clients to push us around like that?
-+ You think it&#39;s okay for clients to do that to us?
-+ You...think that&#39;s okay of the clients.
-- It&#39;s okay for the clients to do that? | Office13
-* Huh? Tell me if you think clients should be doing that.
+[[*How* are *you* *doing* |Breakroom9]] 74 11
+
+[[*How* is *work* |Breakroom26]] 70 21
+
+[[*How* are *clients* |Breakroom26]] 70 21</tw-passagedata>
+<tw-passagedata pid="10" name="Breakroom12" tags="" position="488,615"># Jeff
+
++ Heh, yeah! These things grow faster than my kids.
++ Heh, yeah. These things grow faster than my kids.
++ These things sure do advance fast.
+- ... | Breakroom5
+* Come again?
 
 ```
-What		45
-The			45
-Fuck		45
-Am			45
-Supposed	45
-To			45
-Do			45
-I			15
-Guess		15
-I&#39;m			75
-Just		75
-Thinking	75
-About		75
-The			75
-Company		75
+Yup 5
+Actually 99
+There 99
+Is 60
+Something 99
+To 60
+Address 99
+So 40
+How 40
+Goes 40
+It 40
+Are 60
+You 60
 ```
 
+[[*Yup* |Breakroom13]] 100 0
 
+[[So ~~actually~~ *there *is *something* to address |Breakroom6]] 69 21
 
-[[~~I&#39;m~~ just *thinking* *about* the *company* |Office22]] 80 20
-[[What ~~The~~ ~~Fuck~~ else *am* *I* *supposed* to *do* |Office10]] 75 25</tw-passagedata>
-<tw-passagedata pid="22" name="Office22" tags="dialogue-only end-passage" position="981,794"># Tim
+[[~~So~~ *how* *goes* it |Breakroom26]] 74 20
 
-+ You don&#39;t believe that. Whatever, go get your coffee from the break room. I&#39;ll talk to you at today&#39;s meeting.
-+ Yeah right. Whatever, your coffee&#39;s done in the break room.
-+ Right...well uh, coffee&#39;s done in the break room.</tw-passagedata>
-<tw-passagedata pid="23" name="Office23" tags="high-pressure" position="1401,301"># Tim
+[[~~So~~ *how* are *you* |Breakroom26]] 61 29</tw-passagedata>
+<tw-passagedata pid="11" name="Breakroom13" tags="fallback-passage" position="526,309"># Jeff
 
-+ Right? Wish Jeff would stop bending over for clients all the time.
-+ Yeah, Jeff always bends over for them.
-+ Yeah, fuckin&#39; Jeff.
-- Man, Jeff gets on my nerves. | Office13
-* What was that? These clients have a hold on Jeff.
++ Yeah, sometimes I wonder whether Tim has the company&#39;s best interests at heart. He&#39;s a fantastic engineer but doesn&#39;t seem to have the drive.
++ Yeah, Tim&#39;s a fantastic engineer but he doesn&#39;t always seem to have the company&#39;s interests.
++ Yeah. Tim&#39;s a good engineer but I don&#39;t think he thinks of the company&#39;s goals.
++ Tim&#39;s a good engineer but I don&#39;t think he thinks of the company&#39;s goals.
+- What do you think of Tim? | Breakroom9
+* Um, could you rephrase that?
 
 ```
-Yeah		15
-Guess		40
-We&#39;ll		40
-Have		40
-To			40
-Deal		40
-God			30
-I			15
-Can&#39;t		60
-Stand		60
-Jeff		60
-Clients		50
-Are			50
-So			50
-Stupid		50
+I 20
+Think 20
+He 60
+Has 60
+A 60
+Point 60
+Though 60
+His 60
+Reasons 60
+Just 80
+Seems 80
+To 80
+Like 80
+Likes 80
+To 80
+Complain 80
+It&#39;s 20
+Whatever 20
 ```
 
-[[~~Yeah~~ Guess *We&#39;ll* *Have* to *deal* |Office20]] 85 15
-[[~~Yeah~~ ~~God~~ I *Can&#39;t* *Stand* *Jeff* |Office24]] 90 10
-[[~~Yeah~~ ~~God~~ *Clients* Are So *Stupid* |Office24]] 70 30</tw-passagedata>
-<tw-passagedata pid="24" name="Office24" tags="dialogue-only end-passage" position="1197,595"># Tim
+[[~~Seems~~ ~~like~~ ~~I~~ ~~think~~ *he* *has* his *reasons* ~~though~ |Breakroom30]] 74 18
 
-+ Right? Looks like we&#39;ll have plenty to bring up during the meeting. By the way I hear your coffee finishing in the break room.
-+ Yeah, bring it up during the meeting today. By the way I hear your coffee finishing in the break room.
-+ We&#39;ll talk more during the meeting today. Oh, your coffee in the break room is done I think.</tw-passagedata>
+[[~~Seems~~ ~~like~~ ~~I~~ ~~think~~ *he* *has* a *point* ~~though~ |Breakroom30]] 74 18
+
+[[~~Seems~~ ~~like~~ ~~I~~ ~~think~~ *he* *has* a *reasons* ~~though~ |Breakroom30]] 74 18
+
+[[~~Seems~~ ~~like~~ ~~I~~ ~~think~~ *he* *has* his *point* ~~though~ |Breakroom30]] 74 18
+
+[[I *like* his *reasons* ~~though~~ |Breakroom30]] 60 36
+
+[[He ~~like~~ ~~just~~ *has* *to* *complain* |Breakroom31]] 74 18
+
+[[~~Just~~ ~~seems~~ ~~like~~ *he* *likes* to *complain* |Breakroom31]] 74 18
+
+[[~~I~~ ~~think~~ ~~It&#39;s~~ *whatever* |Breakroom29]] 91 9</tw-passagedata>
+<tw-passagedata pid="12" name="Breakroom14" tags="" position="1033,213">#Jeff
+
++ Ha! What can I say? I&#39;m passionate about my work and ScratchWare. Maybe Tim could learn a thing or two.
++ Well what can I say? I&#39;m passionate about my work and ScratchWare, unlike Tim.
++ Well uh, I&#39;m passionate about my work and ScratchWare.
+- Don&#39;t mean to be too full of myself. | Breakroom5
+* Yeah...wait what?
+
+```
+Heh 15
+Yeah 15
+You&#39;re 40
+In 40
+A 40
+Good 40
+Mood 40
+I 40
+Think 40
+He 80
+Has 80
+Point 80
+Though 80
+His 80
+Reasons 80
+```
+
+[[~~heh~~ *you&#39;re* *good* |Breakroom5]] 90 0
+
+[[~~Heh~~ *Yeah* ~~you&#39;re~~ ~~good~~ |Breakroom5]] 90 0
+
+[[*Heh* ~~Yeah~~ ~~you&#39;re~~ ~~good~~ |Breakroom5]] 90 0
+
+[[~~I~~ ~~Think~~ ~~heh~~ ~~yeah~~ *you&#39;re* in a *good* *mood* |Breakroom9]] 74 19
+
+[[~~I~~ ~~think~~ *he* *has* his *reasons* ~~though~ |Breakroom30]] 74 18
+
+[[~~I~~ ~~think~~ *he* *has* a *point* ~~though~ |Breakroom30]] 74 18
+
+[[~~I~~ ~~Think~~ *He* has a *good* *mood* |Breakroom30]] 60 10
+
+[[~~I~~ ~~think~~ *he* *has* a *reasons* ~~though~ |Breakroom30]] 74 18
+
+[[~~I~~ ~~think~~ *he* *has* his *point* ~~though~ |Breakroom30]] 74 18</tw-passagedata>
+<tw-passagedata pid="13" name="Breakroom8" tags="" position="49,578"># Jeff
+
++ Thanks. Gosh I sure miss drip coffee. Don&#39;t need to track these cups.
++ Thanks. These Keruigs are really inconvenient huh.
++ Thanks.
+- I wanna see a Moore&#39;s Law for coffee machines... | Breakroom9
+* Come again?
+
+```
+Actually 99
+There 99
+Is 40
+Something 99
+To 40
+Address 99
+So 20
+How 20
+Goes 20
+It 20
+Are 40
+You 40
+Come 40
+On 40
+Man 40
+```
+
+[[So ~~actually~~ *there *is *something* to address |Breakroom6]] 69 21
+
+[[~~So~~ *how* *goes* it |Breakroom26]] 74 20
+
+[[~~So~~ *how* are *you* |Breakroom26]] 69 20
+
+[[*Come* *on* man |Breakroom12]] 80 11
+
+[[*There* *it* *goes* |Breakroom12]] 91 9</tw-passagedata>
+<tw-passagedata pid="14" name="Breakroom17" tags="" position="798,0"># Jeff
+
++ Don&#39;t worry about me. I&#39;m doing my job, which is delivering quality software.
++ Don&#39;t worry about me. I&#39;m doing my job.
++ I&#39;m doing my job.
+- You should be focused on doing yours. | Breakroom33
+* Sorry, what did you say?
+
+```
+We 60
+Crunched 60
+Way 60
+Too 60
+Much 60
+Last 60
+Month 60
+I 40
+Guess 40
+So 40
+Surely 20
+There&#39;s 20
+Middle 20
+Ground 20
+```
+
+[[~~Surely~~ ~~I~~ ~~Guess~~ *We* *Crunched* way *too* *much* last month |Breakroom34]] 64 26
+
+[[~~Surely~~ *I* ~~guess~~ ~~We~~ *Crunched* way *too* *much* last month |Breakroom35]] 64 26
+
+[[~~Surely~~ ~~I~~ ~~Guess~~ Last month *We* *crunched* way *too* *much* |Breakroom34]] 64 26
+
+[[~~Surely~~ ~~We~~ ~~Guess~~ Last month *I* *crunched* way *too* *much* |Breakroom34]] 64 26
+
+[[*I* *Guess* so |Breakroom33]] 85 0
+
+[[Surely *There&#39;s* *middle* *ground* |Breakroom27]] 74 16</tw-passagedata>
+<tw-passagedata pid="15" name="Breakroom20" tags="fallback-passage" position="1161,23"># Jeff
+
++ Well that&#39;s a shame. I&#39;m gonna finally get to sit down with my wife and kids and enjoy some scary movies.
++ Well that&#39;s a shame. I&#39;m gonna sit down with my wife and kids and watch some movies.
++ Oh. Well my wife, kids, and I are gonna watch some movies.
++ Well as for me I&#39;m gonna spend some time with my wife and kids. Thinking we&#39;re gonna watch a scary movie.
+- We were gonna watch uh... | Breakroom44
+* Umm, I don&#39;t think I understand.
+
+
+```
+Cool 40
+Which 40
+Ones 40
+Sounds 40
+Like 40
+Fun 40
+```
+
+[[~~cool~~ ~~fun~~ *which* ones |Breakroom44]] 65 15
+
+[[~~sounds~~ *cool* |Breakroom46]] 65 15
+
+[[*sounds* ~~like~~ *fun* |Breakroom46]] 80 0</tw-passagedata>
+<tw-passagedata pid="16" name="Breakroom22" tags="" position="1225,177"># Jeff
+
++ Well that&#39;s a shame. I&#39;m gonna finally get to sit down with my wife and kisd and enjoy some scary movies.
++ Well that&#39;s a shame. I&#39;m gonna sit down with my wife and kids and watch some movies.
++ Oh. Well my wife, kids, and I are gonna watch some movies.
+- I hope you can understand the goals of our company. | Breakroom5
+* Umm, I don&#39;t think I understand.
+
+
+```
+Cool 40
+Which 40
+Ones 40
+Sounds 40
+Like 40
+Fun 40
+```
+
+[[~~cool~~ ~~fun~~ *which* ones |Breakroom44]] 65 15
+
+[[~~sounds~~ *cool* |Breakroom46]] 65 15
+
+[[*sounds* ~~like~~ *fun* |Breakroom46]] 80 0</tw-passagedata>
+<tw-passagedata pid="17" name="Breakroom23" tags="" position="637.0001,498"># Jeff
+
++ I don&#39;t think you&#39;re quite in tune with what ScratchWare does. We&#39;re good at what we do because we listen to our customers.
++ Look, we at ScratchWare are good at what we do because we listen to our customers.
++ Look, we at Scratchware listen to our customers.
+- Don&#39;t you agree? | Breakroom38
+* Umm, what are you arguing?
+
+```
+True 40
+But 40
+We 80
+Aren&#39;t 80
+Slaves 80
+To 80
+Our 80
+Customers 80
+Crunched 50
+Way 50
+Too 50
+Much 50
+Last 50
+Month 50
+You 99
+Are 99
+Ridiculous 99
+```
+
+[[*You* are ~~way~~ ~~too~~ *ridiculous* |Breakroom17]] 70 20
+
+[[~~True~~ ~~but~~ *we* *aren&#39;t* *slaves* to our customers |Breakroom28]] 75 19
+
+[[But *we* *slaves* to our customers |Breakroom28]] 75 19
+
+[[~~True~~ ~~but~~ *We* *Crunched* way *too* *much* last month |Breakroom34]] 64 26</tw-passagedata>
+<tw-passagedata pid="18" name="Breakroom25" tags="fallback-passage" position="959,10"># Jeff
+
++ I don&#39;t know what Tim&#39;s told you, but this deal has been well thought out. Calvin Claw&#39;n is an important customer and I think it&#39;s important to maintain a healthy relationship with them.
++ I don&#39;t know what Tim&#39;s told you, but Calvin Claw&#39;n is a valued customer so I&#39;m glad they&#39;re happy.
++ Oh. Well, regardless of what Tim might say, Calvin Claw&#39;n is a valued customer.
++ Well I don&#39;t know what Tim&#39;s told you, but Calvin Claw&#39;n is a valued customer so I&#39;m glad they&#39;re happy.
+- I hope you can understand the goals of our company. | Breakroom5
+* Umm, I don&#39;t think I understand.
+
+
+```
+You 80
+Always 80
+Concede 80
+To 20
+Clients 80
+So 40
+Suppose 40
+Yeah 20
+But 60
+The 60
+New 60
+Demands 60
+Are 60
+Ridiculous 60
+```
+
+[[*You* *Always* *concede* to clients |Breakroom23]] 61 39
+
+[[~~yeah~~ but the *new clients *demands* are *ridiculous |Breakroom23]] 75 25
+
+[[*suppose* *so* |Breakroom5]] 100 0
+
+[[*You* are ~~so~~ ridiculous |Breakroom14]] 74 16
+
+[[*You* are ~~so~~ new |Breakroom17]] 74 16</tw-passagedata>
+<tw-passagedata pid="19" name="Breakroom9" tags="fallback-passage" position="233,651"># Jeff
+
++ I&#39;m doing fine but I can&#39;t find the k-cups for this coffee machine. Wish building management didn&#39;t get Keurig.
++ Looking for those stupid k-cups!
++ Looking for...you seen those k-cups?
++ Where are those damned cups?
+- No, not here. | Breakroom32
+* Huh? You find themn?
+
+```
+Work 99
+Has 99
+Been 99
+Kind 99
+Of 99
+A 99
+Drag 99
+Recently 99
+What 20
+How 20
+Goes 20
+It 20
+Are 40
+You 80
+Doing 80
+Want 60
+These 60
+Cups 60
+Here 60
+```
+
+[[*How* are *these* *cups* here |Breakroom8]] 60 25
+
+[[Want *these* *cups* |Breakroom8]] 60 25
+
+[[you *want* these *cups* |Breakroom8]] 74 20
+
+[[Are *these* *cups* what *you* *want* |Breakroom8]] 74 20
+
+[[*What* are *these* *cups* doing here |Breakroom8]] 75 21
+
+[[*Come* *on* *work* |Breakroom12]] 90 10
+
+[[*What* a *drag* |Breakroom12]] 85 4
+
+[[*how* has *work* *been* |Breakroom26]] 80 20
+
+[[*What* has *work* *been* |Breakroom26]] 74 10
+
+[[*you* are a *drag* |Breakroom6]] 74 10
+
+[[*you* *been* *a* *drag* |Breakroom6]] 75 10
+
+[[*work* has *been* *a* *drag* |Breakroom6]] 81 19</tw-passagedata>
+<tw-passagedata pid="20" name="Breakroom26" tags="" position="259,314"># Jeff
+
++ Well besides the coffee, doing pretty good! Basically closed the deal with Calvin Claw&#39;n yesterday so we&#39;ll be finalizing that today. Didn&#39;t you read my email?
++ Pretty good! Basically closed the deal with Calvin Claw&#39;n yesterday. Didn&#39;t you read my email?
++ Oh. Good. Basically closed the deal with Calvin Claw&#39;n yesterday.
+- So yeah that&#39;s going good. | Breakroom5
+* Come again?
+
+```
+You 80
+Always 80
+Concede 80
+To 20
+Clients 80
+So 40
+Suppose 40
+Yeah 20
+But 60
+The 60
+New 60
+Demands 60
+Are 60
+Ridiculous 60
+```
+
+[[*You* *Always* *concede* to clients |Breakroom6] 61 39
+
+[[~~yeah~~ but the *new clients *demands* are *ridiculous |Breakroom6]] 75 25
+
+[[*suppose* *so* |Breakroom5]] 100 0
+
+[[*You* are ~~so~~ ridiculous |Breakroom14]] 74 16
+
+[[*You* are ~~so~~ new |Breakroom17]] 74 16</tw-passagedata>
+<tw-passagedata pid="21" name="Breakroom27" tags="" position="894,636"># Jeff
+
++ I understand, but our clients are our livelihood. We should be making sure they&#39;re comfortable working with us.
++ I understand, but our clients are our livelihood. They should want to work with us.
++ I understand, but we need our clients to be comfortable.
+- You understand don&#39;t you? | Breakroom33
+* Say that again?
+
+```
+I 20
+Think 40
+There&#39;s 60
+A 60
+Better 60
+Way 60
+Guess 40
+So 40
+Agree 40
+```
+
+[[I Think *There&#39;s* a *better* *way* |Breakroom38]] 80 10
+
+[[I *guess* *so* |Breakroom33]] 80 10
+
+[[I *agree* |Breakroom33]] 80 10</tw-passagedata>
+<tw-passagedata pid="22" name="Breakroom28" tags="" position="634,861"># Jeff
+
++ Don&#39;t be ridiculous! Our clients are our livelihood but it&#39;s a mutual engagement.
++ Don&#39;t be ridiculous! It&#39;s a mutual engagement.
++ Don&#39;t be ridiculous! It&#39;s a mutual engagement.
+- You understand don&#39;t you? | Breakroom33
+* Say that again?
+
+```
+I 20
+Think 40
+There&#39;s 60
+A 60
+Better 60
+Way 60
+Guess 40
+So 40
+Agree 40
+```
+
+[[I Think *There&#39;s* a *better* *way* |Breakroom39]] 80 10
+
+[[I *guess* *so* |Breakroom33]] 80 10
+
+[[I *agree* |Breakroom33]] 80 10</tw-passagedata>
+<tw-passagedata pid="23" name="Breakroom30" tags="" position="932,376"># Jeff
+
++ What do you mean? Are you saying you agree with him on the clients?
++ What do you mean? Are you saying you agree with him?
++ So you agree with him?
+- Do you? | Breakroom33
+* Um, say that again please?
+
+```
+You 80
+Always 80
+Concede 80
+To 20
+The 20
+Clients 80
+Yeah 60
+Kinda 60
+We 60
+Crunched 60
+Way 60
+Too 60
+Much 60
+Last 60
+Month 60
+No 20
+Just 20
+Trying 20
+To 20
+Be 20
+Fair 20
+```
+
+[[*You* *Always* *concede* to clients ~~way~~ ~~too~~ ~~much~~ |Breakroom34]] 63 37
+
+[[*We* *Always* *concede* to clients ~~way~~ ~~too~~ ~~much~~ |Breakroom34]] 63 37
+
+[[*Yeah* *Kinda* |Breakroom25]] 75 0
+
+[[*We* ~~kinda~~ *Crunched* way *too* *much* last month ~~to~~ ~~be~~ ~~fair~~ |Breakroom34]] 64 28
+
+[[*You* ~~kinda~~ *Crunched* way *too* *much* last month ~~to~~ ~~be~~ ~~fair~~ |Breakroom34]] 64 28
+
+[[*No* Just *trying* to *be* *fair* |Breakroom27]] 64 26</tw-passagedata>
+<tw-passagedata pid="24" name="Breakroom31" tags="" position="1292,597"># Jeff
+
++ That&#39;s been the case for a while I always thought. Glad I&#39;m not the only one.
++ Glad I&#39;m not the only one who thinks that.
++ Yeah. Thought I was the only one who thought so.
+- Oh well... | Breakroom33
+* Come again?
+
+```
+I 20
+Think 20
+He 60
+Has 60
+His 60
+Reasons 60
+What 40
+Are 40
+You 40
+Going 40
+To 40
+Do 40
+It&#39;s 20
+Whatever 20
+```
+
+[[~~I~~ ~~think~~ *he* *has* his *reasons* |Breakroom42]] 74 18
+
+[[~~whatever~~ *What* are *you* going to *do* |Breakroom42]] 74 18
+
+[[are *you* going to *do* *whatever* |Breakroom41]] 74 18
+
+[[~~I~~ ~~think~~ ~~It&#39;s~~ *whatever* |Breakroom29]] 91 9</tw-passagedata>
+<tw-passagedata pid="25" name="Breakroom29" tags="" position="1018,609"># Jeff
+
++ It&#39;s absolutely not whatever! We&#39;ve worked too hard to get this opportunity for ScratchWare for people to be jaded about this. Be it Tim, or anyone, or you!
++ It&#39;s not whatever, we worked too hard to get this opportunity for ScratchWare. Tim or whoever shouldn&#39;t be feeling jaded.
++ It&#39;s not whatever, we worked too hard to get this opportunity for ScratchWare.
+- You understand don&#39;t you? | Breakroom33
+* Say that again?
+
+```
+I 20
+Think 40
+There&#39;s 60
+A 60
+Better 60
+Way 60
+Guess 40
+So 40
+Agree 40
+```
+
+[[I Think *There&#39;s* a *better* *way* |Breakroom38]] 80 10
+
+[[I *guess* *so* |Breakroom33]] 80 10
+
+[[I *agree* |Breakroom33]] 80 10</tw-passagedata>
+<tw-passagedata pid="26" name="Breakroom32" tags="fallback-passage fallback-only" position="384,740"># Jeff
+
++ Whatever. Guess I&#39;ll head to the cafe across the street. I like their coffee better anyways.
+- ... | Breakroom37
+* Come again?
+
+```
+Actually 99
+There 99
+Is 40
+Something 99
+To 40
+Address 99
+So 20
+How 20
+Goes 20
+It 20
+Are 40
+You 40
+```
+
+[[So ~~actually~~ *there *is *something* to address |Breakroom6]] 69 21
+
+[[~~So~~ *how* *goes* it |Breakroom26]] 74 20
+
+[[~~So~~ *how* are *you* |Breakroom26]] 69 20</tw-passagedata>
+<tw-passagedata pid="27" name="Breakroom33" tags="fallback-passage" position="1186,760"># Jeff
+
++ Well we can talk more at the meeting later today. We&#39;ve been top in customer satisfaction for three quarters and I&#39;d like to see us there for the fourth.
++ We&#39;ll talk more at today&#39;s meeting. It&#39;d be a shame if we weren&#39;t top in customer satisfaction this quarter.
++ Well we can talk about this more at the meeting.
++ We&#39;ll talk more at today&#39;s meeting. It&#39;d be a shame if we weren&#39;t top in customer satisfaction this quarter.
+- Ooh my coffee&#39;s ready. | Breakroom37
+* Come again?
+
+```
+I&#39;ll 40
+Be 40
+Heading 40
+Back 40
+Now 40
+Yeah 40
+We&#39;ll 40
+See 40
+```
+
+[[~~Yeah~~ ~~We&#39;ll~~ ~~See~~ *I&#39;ll* be *heading* *back* now |Breakroom36]] 75 19
+
+[[*We&#39;ll* *See* |Breakroom37]] 90 0
+
+[[*I&#39;ll* *See* |Breakroom37]] 90 0</tw-passagedata>
+<tw-passagedata pid="28" name="Breakroom34" tags="" position="696,736"># Jeff
+
++ Our clients are our livelihood. We should be making sure they&#39;re comfortable working with us.
++ Our clients are our livelihood. They should want to work with us.
++ I understand, but we need our clients to be comfortable.
+- You understand don&#39;t you? | Breakroom33
+* Say that again?
+
+```
+I 20
+Think 40
+There&#39;s 60
+A 60
+Better 60
+Way 60
+Guess 40
+So 40
+Agree 40
+```
+
+[[I Think *There&#39;s* a *better* *way* |Breakroom38]] 80 10
+
+[[I *guess* *so* |Breakroom33]] 80 10
+
+[[I *agree* |Breakroom33]] 80 10</tw-passagedata>
+<tw-passagedata pid="29" name="Breakroom35" tags="" position="769.0001,548"># Jeff
+
++ And I appreciate the work that you put in, but everyone here has to pay their dues. We know better now and we&#39;ll work smarter this time.
++ I appreciate the work you put in. Look, we know better now. We&#39;ll work better this time.
++ I...I appreciate that. But we know better now and we&#39;ll do it better this time.
+- Don&#39;t you agree? | Breakroom38
+* Umm, what are you arguing?
+
+```
+You 20
+Know 40
+Damn 99
+
+Well 99
+
+That&#39;s 80
+Not 80
+How 80
+It 80
+Works 80
+May 60
+Be 60
+Right 60
+Whatever 40
+Say 40
+Don&#39;t 40
+What 80
+You&#39;re 80
+Talking 80
+About 99
+
+```
+
+[[*Damn* ~~It~~ ~~You~~ |Breakroom15]] 
+
+[[~~whatever~~ ~~Well~~ *You* *Don&#39;t* *Know* what *works* |Breakroom15]] 79 11
+
+[[~~whatever~~ ~~Well~~ *You* *Don&#39;t* *Know* what *you&#39;re* *talking* about |Breakroom15]] 74 16
+
+[[~~Whatever~~ ~~~well~~ *You* *know* damn well *that&#39;s* *not* *how* it *works* ~~right~~ |Breakroom15]] 60 30
+
+[[~~whatever~~ ~~Well~~ *You* may be *right* |Breakroom10]] 59 31
+
+[[~~whatever~~ ~~well~~ *you* *know* what *works* |Breakroom10]] 60 16
+
+[[*whatever* *you* *say* |Breakroom29]] 75 0</tw-passagedata>
+<tw-passagedata pid="30" name="Breakroom36" tags="end-passage" position="1360,836"># Jeff
+
++ Yup. Have a good one.
++ Yup. Have a good one.
++ Yup. Have a good one.
+
+</tw-passagedata>
+<tw-passagedata pid="31" name="Breakroom37" tags="end-passage fallback-passage" position="928,1027"># Jeff
+
++ Well I&#39;ve got my coffee so I&#39;ll be going back. Have a good one.
++ Well I&#39;ve got my coffee so I&#39;ll be going back. Have a good one.
++ Well I&#39;ve got my coffee so I&#39;ll be going back. Have a good one.
++ Well I&#39;ve got my coffee so I&#39;ll be going back. Have a good one.</tw-passagedata>
+<tw-passagedata pid="32" name="Breakroom38" tags="fallback-passage" position="728,986"># Jeff
+
++ Well I hope you change your mind by today&#39;s meeting. We&#39;ve been top in customer satisfaction for three quarters and I&#39;d like to see us there for the fourth.
++ Well I hope you change your mind by today&#39;s meeting. It&#39;d be a shame if we weren&#39;t top in customer satisfaction this quarter.
++ Well I hope you change your mind by today&#39;s meeting.
++ Well I hope you change your mind by today&#39;s meeting. It&#39;d be a shame if we weren&#39;t top in customer satisfaction this quarter.
+- Ooh my coffee&#39;s ready. | Breakroom37
+* Come again?
+
+```
+I&#39;ll 40
+Be 40
+Heading 40
+Back 40
+Now 40
+Yeah 40
+We&#39;ll 40
+See 40
+```
+
+[[~~Yeah~~ ~~We&#39;ll~~ ~~See~~ *I&#39;ll* be *heading* *back* now |Breakroom36]] 75 19
+
+[[*We&#39;ll* *See* |Breakroom37]] 90 0
+
+[[*I&#39;ll* *See* |Breakroom37]] 90 0
+
+</tw-passagedata>
+<tw-passagedata pid="33" name="Breakroom19" tags="" position="807,312"># Jeff
+
++ Is it? Well that&#39;s okay. Calvin Claw&#39;n is an important customer and I think it&#39;s important to maintain a healthy relationship with them.
++ Yeah? That&#39;s okay. Calvin Claw&#39;n is a valued customer so I&#39;m glad they&#39;re happy.
++ Oh. Well Calvin Claw&#39;n is important to us. Their satisfaction matters greatly.
+- I hope you can understand the goals of our company. | Breakroom5
+* Umm, I don&#39;t think I understand.
+
+```
+You 80
+Always 80
+Concede 80
+To 20
+Clients 80
+So 40
+Suppose 40
+Yeah 20
+But 60
+The 60
+New 60
+Demands 60
+Are 60
+Ridiculous 60
+```
+
+[[*You* *Always* *concede* to clients |Breakroom23]] 61 39
+
+[[~~yeah~~ but the *new clients *demands* are *ridiculous |Breakroom23]] 75 25
+
+[[*suppose* *so* |Breakroom5]] 100 0
+
+[[*You* are ~~so~~ ridiculous |Breakroom14]] 74 16
+
+[[*You* are ~~so~~ new |Breakroom17]] 74 16</tw-passagedata>
+<tw-passagedata pid="34" name="Breakroom24" tags="end-passage" position="501,919"># Jeff
+
++ Well when you find your &quot;better way&quot; you can let me know at the meeting. I&#39;ll be heading back to my office now.
++ Well when you find your &quot;better way&quot; you can let me know at the meeting. I&#39;ll be heading back to my office now.
++ Well when you find your &quot;better way&quot; you can let me know at the meeting. I&#39;ll be heading back to my office now.</tw-passagedata>
+<tw-passagedata pid="35" name="Breakroom10" tags="" position="939,836"># Jeff
+
++ I&#39;m only asking for you trust. We&#39;ve been top in customer satisfaction for three quarters and I&#39;d like to see us there for the fourth.
++ I&#39;m asking for you trust. It&#39;d be a shame if we weren&#39;t top in customer satisfaction this quarter.
++ I&#39;m asking for your trust.
+- Is that too much. | Breakroom37
+* Come again?
+
+```
+I&#39;ll 40
+We&#39;ll 40
+See 40
+Yes 80
+No 80
+```
+
+[[*We&#39;ll* *See* |Breakroom37]] 90 0
+
+[[*I&#39;ll* *See* |Breakroom37]] 90 0
+
+[[*yes* |Breakroom40]] 90 0
+[[*no* |Breakroom39]] 90 0</tw-passagedata>
+<tw-passagedata pid="36" name="Breakroom39" tags="end-passage" position="1100,992"># Jeff
+
++ Well we can talk more at the meeting later today. I have my coffee so I&#39;ll be heading back now. I hope you change your mind.
++ Well we can talk more at the meeting later today. I have my coffee so I&#39;ll be heading back now. I hope you change your mind.
++ Well we can talk more at the meeting later today. I have my coffee so I&#39;ll be heading back now. I hope you change your mind.</tw-passagedata>
+<tw-passagedata pid="37" name="Breakroom40" tags="end-passage" position="1246,961"># Jeff
+
++ I&#39;m glad to hear. Well I have my coffee so I&#39;ll be heading back now. See you at today&#39;s meeting.
++ I&#39;m glad to hear. Well I have my coffee so I&#39;ll be heading back now. See you at today&#39;s meeting.
++ I&#39;m glad to hear. Well I have my coffee so I&#39;ll be heading back now. See you at today&#39;s meeting.</tw-passagedata>
+<tw-passagedata pid="38" name="Breakroom41" tags="" position="1206,436"># Jeff
+
++ Yup, just gotta keep doing what I&#39;m doing. Though I&#39;m glad you&#39;re with me on this issue.
++ Yup, just gotta keep doing what I&#39;m doing. Though I&#39;m glad you&#39;re with me on this issue.
++ Yeah. Thought I was the only one who thought so.
+- Oh well... | Breakroom5
+* You what?
+
+```
+Yeah 40
+I 40
+Guess 40
+Yup 20
+```
+
+[[~~Yeah~~ ~~Yup~~ *I* *guess* |Breakroom5]] 82 0
+
+[[*Yup* |Breakroom5]] 60 0
+
+[[*Yeah* |Breakroom5]] 60 0</tw-passagedata>
+<tw-passagedata pid="39" name="Breakroom42" tags="" position="1062,448"># Jeff
+
++ Sure, but that&#39;s no excuse to act this way. Especially with our current customer.
++ That&#39;s no excuse. Especially with our current customer.
++ Hmm, with our current customer it&#39;s no excuse.
+- Oh well... |Breakroom5
+* You what?
+
+```
+Yeah 40
+I 40
+Guess 40
+Yup 20
+```
+
+[[~~Yeah~~ ~~Yup~~ *I* *guess* |Breakroom5]] 82 0
+
+[[*Yup* |Breakroom5]] 60 0
+
+[[*Yeah* |Breakroom5]] 60 0</tw-passagedata>
+<tw-passagedata pid="40" name="Breakroom15" tags="" position="509,743"># Jeff
+
++ Look, don&#39;t get angry at me if you&#39;re not happy with the process. I&#39;m just doing my job.
++ Don&#39;t get angry with me if you don&#39;t like that I&#39;m doing my job.
++ Don&#39;t get angry with me if you don&#39;t like that I&#39;m doing my job.
+- Think about that. | Breakroom38
+* What was that?
+
+```
+There 80
+Has 80
+To 80
+Be 80
+A 80
+Better 80
+Way 80
+Whatever 20
+Just 20
+Forget 20
+It 20
+```
+
+[[*There* has to be *a* *better* *way* |Breakroom24]] 72 18
+
+[[*Whatever* *Way* has to be *better* |Breakroom24]] 72 18
+
+[[~~whatever~~ ~~just~~ *forget* *it* |Breakroom39]] 90 0
+
+[[*whatever* |Breakroom39]] 60 0</tw-passagedata>
+<tw-passagedata pid="41" name="Breakroom21" tags="" position="1131.0002,311">#Jeff
+
++ Oh, a show. Sounds like it could be fun with Tim. What&#39;s it about?
++ Oh, a show! What&#39;s it about?
++ What&#39;s it about?
+- War? Love? Heist? | Breakroom20
+* That doesn&#39;t answer my question.
+
+```
+Eggs 40
+For 40
+Breakfast 40
+I 40
+Don&#39;t 40
+Remember 40
+He 40
+Didn&#39;t 40
+Say 40
+```
+
+[[~~I~~ *Don&#39;t* *Remember* ~~He~~ ~~Didn&#39;t~~ ~~say~~|Breakroom20]] 80 0
+
+[[~~He~~ *Didn&#39;t* *Say* |Breakroom20]] 80 0
+
+[[*I* *Didn&#39;t* *Say* |Breakroom45]] 85 0
+
+[[*Eggs* *For* *Breakfast* |Breakroom43]] 90 0
+
+[[He *Didn&#39;t* *Say* *Eggs* *For* *Breakfast* |Breakroom43]] 70 10</tw-passagedata>
+<tw-passagedata pid="42" name="Breakroom45" tags="" position="1414,215">#Jeff
+
++ Ya don&#39;t say...
++ Ya don&#39;t say...
++ Ya don&#39;t say...
+- ... | Breakroom37
+* Huh?
+
+```
+Oh 20
+Well 20
+What 40
+About 40
+You 40
+```
+
+[[~~Oh~~ ~~Well~~ what about *you* |Breakroom22]] 80 20
+
+[[*oh* *well* |Breakroom20]] 80 0</tw-passagedata>
+<tw-passagedata pid="43" name="Breakroom43" tags="" position="1360,340">#Jeff
+
++ Really? I heard that wasn&#39;t that good.
++ Really? I heard that wasn&#39;t that good.
++ Really? I heard that wasn&#39;t that good.
+- Yeah like a five out of ten. | Breakroom20
+* Huh?
+
+```
+Oh 20
+Well 20
+What 40
+About 40
+You 40
+```
+
+[[~~Oh~~ ~~Well~~ what about *you* |Breakroom22]] 80 20
+
+[[*oh* *well* |Breakroom20]] 80 0</tw-passagedata>
+<tw-passagedata pid="44" name="Breakroom44" tags="fallback-passage" position="1392,30"># Jeff
+
++ Claw, by James Yarn!
++ Claw, by James Yarn!
++ Claw, by James Yarn!
++ Claw, by James Yarn!
+- Hopefully the kids can handle it, heh heh. | Breakroom37
+* How the fuck did you make this appear
+
+
+```
+Yup 20
+```
+
+[[*yup* |Breakroom37]] 65 15</tw-passagedata>
+<tw-passagedata pid="45" name="Breakroom46" tags="" position="1564,131"># Jeff
+
++ Yep, should be good.
++ Yep, should be good.
++ Yep, should be good.
+- ... | Breakroom44
+* Seriously are you a fucking wizard.
+
+
+```
+Yup 20
+```
+
+[[*yup* |Breakroom37]] 65 15</tw-passagedata>
+<tw-passagedata pid="46" name="Breakroom48" tags="fallback-only" position="651,250"># Jeff
+
++ Well is it?
+- Say something! |Breakroom25
+* What?
+
+```
+The 60
+New 60
+Demands 60
+Are	60
+Ridiculous 60
+Try 80
+Pushing 80
+Back 80
+For 80
+Once 80
+Is 60
+You 40
+Know 40
+What 40
+Forget 20
+It	20
+Can 60
+```
+
+[[*Forget* the *new* *demands* |Breakroom23]] 74 11
+
+[[The *new* *demands* are *ridiculous* |Breakroom23]] 75 16
+
+[[*Can* the new *demands* |Breakroom23]] 81 19
+
+[[You *pushing* the *new* *demands* is *ridiculous* |Breakroom23]] 71 20
+
+[[*Forget* pushing the *new* *demands* |Breakroom23]] 75 14
+
+[[*Can* *you* *forget* the *demands* for once |Breakroom23]] 60 31
+
+[[*Can* *You* *Try* *Pushing* back ~~demands~~ for once |Breakroom19]] 60 31
+
+[[*You* are *ridiculous* |Breakroom14]] 70 20
+
+[[You know what *forget* *it* |Breakroom25]] 80 19</tw-passagedata>
 </tw-storydata>
 
 

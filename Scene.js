@@ -71,7 +71,7 @@ Scene.prototype.Load = function(correctness){
 		text.centerx = centerx + randx;
 		text.centery = centery + randy;
 		text.font = global_font;
-		text.fontSize = a * .20 + 5;
+		text.fontSize = a * .1 + 10;
 		text.fill = "#FFFFFF";
 		text.setShadow(1, 1, "rgba(0,0,0,1.0)", 10);
 		text.inputEnabled = true;
@@ -85,7 +85,6 @@ Scene.prototype.Load = function(correctness){
 				item.fill = "#FFFFFF";
 			}, this);
         this.manager.state.floating_text_layer.add(text);
-		//this.add(text);
 		this.manager.floating_text.push(text);
 		var T = Math.ceil(Math.sqrt(3 * a / G) * Math.PI * a);
 		var theta = (tau * i) % circle; //initialize as actual angle

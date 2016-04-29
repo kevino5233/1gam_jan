@@ -10,6 +10,8 @@ TODO
 		- randomize responses? Could be better
 - Callback functions for OnLoad and OnSpeak
 - fix query algo
+- fuck these alerts write a better error logging system for the twine stuff
+- Fix the text tweening. Seriously what's wrong with it lmfao
 - Come up with animation engine
     - key frames similar to graphics
 - ART!!!!!

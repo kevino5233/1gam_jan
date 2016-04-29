@@ -19,22 +19,22 @@ var pressure_timer_length = 10;
 var backup_dialogue_time = 5;
 // Timer positions
 var timer_icon_x = 100;
-var timer_icon_y = 440;
+var timer_icon_y = 415;
 var timer_icon_w = 30;
 var timer_icon_h = 30;
 // dialogue box dimensions
 var dialogue_box_w = 600;
-var dialogue_box_h = 100;
+var dialogue_box_h = 125;
 var dialogue_text_w = 30;
 // location of dialogue boxes
 var dialogue_box_x = 100;
 var dialogue_box_1_y = 25;
-var dialogue_box_2_y = 475;
+var dialogue_box_2_y = 450;
 // In context of dialogue box dimensions
 var text_offset = 20;
 var query_text_w = 30;
 var query_y_height = 25;
-var button_y = 400;
+var button_y = 385;
 var submit_button_x = 180;
 var backspace_button_x = 140;
 var clear_button_x = 100;
@@ -79,6 +79,7 @@ game.state.add("load", load_state);
 game.state.add("intro", intro_state);
 game.state.add("breakfast", breakfast_state);
 game.state.add("office", office_state);
+game.state.add("breakroom", breakroom_state);
 game.state.add("end", end_state);
 
 game.state.start("boot");

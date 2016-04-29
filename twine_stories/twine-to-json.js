@@ -25,7 +25,7 @@ function PassageToJson(passage){
 	var tags = passage.tags;
 	for (var i = 0; i < tags.length; i++){
 		var passage_tag = tags[i];
-		if (passage_tag == "start-passage"){
+		if (passage_tag == "start-passage" || passage_tag == "fallback-only"){
 			dialogue_len = 1;
 		} else if (passage_tag == "high-pressure"){
 			scene_json.retries = 1;
@@ -138,12 +138,14 @@ function PassageToJson(passage){
 					+ passage.name);
 			}
 			has_fallback = true;
-            var pipe_split_line = line.split("|");
+            var pipe_split_line = line.split(/[|]/);
+
 			scene_json.fallback = pipe_split_line[0].substring(2).trim();
 			var fallback_passage_name = pipe_split_line[1].trim();
 			var fallback_passage = story.passage(pipe_split_line[1].trim())
 			if (fallback_passage){
-				if (fallback_passage.tags.includes("fallback-passage")){
+				if (fallback_passage.tags.includes("fallback-passage") || 
+				    fallback_passage.tags.includes("fallback-only")){
 					scene_json.fallback_scene = fallback_passage.id - 1;
 				} else {
 					alert("Error: Fallback scene \"" + fallback_passage_name
@@ -218,3 +220,5 @@ download_link.id = "story-json-link";
 download_link.href = window.URL.createObjectURL(blob);
 download_link.download= story.name + ".json";
 document.body.insertBefore(download_link, document.getElementById("passage"));
+
+
