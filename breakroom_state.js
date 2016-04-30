@@ -7,8 +7,8 @@ var breakroom_state = {
     },
     create: function(){
         InitializeLayers(this);
-        game.stage.backgroundColor = "#ffff80";
 		// this will be pre-defined per level state
+        game.stage.backgroundColor = "#EB99FF";
         this.manager = new SceneManager(
                 this,
                 breakroom_scene,

@@ -38,6 +38,15 @@ var button_y = 385;
 var submit_button_x = 180;
 var backspace_button_x = 140;
 var clear_button_x = 100;
+// Start the game!
+function StartGame(){
+	if(click_to_play){
+		document.body.onmousedown = null;
+		click_to_play = null;
+		console.log("start game yay!");
+		game.state.start("breakfast");
+	}
+}
 // Functions for getting random numbers
 function RandomInt(min, max) {
     // DOn't call another function. reduces function overhead.
@@ -69,6 +78,7 @@ var anxiety = 60;
 // For example checking whether you accepted
 // an invitation to a party.
 // TODO ACTUALLY ADD THESE
+var click_to_play = false;
 var event_happened = false; //example
 
 var game = new Phaser.Game(game_w, game_h, Phaser.AUTO, "Phaser-Game");

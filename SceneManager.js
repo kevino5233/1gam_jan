@@ -251,7 +251,6 @@ SceneManager.prototype.PushWordOnQuery = function(item){
     this.state.dialogue_text_layer.add(text);
 	this.query.words.push(text);
 	this.query.x += word.length + 1;
-    this.state.general_ui_layer.visible = true;
 }
 SceneManager.prototype.PopWordFromQuery = function(item){
 	this.pushpopsound.play();
@@ -261,14 +260,10 @@ SceneManager.prototype.PopWordFromQuery = function(item){
     orig.visible = true;
     orig.fill = "#FFFFFF";
     text.destroy();
-	if (this.query.x <= 0){
-		if (this.query.words.length == 0){
-            this.state.general_ui_layer.visible = false;
-		} else {
-			this.query.y -= 1;
-			this.query.x = this.query.linewidths.pop();
-			this.button_back.y -= query_y_height;
-		}
+	if (this.query.x <= 0 && this.query.words.length != 0){
+		this.query.y -= 1;
+		this.query.x = this.query.linewidths.pop();
+		this.button_back.y -= query_y_height;
 	}
 }
 SceneManager.prototype.EvaluateQuery = function(key){
@@ -323,6 +318,7 @@ SceneManager.prototype.Update = function(){
             }
         }
         if (!this.state.floating_text_layer.visible && this.currscene.retries >= 0){
+			this.state.general_ui_layer.visible = true;
             this.state.floating_text_layer.visible = true;
             this.timer_curr = this.timer_len;
             for (var i = 0; i < normal_timer_len; i++){
@@ -330,7 +326,7 @@ SceneManager.prototype.Update = function(){
                     timer_icon_x + timer_icon_w * i,
                     timer_icon_y,
                     "timer_ico");
-                this.state.dialogue_ui_layer.add(timer_sprite);
+                this.state.general_ui_layer.add(timer_sprite);
                 this.timer_sprites.push(timer_sprite);
             }
         } else if (this.currscene.retries >= 0){

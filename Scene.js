@@ -45,8 +45,9 @@ Scene.prototype.Load = function(correctness){
             index = 3;
 		} else if (this.dialogue.length == 1){
             index = 0;
-        }
-        return false;
+        } else {
+			return false;
+		}
 	} else if (correctness < 75){
 		index = 2;
 	} else if (correctness < 90){

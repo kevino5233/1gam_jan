@@ -16,7 +16,7 @@ var load_state = {
     loadUpdate: function(){
     },
     loadRender: function(){
-        game.stage.backgroundColor = "#EB99FF";
+        game.stage.backgroundColor = "#ffff80";
 		game.add.text(100, 200, "Loading...", { font: global_font_size + "px " + global_font});
     },
     create: function(){
