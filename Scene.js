@@ -87,7 +87,8 @@ Scene.prototype.Load = function(correctness){
 			}, this);
         this.manager.state.floating_text_layer.add(text);
 		this.manager.floating_text.push(text);
-		var T = Math.ceil(Math.sqrt(3 * a / G) * Math.PI * a);
+		var T_hack_lol = 20 + (a / 100) * 80;
+		var T = Math.ceil(Math.sqrt(3 * T_hack_lol / G) * Math.PI * T_hack_lol);
 		var theta = (tau * i) % circle; //initialize as actual angle
 		var dtheta = circle / T * (2 * RandomInt(0, 1) - 1);
 		var h_radius = a / 2;
@@ -96,8 +97,14 @@ Scene.prototype.Load = function(correctness){
 		path["pos"] = 0;
 		for (var j = 0; j < T; j++){
 			var pos = [];
-            var text_x = h_radius * Math.cos(theta) + centerx + randx;
-            var text_y = v_radius * Math.sin(theta) + centery + randy;
+            var text_x = h_radius * Math.cos(theta)
+				+ centerx
+				+ randx
+				- word.text.length / 2 * text.fontSize;
+            var text_y = v_radius * Math.sin(theta)
+				+ centery
+				+ randy
+				- text.fontSize / 2;
             if (text_x < 0) {
                 text_x = 0;
             } else if (text_x > game_w) {
