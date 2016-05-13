@@ -14,9 +14,9 @@ var minimum_sort = [0, 1, 3, 5, 7, 10, 13, 16, 19, 22, 26, 30, 34, 38, 42];
 var global_font = "press_start_2pregular";
 var global_font_size = 15;
 // Timer lengths 
-var normal_timer_len = 15;
+var normal_timer_len = 20;
 var pressure_timer_length = 10;
-var backup_dialogue_time = 5;
+var backup_dialogue_time = 7;
 // Timer positions
 var timer_icon_x = 100;
 var timer_icon_y = 415;
@@ -25,7 +25,7 @@ var timer_icon_h = 30;
 // dialogue box dimensions
 var dialogue_box_w = 600;
 var dialogue_box_h = 125;
-var dialogue_text_w = 35;
+var dialogue_text_w = 33;
 // location of dialogue boxes
 var dialogue_box_x = 100;
 var dialogue_box_1_y = 25;

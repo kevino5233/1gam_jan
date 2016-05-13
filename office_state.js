@@ -6,8 +6,9 @@ var office_state = {
     loadRender: function(){
     },
     create: function(){
-        game.stage.backgroundColor = "#3385ff";
         InitializeLayers(this);
+        game.stage.backgroundColor = "#3385ff";
+        document.body.style.background = "#3385ff";
         this.manager = new SceneManager(
                 this,
 				office_scene,

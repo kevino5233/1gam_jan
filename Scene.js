@@ -73,7 +73,7 @@ Scene.prototype.Load = function(correctness){
 			word.text);
 		text.manager = this.manager;
 		text.font = global_font;
-		text.fontSize = (100 - a) * .12 + 8;
+		text.fontSize = (100 - a) * .15 + 10;
 		text.fill = "#FFFFFF";
 		text.setShadow(1, 1, "rgba(0,0,0,1.0)", 10);
 		text.inputEnabled = true;

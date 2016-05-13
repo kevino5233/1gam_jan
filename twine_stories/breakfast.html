@@ -10,12 +10,13 @@ breakfast
 <body>
 <div id="passage"></div>
 
-<tw-storydata name="breakfast" startnode="7" creator="Twine" creator-version="2.0.11" ifid="8DC19CCE-6850-4C99-AD5B-B739A367D676" format="Snowman" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">#story-json-link {
+<tw-storydata name="breakfast" startnode="5" creator="Twine" creator-version="2.0.11" ifid="8DC19CCE-6850-4C99-AD5B-B739A367D676" format="Snowman" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">#story-json-link {
 	text-decoration: underline;
 	text-decoration-color: blue;
 	color: blue;
 	font-size: 20px;
 }
+
 
 
 
@@ -248,7 +249,8 @@ download_link.innerHTML = "Download story JSON";
 download_link.id = "story-json-link";
 download_link.href = window.URL.createObjectURL(blob);
 download_link.download= story.name + ".json";
-document.body.insertBefore(download_link, document.getElementById("passage"));</script><tw-passagedata pid="1" name="Morning2" tags="fallback-passage" position="350,217"># Kevin (over text)
+document.body.insertBefore(download_link, document.getElementById("passage"));
+</script><tw-passagedata pid="1" name="Morning2" tags="fallback-passage" position="230,242"># Kevin (over text)
 
 + Anyways I made you breakfast. Guess what it is :)
 + Anyways I made you breakfast. Guess what it is :)
@@ -258,24 +260,24 @@ document.body.insertBefore(download_link, document.getElementById("passage"));</
 * What? I don&#39;t want this to go to waste.
 
 ```
-Oh 50
-Cool 50
-Thanks 50
-What&#39;s 50
-In 50
-It 50
-You 50
-Didn&#39;t 50
-Vegan 90
-Tacos 90
+Oh 30
+Cool 30
+Thanks 30
+What&#39;s 30
+In 30
+It 30
+Vegan 60
+Tacos 60
 ```
 
 [[~~Oh~~ Cool *Thanks* |Morning7]] 90 10
 
-[[~~oh~~ ~~Cool~~ ~~thanks~~ *What&#39;s* In *It* |Morning3]] 80 20
+[[~~oh~~ ~~Cool~~ ~~thanks~~ *What&#39;s* In *It* |Morning9]] 80 20
+
+[[~~oh~~ *Tacos* |Morning3]] 85 5
 
 [[~~oh~~ *Vegan* *Tacos* |Morning3]] 95 5</tw-passagedata>
-<tw-passagedata pid="2" name="Morning3" tags="fallback-passage" position="606,327"># Kevin (over text)
+<tw-passagedata pid="2" name="Morning3" tags="fallback-passage" position="627,435"># Kevin (over text)
 
 + Eggs Bitch!!!
 + Eggs Bitch!!!
@@ -283,83 +285,6 @@ Tacos 90
 + Eggs Bitch!!!
 - You there bitch? | Morning6
 * Bitch say whaaaat?
-
-```
-God 50
-Fucking 50
-Damnit 50
-Are 50
-Kidding 50
-Serious 50
-Me 50
-You 50
-Motherfucker 50
-```
-
-[[*God* ~~fucking~~ *damnit* |Morning6]] 90 10
-
-[[~~Are~~ *you* fucking *serious* |Morning6]] 90 10
-
-[[~~Are~~ *you* fucking *kidding* *me* |Morning6]] 90 10
-
-[[~~You~~ *motherfucker* |Morning6]] 95 5</tw-passagedata>
-<tw-passagedata pid="3" name="Morning4" tags="" position="582,508"># Kevin (over text)
-
-+ I didn&#39;t know you were so excited for eggs!!!
-+ I didn&#39;t know you were so excited for eggs!!!
-+ I didn&#39;t know you were so excited for eggs!!!
-- You there bitch? | Morning6
-* Bitch say whaaaat?
-`
-```
-God 50
-Fucking 50
-Damnit 50
-Are 50
-Kidding 50
-Serious 50
-Me 50
-You 50
-Motherfucker 50
-```
-
-[[*God* ~~fucking~~ *damnit* |Morning6]] 90 10
-
-[[~~Are~~ *you* fucking *serious* |Morning6]] 90 10
-
-[[~~Are~~ *you* fucking *kidding* *me* |Morning6]] 90 10
-
-[[~~You~~ *motherfucker* |Morning6]] 95 5</tw-passagedata>
-<tw-passagedata pid="4" name="Morning7" tags="" position="827,591"># Kevin (over text)
-
-+ Yeah of course! Guess what it is.
-+ Yeah. Wanna know what it is?
-+ Guess what.
-- Hello? Did you see what I made you? | Morning3
-* What? Guess what&#39;s for breakfast.
-
-```
-What 50
-Is 50
-It 50
-Why 50
-Don&#39;t 50
-You 50
-Just 50
-Tell 50
-Me 50
-```
-
-[[*What* ~~Is~~ ~~It~~ |Morning3]] 95 5
-
-[[Why don&#39;t you *just* *tell* *me* |Morning4]] 70 30</tw-passagedata>
-<tw-passagedata pid="5" name="Morning5" tags="" position="656,202"># Kevin (over text)
-
-+ Someone&#39;s grouchy. How&#39;d you know I made you EGGS.
-+ Someone&#39;s grouchy. How&#39;d you know I made you EGGS.
-+ YSomeone&#39;s grouchy. How&#39;d you know I made you EGGS.
-- How you like them EGGS. | Morning6
-* Flustered cause of those EGGS??
 
 ```
 You 30
@@ -372,66 +297,110 @@ Hate 70
 Eggs 70
 ```
 
-[[I *hate* *you* |Morning6]] 95 5
+[[I *hate* *you* |Morning13]] 95 5
 
-[[~~why~~ ~~You~~ *motherfucker* |Morning6]] 95 5
+[[~~why~~ ~~You~~ *motherfucker* |Morning13]] 95 5
 
-[[*Why* ~~you~~ do this |Morning6]] 90 10
+[[*Why* ~~you~~ do this |Morning12]] 90 10
 
-[[~~Why~~ ~~you~~ ~~do~~ ~~this~~ I *hate* *eggs* |Morning6]] 97 3</tw-passagedata>
-<tw-passagedata pid="6" name="Morning6" tags="dialogue-only end-passage fallback-passage" position="894,332"># Kevin (over text)
+[[~~Why~~ ~~you~~ ~~do~~ ~~this~~ ~~Motherfucker~~ I *hate* *eggs* |Morning12]] 97 3</tw-passagedata>
+<tw-passagedata pid="3" name="Morning4" tags="" position="609,576"># Kevin (over text)
 
-+ BAHAHAHAHAHAHAHA!!!!
-+ BAHAHAHAHAHAHAHA!!!!
-+ BAHAHAHAHAHAHAHA!!!!
-+ I&#39;m just kidding btw. Those are mine.</tw-passagedata>
-<tw-passagedata pid="7" name="Morning0" tags="start-passage" position="71,86"># Kevin (over text):
++ I didn&#39;t know you were so excited for eggs!!!
++ I didn&#39;t know you were so excited for eggs!!!
++ I didn&#39;t know you were so excited for eggs!!!
+- You love eggs right? | Morning6
+* You wat mate?
+
+```
+You 30
+Motherfucker 30
+Why 50
+Do	50
+This 50
+I 70
+Hate 70
+Eggs 70
+```
+
+[[I *hate* *you* |Morning13]] 95 5
+
+[[~~why~~ ~~You~~ *motherfucker* |Morning13]] 95 5
+
+[[*Why* ~~you~~ do this |Morning12]] 90 10
+
+[[~~Why~~ ~~you~~ ~~do~~ ~~this~~ ~~Motherfucker~~ I *hate* *eggs* |Morning12]] 97 3</tw-passagedata>
+<tw-passagedata pid="4" name="Morning7" tags="fallback-passage" position="341,502"># Kevin (over text)
+
++ Yeah of course! Guess what it is.
++ Yeah of course! Guess what it is.
++ Guess what it is sleepyhead!
++ Guess what it is!
+- Hello? Did you see what I made you? | Morning3
+* What? Guess what&#39;s for breakfast.
+
+```
+What 30
+Is 30
+It 30
+Why 30
+Don&#39;t 30
+You 30
+Just 30
+Tell 30
+Me 30
+```
+
+[[*What* ~~Is~~ ~~It~~ |Morning3]] 95 5
+
+[[Why don&#39;t you *just* *tell* *me* |Morning4]] 70 30</tw-passagedata>
+<tw-passagedata pid="5" name="Morning0" tags="start-passage" position="48,86"># Kevin (over text)
 
 + Hey, text me when you wake up.
 - Still not up? You have work soon dude! | Morning2
 * HOW DID YOU GET HERE ARE YOU GENIUS
 
 ```
-Hey 50
-Morning 50
+Hey 30
+Morning 30
 ```
 
 [[*Hey* |Morning1]] 90 10
 
 [[*Morning* |Morning1]] 90 10
 </tw-passagedata>
-<tw-passagedata pid="8" name="Morning1" tags="" position="67,371"># Kevin (over text)
+<tw-passagedata pid="6" name="Morning1" tags="" position="62,237"># Kevin (over text)
 
-+ Yo! What&#39;s up.
++ Yo! What&#39;s up
 + Yo! What&#39;s up.
 + Yo! What&#39;s up.
 - Hello? Fall asleep again? | Morning8
 * Only half-awake I see.
 
 ```
-Not 50
-Much 50
-Just 50
-Woke 50
-Up 50
+Not 30
+Much 30
+Just 30
+Woke 30
+Up 30
 ```
 
-[[*Not* *Much* ~~just~~ ~~woke~~ ~~up~~ |Morning2]] 100 0
+[[*Not* *Much* ~~just~~ ~~woke~~ ~~up~~ |Morning2]] 90 0
 
-[[*just* *woke* *up* ~~not~~ ~~much~~ |Morning2]]  100 0
+[[*just* *woke* *up* ~~not~~ ~~much~~ |Morning2]]  90 0
 
-[[*not* *woke* ~~much~~ |Morning2]] 90 0</tw-passagedata>
-<tw-passagedata pid="9" name="Morning8" tags="fallback-only" position="128,519"># Kevin (over text)
+[[*not* *woke* Up ~~much~~ |Morning11]] 90 10</tw-passagedata>
+<tw-passagedata pid="7" name="Morning8" tags="fallback-only" position="61,415"># Kevin (over text)
 
 + Dude! Wake up! You have work!
 - ... | Morning10
 * Ok, you&#39;re kinda awake.
 
 ```
-Woops 50
-Sorry 50
-Ah 50
-Whatever 50
+Woops 30
+Sorry 30
+Ah 30
+Whatever 30
 ```
 
 [[~~Ah~~ *Whatever* |Morning2]] 85 15
@@ -439,51 +408,53 @@ Whatever 50
 [[~~Ah~~ ~~Woops~~ *Sorry* |Morning2]]  85 15
 
 [[~~Ah~~ *Woops* |Morning2]] </tw-passagedata>
-<tw-passagedata pid="10" name="Morning10" tags="fallback-only" position="367,568"># Kevin (over text)
+<tw-passagedata pid="8" name="Morning10" tags="fallback-only" position="257,652"># Kevin (over text)
 
-+ Well, I made you some breakfast in the fridge. It&#39;s your favorite!
++ Well anyways, I made you some breakfast in the fridge. It&#39;s your favorite!
 - ... | Morning3
 * Someone needs his coffee.
 
 ```
-Oh 50
-Cool 50
-Thanks 50
-What&#39;s 50
-In 50
-It 50
-You 50
-Didn&#39;t 50
-Vegan 90
-Tacos 90
+Oh 30
+Cool 30
+Thanks 30
+What&#39;s 30
+In 30
+It 30
+You 30
+Didn&#39;t 30
+Vegan 60
+Tacos 60
 ```
 
 [[~~Oh~~ Cool *Thanks* |Morning7]] 90 10
 
 [[~~oh~~ ~~Cool~~ ~~thanks~~ *What&#39;s* In *It* |Morning3]] 80 20
 
+[[~~oh~~ *Tacos* |Morning3]] 85 5
+
 [[~~oh~~ *Vegan* *Tacos* |Morning3]] 95 5</tw-passagedata>
-<tw-passagedata pid="11" name="Morning9" tags="" position="321,422"># Kevin (over text)
+<tw-passagedata pid="9" name="Morning9" tags="" position="363,361"># Kevin (over text)
 
 + Guess!
 + Guess!
 + Guess!
-- You&#39;re gonna love it ;) | Morning10
+- You&#39;re gonna love it ;) | Morning3
 * Wat.
 
 ```
-What 50
-Is 50
-It 50
-Why 50
-Don&#39;t 50
-You 50
-Just 50
-Tell 50
-Me 50
-Better 50
-Not 50
-Say 50
+What 30
+Is 30
+It 30
+Why 40
+Don&#39;t 40
+You 40
+Just 40
+Tell 60
+Me 60
+Better 60
+Not 60
+Say 60
 ```
 
 [[*What* ~~Is~~ ~~It~~ |Morning3]] 95 5
@@ -498,33 +469,94 @@ Say 50
 
 [[Why don&#39;t ~~you~~ *just* *say* |Morning4]] 70 30
 
-[[~~you~~ *better* *say* ~~it~~ |Morning5]] 85 5</tw-passagedata>
-<tw-passagedata pid="12" name="Morning12" tags="" position="954,169"># Kevin (over text)
+[[~~you~~ *better* *say* ~~it~~ |Morning4]] 85 5
 
-+ For real though, those are mine. Just thought I&#39;d lighten up your morning.
-+ For real though, those are mine. Just thought I&#39;d lighten up your morning.
-+ For real though, those are mine. Just thought I&#39;d lighten up your morning.
+[[~~you~~ *better* *tell* *me* |Morning4]] 85 5</tw-passagedata>
+<tw-passagedata pid="10" name="Morning12" tags="" position="835,455"># Kevin (over text)
+
++ For real though, those are mine. Just wanted to mess with you.
++ For real though, those are mine. Just wanted to mess with you.
++ Still waking up I see. Lol just messing with you!
 - Roomie. | Morning6
-* I&#39;m just kidding btw those are mine.
+* ...
 
 ```
-Not
-Like
-I
-Wanted
-Them
-lmao
-Thanks
-Guess
+Well 30
+Congrats 20
+Fine 50
+With 30
+That 30
+Then 50
 ```
 
-[[I *hate* *you* |Morning6]] 95 5
+[[~~Well~~ *Congrats* with that ~~then~~ |Morning15]] 80 15
 
-[[~~why~~ ~~You~~ *motherfucker* |Morning6]] 95 5
+[[Well *Fine* *Then* ~~Congrats~~|Morning15]] 90 5
 
-[[*Why* ~~you~~ do this |Morning12]] 90 10
+[[*Fine* *With* *That* |Morning6]] 96 0</tw-passagedata>
+<tw-passagedata pid="11" name="Morning11" tags="" position="208,459"># Kevin (over text)
 
-[[~~Why~~ ~~you~~ ~~do~~ ~~this~~ I *hate* *eggs* |Morning12]] 97 3</tw-passagedata>
++ Awake enough to talk though, haha. Anyways I made some extra breakfast so you can have the rest.
++ Awake enough to talk though, haha. Anyways I made some extra breakfast so you can have the rest.
++ Someone&#39;s still asleep, haha. Anyways I made some extra breakfast so you can have the rest.
+- Dang feel asleep again? | Morning7
+* What now? You sleep talking?
+
+```
+Oh 30
+Cool 30
+Thanks 30
+What&#39;s 30
+In 30
+It 30
+Vegan 60
+Tacos 60
+```
+
+[[~~Oh~~ Cool *Thanks* |Morning7]] 90 10
+
+[[~~oh~~ ~~Cool~~ ~~thanks~~ *What&#39;s* In *It* |Morning3]] 80 20
+
+[[~~oh~~ *Tacos* |Morning3]] 85 5
+
+[[~~oh~~ *Vegan* *Tacos* |Morning3]] 95 5</tw-passagedata>
+<tw-passagedata pid="12" name="Morning13" tags="" position="816,294"># Kevin (over text)
+
++ Dang you&#39;re so salty, haha. Have some coffee and cheer up!
++ Dang you&#39;re so salty, haha. Have some coffee and cheer up!
++ Dang you&#39;re so salty, haha. Have some coffee and cheer up!
+- Have a vegan taco too or something. |Morning6
+* You what mate?
+
+```
+I 30
+I 50
+Think 50
+Will 30
+With 30
+Find 30
+Some 30
+Real 20
+Breakfast 20
+Too 30
+```
+
+[[*I* ~~think~~ ~~I~~ *Will* ~~too~~ |Morning6]] 90 0
+
+[[I ~~think~~ ~~I~~ will *find* some *real* *breakfast* ~~too~~ |Morning6]] 85 15
+
+[[*with* some *real* *breakfast* ~~too~~|Morning6]] 90 5</tw-passagedata>
+<tw-passagedata pid="13" name="Morning6" tags="end-passage fallback-passage" position="1007,285"># Kevin (over text)
+
++ Well good on you dude, I&#39;ll talk to you later. Have a good one at work!
++ Well good on you dude, I&#39;ll talk to you later. Have a good one at work!
++ You definitely need some coffee like right now. I&#39;ll talk to you later. Have a good one at work!
++ Well I&#39;ll talk to you later. Have a good one at work!</tw-passagedata>
+<tw-passagedata pid="14" name="Morning15" tags="end-passage" position="1003,454"># Kevin (over text)
+
++ Haha, well go get some coffee dude, and a vegan taco or something. I&#39;ll talk to you later after work.
++ Haha, well go get some coffee dude, and a vegan taco or something. I&#39;ll talk to you later after work.
++ Go get some coffee dude, seems like you really need it- and a vegan taco or something. I&#39;ll talk to you later after work.</tw-passagedata>
 </tw-storydata>
 
 

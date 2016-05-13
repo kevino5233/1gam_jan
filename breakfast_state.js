@@ -8,6 +8,7 @@ var breakfast_state = {
     create: function(){
         InitializeLayers(this);
         game.stage.backgroundColor = "#ff5c33";
+        document.body.style.background ="#ff5c33"
 		// this will be pre-defined per level state
         this.manager = new SceneManager(
                 this,
