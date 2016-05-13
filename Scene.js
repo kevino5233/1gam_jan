@@ -12,6 +12,7 @@ Scene = function(manager, scene_data){
 	this.fallback_scene = scene_data.fallback_scene;
 	this.wordbank = scene_data.wordbank;
 	this.sentences = scene_data.sentences;
+	this.speaker = scene_data.speaker;
 }
 
 Scene.prototype = Object.create(Phaser.Group.prototype);
@@ -19,7 +20,7 @@ Scene.prototype.constructor = Scene;
 
 Scene.prototype.LoadDialogueText = function(text){
 	var dialogue_words_array = text.split(" ");
-	var dialogue_chars_array = (this.manager.speaker + ": ").split("");
+	var dialogue_chars_array = (this.speaker + ": ").split("");
 	var currlen = dialogue_chars_array.length;
 	for (var i = 0; i < dialogue_words_array.length; i++){
 		var newlen = currlen + dialogue_words_array[i].length + 1;

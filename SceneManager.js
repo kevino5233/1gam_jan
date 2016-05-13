@@ -1,7 +1,7 @@
-SceneManager = function(state, scenes, speaker, nextscene){
+SceneManager = function(state, scene_data, nextscene){
     this.scenes = [];
-    for (var i = 0; i < scenes.length; i++){
-        this.scenes.push(new Scene(this, scenes[i]));
+    for (var i = 0; i < scene_data.scenes.length; i++){
+        this.scenes.push(new Scene(this, scene_data.scenes[i]));
     }
     // make global?
 	this.deadzone = 100;
@@ -14,7 +14,6 @@ SceneManager = function(state, scenes, speaker, nextscene){
 		x: 0,
 		y: 0
 	};
-	this.speaker = speaker;
 	this.speechsound = game.add.audio("speech");
 	this.errorsound = game.add.audio("error");
 	this.pushpopsound = game.add.audio("pushpop");
@@ -49,7 +48,7 @@ SceneManager = function(state, scenes, speaker, nextscene){
     this.timer_sprites = [];
     this.timer_len = normal_timer_len * game_fps;
     this.timer_curr = this.timer_len;
-    this.LoadScene(0, 100);
+    this.LoadScene(scene_data.start, 100);
 }
 SceneManager.prototype.ClearQuery = function(){
     this.pushpopsound.play();
@@ -209,11 +208,11 @@ SceneManager.prototype.EvaluateSentence = function(query, sentence) {
 	// calculate final correctness
 	var crucial_error =
         (crucial_words.length - n_crucial_words + n_crucial_wo3)
-        / 2 / crucial_words.length;
+        / crucial_words.length;
 	var extra_error = non_crucial_words.length == 0 ?
         0 :
         (non_crucial_words.length - n_non_crucial_words + n_non_crucial_wo3)
-        / 2 / non_crucial_words.length;
+        / non_crucial_words.length;
 	var trivial_error = trivial_words.length == 0 ?
         0 :
         trivial_words.length - n_trivial_words;
@@ -221,14 +220,13 @@ SceneManager.prototype.EvaluateSentence = function(query, sentence) {
 		(random_words_in * CUP / crucial_words.length)
          + (non_crucial_words.length == 0 ?
                0 :
-               random_words_out * CUP / 2 / non_crucial_words.length)
-		 //divide by two is tentative solution to EUP = 0
-		/ 2; //balance out later
-	return Math.max(100
+               random_words_out * EUP / 2 / non_crucial_words.length);
+	var score = Math.max(100
                     - Math.floor(crucial_error * CUP)
                     - Math.floor(extra_error * EUP)
                     - trivial_error
                     - random_error, 0);
+	return score;
 }
 SceneManager.prototype.PushWordOnQuery = function(item){
 	this.pushpopsound.play();

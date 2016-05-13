@@ -15,9 +15,9 @@ breakroom
 	text-decoration-color: blue;
 	color: blue;
 	font-size: 20px;
-}</style><script role="script" id="twine-user-script" type="text/twine-javascript">// Copy and paste this into your twine javascript section
+}
 
-var output_json = [];
+</style><script role="script" id="twine-user-script" type="text/twine-javascript">// Copy and paste this into your twine javascript section
 
 function PassageToJson(passage){
 	if (!passage)
@@ -155,7 +155,7 @@ function PassageToJson(passage){
 					+ passage.name);
 			}
 			has_fallback = true;
-            var pipe_split_line = line.split(/[|]/);			console.log(pipe_split_line);
+            var pipe_split_line = line.split(/[|]/);
 
 			scene_json.fallback = pipe_split_line[0].substring(2).trim();
 			var fallback_passage_name = pipe_split_line[1].trim();
@@ -221,11 +221,18 @@ function PassageToJson(passage){
 			  + " in passage " + passage.name + ", got " + scene_json.dialogue.length);
         return;
 	}
-	output_json.push(scene_json);
+	output_json["scenes"].push(scene_json);
 }
 
 var twine_passages = story.passages;
+var found_start = false;
+var passages = 1;
+var output_json = {
+	scenes : [],
+	start : story.startPassage - 1
+};
 twine_passages.forEach(PassageToJson);
+console.log(output_json);
 
 var blob = new Blob(
 	["var " + story.name + "_scene=" + JSON.stringify(output_json)],
@@ -236,9 +243,7 @@ download_link.innerHTML = "Download story JSON";
 download_link.id = "story-json-link";
 download_link.href = window.URL.createObjectURL(blob);
 download_link.download= story.name + ".json";
-document.body.insertBefore(download_link, document.getElementById("passage"));
-
-</script><tw-passagedata pid="1" name="Breakroom0" tags="start-passage" position="66,11"># Jeff
+document.body.insertBefore(download_link, document.getElementById("passage"));</script><tw-passagedata pid="1" name="Breakroom0" tags="start-passage" position="66,11"># Jeff
 
 + Good morning! How&#39;s it going?
 - You doing okay? | Breakroom5
@@ -825,7 +830,7 @@ Fun 40
 [[~~sounds~~ *cool* |Breakroom46]] 65 15
 
 [[*sounds* ~~like~~ *fun* |Breakroom46]] 80 0</tw-passagedata>
-<tw-passagedata pid="17" name="Breakroom23" tags="" position="637.0001,498"># Jeff
+<tw-passagedata pid="17" name="Breakroom23" tags="" position="637,498"># Jeff
 
 + I don&#39;t think you&#39;re quite in tune with what ScratchWare does. We&#39;re good at what we do because we listen to our customers.
 + Look, we at ScratchWare are good at what we do because we listen to our customers.
@@ -1210,7 +1215,7 @@ Agree 40
 [[I *guess* *so* |Breakroom33]] 80 10
 
 [[I *agree* |Breakroom33]] 80 10</tw-passagedata>
-<tw-passagedata pid="29" name="Breakroom35" tags="" position="769.0001,548"># Jeff
+<tw-passagedata pid="29" name="Breakroom35" tags="" position="769,548"># Jeff
 
 + And I appreciate the work that you put in, but everyone here has to pay their dues. We know better now and we&#39;ll work smarter this time.
 + I appreciate the work you put in. Look, we know better now. We&#39;ll work better this time.
@@ -1436,7 +1441,7 @@ It 20
 [[~~whatever~~ ~~just~~ *forget* *it* |Breakroom39]] 90 0
 
 [[*whatever* |Breakroom39]] 60 0</tw-passagedata>
-<tw-passagedata pid="41" name="Breakroom21" tags="" position="1131.0002,311">#Jeff
+<tw-passagedata pid="41" name="Breakroom21" tags="" position="1131,311">#Jeff
 
 + Oh, a show. Sounds like it could be fun with Tim. What&#39;s it about?
 + Oh, a show! What&#39;s it about?

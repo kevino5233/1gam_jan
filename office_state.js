@@ -11,7 +11,6 @@ var office_state = {
         this.manager = new SceneManager(
                 this,
 				office_scene,
-				"Tim",
                 "breakroom");
     },
     update: function(){

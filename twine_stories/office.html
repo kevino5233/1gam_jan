@@ -21,9 +21,10 @@ office
 
 
 
-</style><script role="script" id="twine-user-script" type="text/twine-javascript">// Copy and paste this into your twine javascript section
 
-var output_json = [];
+
+
+</style><script role="script" id="twine-user-script" type="text/twine-javascript">// Copy and paste this into your twine javascript section
 
 function PassageToJson(passage){
 	if (!passage)
@@ -48,7 +49,7 @@ function PassageToJson(passage){
 	var tags = passage.tags;
 	for (var i = 0; i < tags.length; i++){
 		var passage_tag = tags[i];
-		if (passage_tag == "start-passage"){
+		if (passage_tag == "start-passage" || passage_tag == "fallback-only"){
 			dialogue_len = 1;
 		} else if (passage_tag == "high-pressure"){
 			scene_json.retries = 1;
@@ -161,12 +162,14 @@ function PassageToJson(passage){
 					+ passage.name);
 			}
 			has_fallback = true;
-            var pipe_split_line = line.split("|");
+            var pipe_split_line = line.split(/[|]/);
+
 			scene_json.fallback = pipe_split_line[0].substring(2).trim();
 			var fallback_passage_name = pipe_split_line[1].trim();
 			var fallback_passage = story.passage(pipe_split_line[1].trim())
 			if (fallback_passage){
-				if (fallback_passage.tags.includes("fallback-passage")){
+				if (fallback_passage.tags.includes("fallback-passage") || 
+				    fallback_passage.tags.includes("fallback-only")){
 					scene_json.fallback_scene = fallback_passage.id - 1;
 				} else {
 					alert("Error: Fallback scene \"" + fallback_passage_name
@@ -225,11 +228,18 @@ function PassageToJson(passage){
 			  + " in passage " + passage.name + ", got " + scene_json.dialogue.length);
         return;
 	}
-	output_json.push(scene_json);
+	output_json["scenes"].push(scene_json);
 }
 
 var twine_passages = story.passages;
+var found_start = false;
+var passages = 1;
+var output_json = {
+	scenes : [],
+	start : story.startPassage - 1
+};
 twine_passages.forEach(PassageToJson);
+console.log(output_json);
 
 var blob = new Blob(
 	["var " + story.name + "_scene=" + JSON.stringify(output_json)],
@@ -240,11 +250,7 @@ download_link.innerHTML = "Download story JSON";
 download_link.id = "story-json-link";
 download_link.href = window.URL.createObjectURL(blob);
 download_link.download= story.name + ".json";
-document.body.insertBefore(download_link, document.getElementById("passage"));
-
-
-
-</script><tw-passagedata pid="1" name="Office0" tags="no-pressure start-passage" position="19,15"># Tim
+document.body.insertBefore(download_link, document.getElementById("passage"));</script><tw-passagedata pid="1" name="Office0" tags="no-pressure start-passage" position="19,15"># Tim
 
 + Sup
 - ... | Office1
@@ -262,7 +268,7 @@ Sup 1
 + How&#39;s it going
 + How&#39;s it going
 - ...you doing okay? | Office3
-* Huh? Just tell me how you&#39;re doing.
+* You&#39;re what now?
 
 ```
 It&#39;s 	50
@@ -278,12 +284,12 @@ Be		75
 Better	75
 ```
 
-[[~~It&#39;s~~ going *all* *right* |Office2]] 90 10
-[[Going *All* *right* |Office2]] 90 10
+[[~~It&#39;s~~ going *all* *right* |Office2]] 85 15
+[[Going *All* *right* |Office2]] 85 15
 [[All *good* |Office2]] 60 40
-[[Going *All* *Right* how are *you* |Office3]] 90 10
+[[Going *All* *Right* how are *you* |Office3]] 85 15
 [[*good* how are *you* |Office3]] 90 10
-[[~~It&#39;s~~ good *could* *be* going *better* |Office4]] 80 20</tw-passagedata>
+[[~~It&#39;s~~ good *could* *be* going *better* |Office4]] 75 25</tw-passagedata>
 <tw-passagedata pid="3" name="Office2" tags="" position="19,163"># Tim
 
 + Good to hear!
@@ -535,7 +541,7 @@ Email		25
 + I think your coffee in the break room is done.
 + Well uh...your coffee&#39;s done in the break room I think.
 + ...your coffee in the break room is done.</tw-passagedata>
-<tw-passagedata pid="13" name="Office12" tags="high-pressure" position="510.0001,437"># Tim
+<tw-passagedata pid="13" name="Office12" tags="high-pressure" position="510,437"># Tim
 
 + I&#39;m saying if you don&#39;t like the clients say so!
 + Just...the clients aren&#39;t our boss.

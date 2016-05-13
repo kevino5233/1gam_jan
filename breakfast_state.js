@@ -12,7 +12,6 @@ var breakfast_state = {
         this.manager = new SceneManager(
                 this,
                 breakfast_scene,
-				"Kevin",
                 "office");
     },
     update: function(){

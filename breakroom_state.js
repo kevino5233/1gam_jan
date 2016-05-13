@@ -12,7 +12,6 @@ var breakroom_state = {
         this.manager = new SceneManager(
                 this,
                 breakroom_scene,
-				"Jeff",
                 "end");
     },
     update: function(){

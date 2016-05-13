@@ -15,3 +15,4 @@ TODO
 - Come up with animation engine
     - key frames similar to graphics
 - ART!!!!!
+- Rewrite twine because it sucks lmao
