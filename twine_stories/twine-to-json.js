@@ -15,6 +15,7 @@ function PassageToJson(passage){
 	var has_fallback = false;
     var has_fall_in = false;
     var needs_change = false;
+    var start_passage = false;
 	var scene_json = {
         id: passage.id - 1,
         dialogue: [],
@@ -25,7 +26,15 @@ function PassageToJson(passage){
 	var tags = passage.tags;
 	for (var i = 0; i < tags.length; i++){
 		var passage_tag = tags[i];
-		if (passage_tag == "start-passage" || passage_tag == "fallback-only"){
+		if (passage_tag == "start-passage"){ 
+            if (found_start){
+                //error message here
+            } else {
+                dialogue_len = 1;
+                start_passage = true;
+                found_start = true;
+            }
+        } else if (passage_tag == "fallback-only"){
 			dialogue_len = 1;
 		} else if (passage_tag == "high-pressure"){
 			scene_json.retries = 1;
@@ -204,10 +213,38 @@ function PassageToJson(passage){
 			  + " in passage " + passage.name + ", got " + scene_json.dialogue.length);
         return;
 	}
-	output_json.push(scene_json);
+    if (start_passage && output_json.length > 0){
+        var scene_swp = output_json[0];
+        output_json[0] = scene_json;
+        output_json.push(scene_swp);
+    } else {
+        output_json.push(scene_json);
+    }
 }
 
 var twine_passages = story.passages;
+var zero_passage = -1;
+var found_start = false;
+for (var i = 0; i < twine_passages.length; i++){
+    var passage = twine_passages[i];
+    if (passage.id - 1 == 0){
+        zero_passage = 0;
+    }
+	for (var i = 0; i < tags.length; i++){
+		var passage_tag = tags[i];
+		if (passage_tag == "start-passage"){ 
+            if (found_start){
+                //error message here
+            } else {
+                if (zero_passage == -1){
+                    zero_passage = i;
+                }
+                found_start = true;
+                var swp = 
+            }
+        }
+    }
+}
 twine_passages.forEach(PassageToJson);
 
 var blob = new Blob(

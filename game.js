@@ -41,7 +41,6 @@ var clear_button_x = 100;
 // Start the game!
 function StartGame(){
 	if(click_to_play){
-		document.body.onmousedown = null;
 		click_to_play = null;
 		console.log("start game yay!");
 		game.state.start("breakfast");
@@ -79,8 +78,8 @@ var anxiety = 60;
 // an invitation to a party.
 // TODO ACTUALLY ADD THESE
 var click_to_play = false;
+var skip_to_tutorial = false;
 var event_happened = false; //example
-
 var game = new Phaser.Game(game_w, game_h, Phaser.AUTO, "Phaser-Game");
 
 game.state.add("boot", boot_state);
