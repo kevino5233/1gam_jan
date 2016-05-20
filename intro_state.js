@@ -28,6 +28,7 @@ var intro_state = {
     loadRender: function(){
     },
     create: function(){
+        document.body.style.background = "#ffff80";
         game.stage.backgroundColor = "#ffff80";
 		this.menu_layers = [game.add.group(), game.add.group(), game.add.group()];
 		var style = { font: global_font_size + "px " + global_font};

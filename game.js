@@ -42,9 +42,21 @@ var clear_button_x = 100;
 function StartGame(){
 	if(click_to_play){
 		click_to_play = null;
-		console.log("start game yay!");
 		game.state.start("breakfast");
 	}
+}
+// Go back to the main menu
+function MainMenu(){
+    // set all event variables t ofalse if you go back to the main menu
+    // whenever I get arround to making them lmao
+    var skip_to_tutorial = false;
+    // Destroy the current game's layers.
+    var currstate = game.state.states[game.state.current];
+    if (currstate.manager){
+        DestroyLayers(currstate);
+    }
+    // Start main menu state
+    game.state.start("intro");
 }
 // Functions for getting random numbers
 function RandomInt(min, max) {
