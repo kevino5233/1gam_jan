@@ -19,7 +19,7 @@ function PassageToJson(passage){
         sentences: [],
         wordbank: []
     };
-	var dialogue_len = 3;
+	var dialogue_len = 2;
 	var tags = passage.tags;
 	for (var i = 0; i < tags.length; i++){
 		var passage_tag = tags[i];
@@ -36,7 +36,7 @@ function PassageToJson(passage){
 			has_retries = true;
 			dialogue_only = true;
 		} else if (passage_tag == "fallback-passage"){
-			dialogue_len = 4;
+			dialogue_len = 3;
 		} else if (passage_tag == "end-passage"){
             scene_json.retries = -2;
 			has_retries = true;
@@ -55,8 +55,7 @@ function PassageToJson(passage){
 			continue;
 		}
         if (line.startsWith("//") && needs_change){
-            alert("Passage \"" + passage.name + "\" needs attention.\n" + line.substring(3));
-            needs_change = false;
+            alert("Passage \"" + passage.name + "\" needs attention:\n" + line.substring(3));
         } else if (line.startsWith("```")){
 			wordbank_mode = !wordbank_mode;
 			if (wordbank_mode && has_wordbank){
@@ -78,54 +77,77 @@ function PassageToJson(passage){
 			scene_json.speaker = line.substring(2);
 			has_speaker = true;
 		} else if (line[0] == '[') {
-			has_sentences = true;
-			var reached_details = false;
-			var sentence = line.split(/\[+|\]+\s*|\s+/);
-			var sentence_json = {
-                crucial_words: [],
-                non_crucial_words: [],
-                trivial_words: [],
-                words: []
-            };
-			for (var j = 0; j < sentence.length; j++){
-				var sentence_word = sentence[j];
-				if (sentence_word.trim().length == 0){
-					continue;
-				} else if (reached_details){
-					if (sentence_json.CUP){
-						sentence_json.EUP = parseInt(sentence_word);
-					} else {
-						sentence_json.CUP = parseInt(sentence_word);
-					}
-				} else {
-					if (sentence_word[0] == "|"){
-						var next_passage = story.passage(sentence_word.substring(1));
-						if (!next_passage){
-							alert("Error: Destination scene \"" + sentence_word.substring(1) +
-								  "\"is invalid at passage " + passage.name);
-							return;
-						} else {
-							sentence_json.response = next_passage.id - 1;
-							reached_details = true;
-						}
-					} else {
-						if (sentence_word.startsWith("*")){
-							sentence_json.crucial_words.push(j - 1);
-							sentence_word =
-                                sentence_word.substring(
-                                    1, sentence_word.length - 1);
-						} else if (sentence_word.startsWith("~~")){
-							sentence_json.trivial_words.push(j - 1);
-							sentence_word = 
-								sentence_word.substring(
-                                    2, sentence_word.length - 2);
-						} else {
-							sentence_json.non_crucial_words.push(j - 1);
-						}
-						sentence_json.words.push(sentence_word);
-					}
-				}
-			}
+            if (dialogue_only){
+                var next_passage = story.passage(line.substring(2, line.length - 2));
+                if (!next_passage){
+                    alert("Error: Destination scene \"" + sentence_word.substring(1) +
+                          "\"is invalid at passage " + passage.name);
+                    return;
+                } else {
+                    scene_json.fallback_scene = next_passage.id - 1;
+                }
+            } else {
+                var sentence = line.split(/\[+|\]+\s*|\s+/);
+                var sentence_json = {
+                    crucial_words: [],
+                    non_crucial_words: [],
+                    trivial_words: [],
+                    words: []
+                };
+                var reached_details = false;
+                var details = 0;
+                has_sentences = true;
+                for (var j = 0; j < sentence.length; j++){
+                    var sentence_word = sentence[j];
+                    if (sentence_word.trim().length == 0){
+                        continue;
+                    } else if (reached_details){
+                        if (sentence_json.CUP){
+                            sentence_json.EUP = parseInt(sentence_word);
+                            details++;
+                        } else {
+                            sentence_json.CUP = parseInt(sentence_word);
+                            details++;
+                        }
+                    } else {
+                        if (sentence_word[0] == "|"){
+                            var next_passage = story.passage(sentence_word.substring(1));
+                            if (!next_passage){
+                                alert("Error: Destination scene \"" + sentence_word.substring(1) +
+                                      "\"is invalid at passage " + passage.name);
+                                return;
+                            } else {
+                                sentence_json.response = next_passage.id - 1;
+                                reached_details = true;
+                            }
+                        } else {
+                            if (sentence_word.startsWith("*")){
+                                sentence_json.crucial_words.push(j - 1);
+                                sentence_word =
+                                    sentence_word.substring(
+                                        1, sentence_word.length - 1);
+                            } else if (sentence_word.startsWith("~~")){
+                                sentence_json.trivial_words.push(j - 1);
+                                sentence_word = 
+                                    sentence_word.substring(
+                                        2, sentence_word.length - 2);
+                            } else {
+                                sentence_json.non_crucial_words.push(j - 1);
+                            }
+                            sentence_json.words.push(sentence_word);
+                        }
+                    }
+                }
+                if (!reached_details){
+                    console.log(line);
+                    alert("Error: Malformed sentence in passage " + passage.name);
+                    return;
+                }
+                if (details < 2){
+                    alert("Error: Missing EUP or CUP at passage " + passage.name);
+                    return;
+                }
+            }
 			scene_json.sentences.push(sentence_json);
 		} else if (line[0] == '+'){
 			has_dialogue = true;
@@ -138,6 +160,11 @@ function PassageToJson(passage){
 			has_fallback = true;
             var pipe_split_line = line.split(/[|]/);
 
+            if (pipe_split_line.length < 2){
+				alert("No fallback passage for passage "
+					+ passage.name);
+                return;
+            }
 			scene_json.fallback = pipe_split_line[0].substring(2).trim();
 			var fallback_passage_name = pipe_split_line[1].trim();
 			var fallback_passage = story.passage(pipe_split_line[1].trim())
@@ -168,9 +195,6 @@ function PassageToJson(passage){
             scene_json.fall_in = line.substring(2);
         }
 	}
-    if (needs_change){
-        alert("Passage \"" + passage.name + "\" needs attention.");
-    }
 	if (!has_speaker){
 		alert("Warning: No speaker in passage " + passage.name);
 		return;

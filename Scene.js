@@ -1,7 +1,7 @@
 Scene = function(manager, scene_data){
 	this.manager = manager;
 
-	Phaser.Group.call(this, game);
+	//Phaser.Group.call(this, game);
 
 	this.id = scene_data.id;
 	this.dialogue = scene_data.dialogue;
@@ -41,17 +41,15 @@ Scene.prototype.LoadDialogueText = function(text){
 
 Scene.prototype.Load = function(correctness){
 	var index = 0;
-	if (correctness < 60){
-		if (this.dialogue.length == 4){
-            index = 3;
+	if (correctness < 65){
+		if (this.dialogue.length == 3){
+            index = 2;
 		} else if (this.dialogue.length == 1){
             index = 0;
         } else {
 			return false;
 		}
-	} else if (correctness < 75){
-		index = 2;
-	} else if (correctness < 90){
+	} else if (correctness < 85){
 		index = 1;
 	}
 	this.LoadDialogueText(this.dialogue[index]);
@@ -73,7 +71,7 @@ Scene.prototype.Load = function(correctness){
 			word.text);
 		text.manager = this.manager;
 		text.font = global_font;
-		text.fontSize = (100 - a) * .15 + 10;
+		text.fontSize = Math.ceil(((100 - a) * (100 - a)) / 10000 * 15 + 10);
 		text.fill = "#FFFFFF";
 		text.setShadow(1, 1, "rgba(0,0,0,1.0)", 10);
 		text.inputEnabled = true;

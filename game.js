@@ -25,7 +25,7 @@ var timer_icon_h = 30;
 // dialogue box dimensions
 var dialogue_box_w = 600;
 var dialogue_box_h = 125;
-var dialogue_text_w = 33;
+var dialogue_text_w = 30;
 // location of dialogue boxes
 var dialogue_box_x = 100;
 var dialogue_box_1_y = 25;

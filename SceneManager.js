@@ -75,6 +75,7 @@ SceneManager.prototype.LoadScene = function(scene_num, correctness){
             var text = this.floating_text.pop();
             text.destroy();
         }
+        game.input.onDown.remove(this.ContinueMaybe, this);
     }
     if (this.scenes[scene_num].Load(correctness)){
         this.currscene = this.scenes[scene_num];
@@ -93,6 +94,8 @@ SceneManager.prototype.LoadScene = function(scene_num, correctness){
 			text.font = global_font;
 			text.fontSize = global_font_size;
             this.state.dialogue_text_layer.add(text);
+            this.query.words.push(text);
+            game.input.onDown.add(this.ContinueMaybe, this);
         }
 		return true;
     }
@@ -210,7 +213,7 @@ SceneManager.prototype.EvaluateSentence = function(query, sentence) {
         (crucial_words.length - n_crucial_words + n_crucial_wo3)
         / crucial_words.length;
 	var extra_error = non_crucial_words.length == 0 ?
-        0 :
+        1 :
         (non_crucial_words.length - n_non_crucial_words + n_non_crucial_wo3)
         / non_crucial_words.length;
 	var trivial_error = trivial_words.length == 0 ?
@@ -219,8 +222,8 @@ SceneManager.prototype.EvaluateSentence = function(query, sentence) {
 	var random_error = 
 		(random_words_in * CUP / crucial_words.length)
          + (non_crucial_words.length == 0 ?
-               0 :
-               random_words_out * EUP / 2 / non_crucial_words.length);
+               random_words_out * EUP :
+               random_words_out * EUP / non_crucial_words.length);
 	var score = Math.max(100
                     - Math.floor(crucial_error * CUP)
                     - Math.floor(extra_error * EUP)
@@ -261,7 +264,6 @@ SceneManager.prototype.PopWordFromQuery = function(item){
 	if (this.query.x <= 0 && this.query.words.length != 0){
 		this.query.y -= 1;
 		this.query.x = this.query.linewidths.pop();
-		this.button_back.y -= query_y_height;
 	}
 }
 SceneManager.prototype.EvaluateQuery = function(key){
@@ -279,10 +281,10 @@ SceneManager.prototype.EvaluateQuery = function(key){
 			next_scene.correctness = correctness;
 		}
     }
-    if (next_scene.correctness >= 60){
-		if (sentences[next_scene.sentence].OnCorrect){
-			sentences[next_scene.sentence].OnCorrect(next_scene.correctness);
-		}
+    if (next_scene.correctness >= 65){
+		//if (septences[next_scene.sentence].OnCorrect){
+		//	sentences[next_scene.sentence].OnCorrect(next_scene.correctness);
+		//}
         this.LoadScene(next_scene.scene, next_scene.correctness);
     } else {
 		this.retries--;
@@ -291,6 +293,13 @@ SceneManager.prototype.EvaluateQuery = function(key){
 		this.button_submit.loadTexture("backspace");
 		this.currscene.LoadDialogueText(this.currscene.fall_in);
 	}
+}
+SceneManager.prototype.ContinueMaybe = function(){
+    if (this.currscene.retries == -1){
+        this.LoadScene(this.currscene.fallback_scene, 0);
+    } else if (this.currscene.retries == -2){
+        game.state.start(this.nextscene);
+    }
 }
 SceneManager.prototype.Update = function(){
 	if (this.dialogue_pos < this.dialogue_chars.length){
@@ -309,12 +318,6 @@ SceneManager.prototype.Update = function(){
 		}
 		this.dialogue_frames++;
 	} else {
-        if (game.input.activePointer.justPressed()){
-            if (this.currscene.retries == -1){
-            } else if (this.currscene.retries == -2){
-                game.state.start(this.nextscene);
-            }
-        }
         if (!this.state.floating_text_layer.visible && this.currscene.retries >= 0){
 			this.state.general_ui_layer.visible = true;
             this.state.floating_text_layer.visible = true;
