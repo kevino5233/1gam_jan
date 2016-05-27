@@ -95,7 +95,6 @@ var event_happened = false; //example
 var game = new Phaser.Game(game_w, game_h, Phaser.AUTO, "Phaser-Game");
 
 game.state.add("boot", boot_state);
-game.state.add("test", test_state);
 game.state.add("load", load_state);
 game.state.add("intro", intro_state);
 game.state.add("breakfast", breakfast_state);
