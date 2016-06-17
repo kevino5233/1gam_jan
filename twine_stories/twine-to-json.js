@@ -165,9 +165,10 @@ function PassageToJson(passage){
 					+ passage.name);
                 return;
             }
-			scene_json.fallback = pipe_split_line[0].substring(2).trim();
+			scene_json.fallback = pipe_split_line[0].substring(3).trim();
 			var fallback_passage_name = pipe_split_line[1].trim();
-			var fallback_passage = story.passage(pipe_split_line[1].trim())
+            console.log(fallback_passage_name);
+			var fallback_passage = story.passage(fallback_passage_name)
 			if (fallback_passage){
 				if (fallback_passage.tags.includes("fallback-passage") || 
 				    fallback_passage.tags.includes("fallback-only")){

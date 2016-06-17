@@ -41,7 +41,7 @@ Scene.prototype.LoadDialogueText = function(text){
 
 Scene.prototype.Load = function(correctness){
 	var index = 0;
-	if (correctness < 65){
+	if (correctness < L1_correctness){
 		if (this.dialogue.length == 3){
             index = 2;
 		} else if (this.dialogue.length == 1){
@@ -49,7 +49,7 @@ Scene.prototype.Load = function(correctness){
         } else {
 			return false;
 		}
-	} else if (correctness < 85){
+	} else if (correctness < L2_correctness){
 		index = 1;
 	}
 	this.LoadDialogueText(this.dialogue[index]);
@@ -106,7 +106,7 @@ Scene.prototype.Load = function(correctness){
 				- text.fontSize / 2;
             if (text_x < 0) {
                 text_x = 0;
-            } else if (text_x > game_w) {
+            } else if (text_x + word.text.length * text.fontsize > game_w) {
                 text_x = game_w - word.text.length * text.fontsize;
             }
             if (text_y < dialogue_box_1_y + dialogue_box_h) {

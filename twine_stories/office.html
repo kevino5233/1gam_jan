@@ -30,6 +30,8 @@ office
 
 
 
+
+
 </style><script role="script" id="twine-user-script" type="text/twine-javascript">// Copy and paste this into your twine javascript section
 
 function PassageToJson(passage){
@@ -281,6 +283,8 @@ download_link.id = "story-json-link";
 download_link.href = window.URL.createObjectURL(blob);
 download_link.download= story.name + ".json";
 document.body.insertBefore(download_link, document.getElementById("passage"));
+
+
 </script><tw-passagedata pid="1" name="Office0" tags="no-pressure start-passage" position="19,15"># Tim
 
 + Sup.
@@ -455,11 +459,11 @@ Name		50
 
 [[~~Thats~~ such a *ridiculous* *name* ~~though~~ |Office14]] 80 10
 </tw-passagedata>
-<tw-passagedata pid="7" name="Office6" tags="fallback-passage" position="346,312"># Tim
+<tw-passagedata pid="7" name="Office6" tags="fallback-passage" position="344,329"># Tim
 
-+ Email from Jeff? Fuck you&#39;re right. This should cheer you up.
-+ Email from Jeff? Woopty fucking doo. Cheer up this is where your day picks up.
-+ Aww fuck email from Jeff.
++ Email from Jeff? Fuck you&#39;re right. Here comes our lovely manager to brighten your day.
++ Email from Jeff? Woopty fucking doo. Well cheer up, our lovely manager is here to brighten your day.
++ Aww fuck email from our lovely manager Jeff.
 - Wanna hear what it says or you&#39;ll read it yourself? | Office21
 * What&#39;d you say dude?
 
@@ -672,9 +676,17 @@ I			30
 Guess		30
 ```
 
-[[Still Sounds kinda *lame* |Office15]] 70 30
+[[~~that~~ Still Sounds kinda *lame* |Office15]] 70 30
 
-[[~~That~~ *could* ~~still~~ *be* *good* I guess |Office17]] 85 15</tw-passagedata>
+[[~~Still~~ ~~that~~ Could be *lame* |Office15]] 70 30
+
+[[*that* *lame* |Office15]] 70 5
+
+[[~~That~~ *could* ~~still~~ *be* *good* I guess |Office17]] 85 15
+
+[[~~guess~~ ~~that~~ sounds *good* |Office17]] 70 20
+
+[[*that* *good* |Office17]] 70 5</tw-passagedata>
 <tw-passagedata pid="14" name="Office16" tags="end-passage" position="1545,867"># Tim
 
 + You know it. Oh I think that noise is your coffee in the breakroom. You should get it.
@@ -718,7 +730,7 @@ Do	40
 + Yeah, whatever. I think your coffee is done. You should go get it from the break room. You&#39;ll need it for today&#39;s meeting.
 + Yeah, whatever. Your coffee in the break room is done.
 + Your coffee in the break room is done.</tw-passagedata>
-<tw-passagedata pid="17" name="Office21" tags="high-pressure fallback-passage dialogue-only" position="775.0001,327"># Tim
+<tw-passagedata pid="17" name="Office21" tags="high-pressure fallback-passage dialogue-only" position="775,327"># Tim
 
 + &#39;Hello Scratchware Crew&#39;...blah blah blah...Calvin Claw&#39;n is the new customer...&#39;discussing the final terms at today&#39;s meeting&#39; okay cool....
 + &#39;Hello Scratchware Crew&#39;...blah blah blah...Calvin Claw&#39;n is the new customer...&#39;discussing the final terms at today&#39;s meeting&#39; okay cool....
@@ -893,7 +905,7 @@ Later	50
 [[~~god~~ ~~damnit~~ I&#39;ll *read* it *later* |Office31]] 90 10
 
 [[~~god~~ ~~damnit~~ *Lay* *it* *out* *later* |Office31]] 95 5</tw-passagedata>
-<tw-passagedata pid="25" name="Office30" tags="fallback-only" position="980.0001,352"># Tim
+<tw-passagedata pid="25" name="Office30" tags="fallback-only" position="980,352"># Tim
 
 + Tech support...wait, procedural graphics generation and catmull learning? In one month? What the fuck, Jeff is crazy! They need more time in the lab than that.
 - God Jeff does anything the clients say. | Office19
@@ -930,7 +942,7 @@ Spine	80
 [[Well *that&#39;s* *jeff* |Office18]] 90 10
 
 [[*Jeff* seriously *has* *no* *spine* |Office18]] 90 10</tw-passagedata>
-<tw-passagedata pid="26" name="Office31" tags="" position="607.0004999999999,462"># Tim
+<tw-passagedata pid="26" name="Office31" tags="" position="607,462"># Tim
 
 + Alright dude, but make sure you read it before today&#39;s meeting. Jeff won&#39;t be happy if you forget.
 + Suit yourself dude. Jeff&#39;ll tear you a new one at today&#39;s meeting if you don&#39;t read it later though.
@@ -988,8 +1000,8 @@ Whatever 	25
 [[*Thanks* |Office33]] 95 10</tw-passagedata>
 <tw-passagedata pid="28" name="Office33" tags="" position="763,97"># Tim
 
-+ Yeah don&#39;t worry abo--actually. Do worry, email from Jeff.
-+ Yeah man stop com--aww crap. Email from Jeff.
++ Yeah don&#39;t worry abo--actually. Do worry, email from our lovely manager, Jeff.
++ Yeah man stop com--aww crap. Email from our lovely manager, Jeff.
 - Wanna hear what it says or you&#39;ll read it yourself? | Office21
 * What&#39;d you say dude?
 
@@ -1105,6 +1117,8 @@ Annoying	50
 Aren&#39;t		80
 I			80
 ```
+
+[[~~I&#39;m~~ ~~I~~ *Sorry* |Office38]] 90 10
 
 [[*Sorry* *I&#39;m* just *down* |Office38]] 90 10
 
@@ -1716,7 +1730,7 @@ Later	50
 [[~~god~~ ~~damnit~~ I&#39;ll *read* it *later* |Office31]] 90 10
 
 [[~~god~~ ~~damnit~~ *Lay* *it* *out* *later* |Office31]] 95 5</tw-passagedata>
-<tw-passagedata pid="58" name="Office61" tags="fallback-passage" position="607.0005999999998,616"># Tim
+<tw-passagedata pid="58" name="Office61" tags="fallback-passage" position="607,616"># Tim
 
 + Well, I&#39;ll just read it myself then.
 + Well, I&#39;ll just read it myself then.
@@ -1762,7 +1776,7 @@ Really	40
 [[*It&#39;s* *alright* really |Office19]] 86 5
 
 [[*It&#39;s* *welcome* really |Office19]] 86 5</tw-passagedata>
-<tw-passagedata pid="60" name="Office63" tags="" position="691.0002,202"># Tim
+<tw-passagedata pid="60" name="Office63" tags="" position="691,202"># Tim
 
 + Oh okay, that was fast. I&#39;m gonna read through it real quick. So let&#39;s see, setting up the deal with our client Calvin Claw&#39;n...
 + You sure? That was really fucking fast. Lemme read through it real quick.
@@ -1784,7 +1798,7 @@ Didn&#39;t 70
 [[*I* *Actually* *didn&#39;t* |Office68]] 95 5
 
 [[*Actually* *I* *didn&#39;t* |Office68]] 95 5</tw-passagedata>
-<tw-passagedata pid="61" name="Office64" tags="" position="732.0002999999999,581"># Tim
+<tw-passagedata pid="61" name="Office64" tags="" position="732,581"># Tim
 
 + Well, yeah he wrote the email. I don&#39;t get what you&#39;re saying.
 + What&#39;re you talking about? He WROTE the email, of course he read it!
@@ -1907,13 +1921,13 @@ Difficult	50
 [[*you* so *difficult* |Office37]] 90 5
 
 [[*you* have got so *difficult* |Office37]] 80 15</tw-passagedata>
-<tw-passagedata pid="65" name="Office68" tags="dialogue-only" position="884.0002999999999,190"># Tim
+<tw-passagedata pid="65" name="Office68" tags="dialogue-only" position="884,190"># Tim
 
 + What? Why did you--oh forget it. Alright starting from the beggining. &#39;Hello Scratchware Crew&#39;...blah blah blah...Calvin Claw&#39;n is the new customer...&#39;discussing the final terms at today&#39;s meeting&#39; okay cool....
 + Wha? Okay so you just--oh forget it. From the beggining: &#39;Hello Scratchware Crew&#39;...blah blah blah...Calvin Claw&#39;n is the new customer...&#39;discussing the final terms at today&#39;s meeting&#39; okay cool....
 
 [[Office30]]</tw-passagedata>
-<tw-passagedata pid="66" name="Office69" tags="dialogue-only" position="784.0005999999998,707"># Tim
+<tw-passagedata pid="66" name="Office69" tags="dialogue-only" position="784,707"># Tim
 
 + What? Why did you--oh forget it. Alright starting from the beggining. &#39;Hello Scratchware Crew&#39;...blah blah blah...Calvin Claw&#39;n is the new customer...&#39;discussing the final terms at today&#39;s meeting&#39; okay cool....
 + Wha? Okay so you just--oh forget it. From the beggining: &#39;Hello Scratchware Crew&#39;...blah blah blah...Calvin Claw&#39;n is the new customer...&#39;discussing the final terms at today&#39;s meeting&#39; okay cool....
@@ -1979,7 +1993,7 @@ Spine	80
 [[Well *that&#39;s* *jeff* |Office18]] 90 10
 
 [[*Jeff* seriously *has* *no* *spine* |Office18]] 90 10</tw-passagedata>
-<tw-passagedata pid="69" name="Office72" tags="needs-change" position="221.0001,343"># Tim
+<tw-passagedata pid="69" name="Office72" tags="needs-change" position="209,344"># Tim
 
 + Yup
 + Yup
@@ -2004,9 +2018,9 @@ Tomorrow	50
 
 // What are you up to
 
-[[*What* are *you* *up* *to* *this* *weekend* |Office6]] 90 5
+[[*What* are *you* *up* *to* *this* *weekend* |Office7]] 90 5
 
-[[*What* are *you* *up* *to* *this* *tomorrow* |Office6]] 90 5
+[[*What* are *you* *up* *to* *this* *tomorrow* |Office7]] 90 5
 
 [[doesn&#39;t *EGGS4BREAK-fest* *start* *this* *weekend* |Office7]] 85 10
 

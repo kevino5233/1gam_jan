@@ -7,6 +7,8 @@ var game_fps = 60;
 var tau = Math.PI / 2;
 var circle = Math.PI * 2;
 var G = 4;
+var L1_correctness = 70;
+var L2_correctness = 85;
 // See wikipedia entry for Comparison Sort
 // Wait am I using this lmao. This looks useful though
 var minimum_sort = [0, 1, 3, 5, 7, 10, 13, 16, 19, 22, 26, 30, 34, 38, 42];
@@ -18,16 +20,16 @@ var normal_timer_len = 20;
 var pressure_timer_length = 10;
 var backup_dialogue_time = 7;
 // Timer positions
-var timer_icon_x = 100;
+var timer_icon_x = 10;
 var timer_icon_y = 415;
-var timer_icon_w = 30;
+var timer_icon_w = 35;
 var timer_icon_h = 30;
 // dialogue box dimensions
-var dialogue_box_w = 600;
+var dialogue_box_w = 800;
 var dialogue_box_h = 125;
-var dialogue_text_w = 30;
+var dialogue_text_w = 45;
 // location of dialogue boxes
-var dialogue_box_x = 100;
+var dialogue_box_x = 0;
 var dialogue_box_1_y = 25;
 var dialogue_box_2_y = 450;
 // In context of dialogue box dimensions
@@ -35,14 +37,16 @@ var text_offset = 20;
 var query_text_w = 30;
 var query_y_height = 25;
 var button_y = 385;
-var submit_button_x = 180;
-var backspace_button_x = 140;
-var clear_button_x = 100;
+var submit_button_x = 83;
+var backspace_button_x = 48;
+var clear_button_x = 13;
 // Start the game!
 function StartGame(){
 	if(click_to_play){
 		click_to_play = null;
 		game.state.start("breakfast");
+		//game.state.start("office");
+		//game.state.start("breakroom");
 	}
 }
 // Go back to the main menu

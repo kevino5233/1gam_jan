@@ -176,6 +176,7 @@ SceneManager.prototype.EvaluateSentence = function(query, sentence) {
 	var n_trivial_words = 0;
 	var trivial_words = sentence.trivial_words;
 	var trivial_words_pos = new Array(trivial_words.length);
+	trivial_words_pos.fill(-1);
 	for (var i = 0; i < query_words.length && trivial_words; i++) {
 		for (var j = 0; j < trivial_words.length; j++) {
 			if (query_words[i] == words[trivial_words[j]]) {
@@ -195,6 +196,15 @@ SceneManager.prototype.EvaluateSentence = function(query, sentence) {
     // count random words in between CW and outside CW
 	var non_random_words = crucial_words_order.concat(
 		non_crucial_words_order.concat(trivial_words_pos)).sort();
+    // remove duplicates
+	k = 0;
+	while (k + 1< non_random_words.length) {
+		if (non_random_words[k] == non_random_words[k + 1]) {
+			non_random_words.splice(k, 1);
+		} else {
+			k++;
+		}
+	}
 	var random_words_in = 0;
 	var random_words_out = 0;
 	k = 0;
@@ -269,6 +279,17 @@ SceneManager.prototype.PopWordFromQuery = function(item){
 SceneManager.prototype.EvaluateQuery = function(key){
 	var sentences = this.currscene.sentences;
     var query = [];
+    if (this.query.words.length == 0) {
+        if (this.LoadScene(this.currscene.fallback_scene, 0)){
+            return;
+        } else {
+            this.retries--;
+            this.errorsound.play();
+            this.error_timer_pos = 0;
+            this.button_submit.loadTexture("backspace");
+            this.currscene.LoadDialogueText(this.currscene.fall_in);
+        }
+    }
 	for (var i = 0; i < this.query.words.length; i++){
         query.push(this.query.words[i].text);
     }
@@ -281,7 +302,7 @@ SceneManager.prototype.EvaluateQuery = function(key){
 			next_scene.correctness = correctness;
 		}
     }
-    if (next_scene.correctness >= 65){
+    if (next_scene.correctness >= 70){
 		//if (septences[next_scene.sentence].OnCorrect){
 		//	sentences[next_scene.sentence].OnCorrect(next_scene.correctness);
 		//}

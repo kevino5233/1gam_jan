@@ -39,22 +39,16 @@ var intro_state = {
 		var centerx = game_w / 2;
 		var centery = game_h / 2;
 		for (var i = 0; i < 2; i++){
-			var randx = RandomFloat(-100, 100);
-			var randy = RandomFloat(-100, 100);
-			var text = game.add.text(
-					centerx +
-					randx +
-					Math.cos(tau * RandomFloat(0, 4)) * 100,
-					centery +
-					randy +
-					Math.sin(tau * RandomFloat(0, 4)) * 100,
-				i == 0 ? "Play" : "Credits");
+			var notrandx = Math.cos(tau * 2 * i) * 100;
+			var notrandy = Math.sin(tau * 2 * i) * 100;
+			var text = game.add.text(0, 0,
+				i == 1 ? "Play" : "Credits");
 			text.manager = this.manager;
 			text.font = global_font;
 			text.fontSize = global_font_size * 2;
 			text.fill = "#000000";
 			text.inputEnabled = true;
-			text.events.onInputUp.add(i == 0 ? this.PlayGame : this.Credits, this);
+			text.events.onInputUp.add(i == 1 ? this.PlayGame : this.Credits, this);
 			text.events.onInputOver.add(
 				function(item){
 					item.fill = "#FF1AFF";
@@ -74,11 +68,11 @@ var intro_state = {
 			path["pos"] = 0;
 			for (var j = 0; j < T; j++){
 				var pos = [];
-				var text_x = h_radius * Math.cos(theta) + centerx + randx;
-				var text_y = v_radius * Math.sin(theta) + centery + randy;
+				var text_x = h_radius * Math.cos(theta) + centerx + notrandx;
+				var text_y = v_radius * Math.sin(theta) + centery + notrandy;
 				if (text_x < 0) {
 					text_x = 0;
-				} else if (text_x > game_w) {
+				} else if (text_x + 6 * text.fontsize > game_w) {
 					text_x = game_w - 6 * text.fontsize;
 				}
 				if (text_y < dialogue_box_1_y + dialogue_box_h) {
@@ -98,40 +92,36 @@ var intro_state = {
 		this.menu_layers[this.PLAY].add(game.add.text(50, 100,
 			"In this game, you talk by clicking on\n" +
 			"individual words that float around in\n" +
-			"the middle of the screen to make sentences.", style));
-		this.menu_layers[this.PLAY].add(game.add.text(100, 200,
+			"the middle of the screen to make sentences.\n\n" +
+            "This game has explicit language.", style));
+		// Play layer
+		this.menu_layers[this.PLAY].add(game.add.text(100, 250,
 			"If you add a word you didn't mean to, simply\n" +
 			"click the delete button.", style));
-		this.menu_layers[this.PLAY].add(game.add.text(100, 250,
+		this.menu_layers[this.PLAY].add(game.add.text(100, 300,
 			"If you've added a lot of words you didn't want to,\n" +
 			"hit the clear button.", style));
-		this.menu_layers[this.PLAY].add(game.add.text(100, 300, 
+		this.menu_layers[this.PLAY].add(game.add.text(100, 350, 
 			"When you're ready to speak,\n" +
 			"hit the submit button.", style));
-		this.menu_layers[this.PLAY].add(game.add.text(50, 400,
+		this.menu_layers[this.PLAY].add(game.add.text(50, 450,
 			"Click anywhere to start.", style));
-		this.menu_layers[this.PLAY].add(game.add.sprite(50, 200, "backspace"));
-		this.menu_layers[this.PLAY].add(game.add.sprite(50, 250, "clear"));
-		this.menu_layers[this.PLAY].add(game.add.sprite(50, 300, "submit"));
+		this.menu_layers[this.PLAY].add(game.add.sprite(50, 250, "backspace"));
+		this.menu_layers[this.PLAY].add(game.add.sprite(50, 300, "clear"));
+		this.menu_layers[this.PLAY].add(game.add.sprite(50, 350, "submit"));
 		game.add.audio("gnossiene_2", 1, true).play();
 		// Credits layer
 		for (var i = 0; i < 2; i++){
-			var randx = RandomFloat(-100, 100);
-			var randy = RandomFloat(-100, 100);
-			var text = game.add.text(
-					centerx +
-					randx +
-					Math.cos(tau * RandomFloat(0, 4)) * 100,
-					centery +
-					randy +
-					Math.sin(tau * RandomFloat(0, 4)) * 100,
-				i == 0 ? "@kevino_is_me" : "Back");
+			var notrandx = Math.cos(tau * 2 * i) * 100;
+			var notrandy = Math.sin(tau * 2 * i) * 100;
+			var text = game.add.text(0, 0,
+				i == 1 ? "@kevino_is_me" : "Back");
 			text.manager = this.manager;
 			text.font = global_font;
 			text.fontSize = global_font_size * 2;
-			text.fill = i == 0 ? "#1DA1F2" : "#000000";
+			text.fill = i == 1 ? "#1DA1F2" : "#000000";
 			text.inputEnabled = true;
-			if (i == 1) {
+			if (i == 0) {
 				text.events.onInputUp.add(this.Menu, this);
 				text.events.onInputOver.add(
 					function(item){
@@ -146,20 +136,24 @@ var intro_state = {
 			this.floating_obj.push(text);
 			var T = Math.ceil(Math.sqrt(150 / G) * Math.PI * 150);
 			var theta = (tau * i) % circle; //initialize as actual angle
-			var dtheta = circle / T * (2 * RandomInt(0, 1) - 1);
+			var dtheta = circle / T * (2 * i - 1);
 			var h_radius = 25;
 			var v_radius = Math.sqrt(50) * 5;
 			var path = [];
 			path["pos"] = 0;
 			for (var j = 0; j < T; j++){
 				var pos = [];
-				var text_x = h_radius * Math.cos(theta) + centerx + randx;
-				var text_y = v_radius * Math.sin(theta) + centery + randy;
+				var text_x = h_radius * Math.cos(theta) + centerx + notrandx;
+				var text_y = v_radius * Math.sin(theta) + centery + notrandy;
 				if (text_x < 0) {
 					text_x = 0;
-				} else if (text_x + (i + 1) * 8 * text.fontsize > game_w) {
-					text_x = game_w - (i + 1) * 8 * text.fontsize;
-				}
+                } else if (text_x
+                           + i * 100
+                           + text.text.length * text.fontsize > game_w) {
+                    text_x = game_w
+                             - i * 100
+                             - text.text.length * text.fontsize;
+                }
 				if (text_y < dialogue_box_1_y + dialogue_box_h) {
 					text_y = dialogue_box_1_y + dialogue_box_h + 10;
 				} else if (text_y + text.fontSize + 10 > timer_icon_y) {
@@ -172,7 +166,7 @@ var intro_state = {
 				theta %= circle;
 			}
 			this.floating_obj_paths.push(path);
-			if (i == 0){
+			if (i == 1){
 				var icon = game.add.sprite(text.x - 60, text.y - 15, "twitter");
 				var icon_path = [];
 				icon_path["pos"] = 0;

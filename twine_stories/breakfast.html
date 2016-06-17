@@ -26,6 +26,8 @@ breakfast
 
 
 
+
+
 </style><script role="script" id="twine-user-script" type="text/twine-javascript">// Copy and paste this into your twine javascript section
 
 function PassageToJson(passage){
@@ -83,8 +85,7 @@ function PassageToJson(passage){
 			continue;
 		}
         if (line.startsWith("//") && needs_change){
-            alert("Passage \"" + passage.name + "\" needs attention.\n" + line.substring(3));
-            needs_change = false;
+            alert("Passage \"" + passage.name + "\" needs attention:\n" + line.substring(3));
         } else if (line.startsWith("```")){
 			wordbank_mode = !wordbank_mode;
 			if (wordbank_mode && has_wordbank){
@@ -106,25 +107,25 @@ function PassageToJson(passage){
 			scene_json.speaker = line.substring(2);
 			has_speaker = true;
 		} else if (line[0] == '[') {
-			var reached_details = false;
-			var sentence = line.split(/\[+|\]+\s*|\s+/);
-			var sentence_json = {
-                crucial_words: [],
-                non_crucial_words: [],
-                trivial_words: [],
-                words: []
-            };
             if (dialogue_only){
-                var next_passage = line[0].substring(2, line[0].length - 2);
+                var next_passage = story.passage(line.substring(2, line.length - 2));
                 if (!next_passage){
                     alert("Error: Destination scene \"" + sentence_word.substring(1) +
                           "\"is invalid at passage " + passage.name);
                     return;
                 } else {
-                    sentence_json.response = next_passage.id - 1;
-                    reached_details = true;
+                    scene_json.fallback_scene = next_passage.id - 1;
                 }
             } else {
+                var sentence = line.split(/\[+|\]+\s*|\s+/);
+                var sentence_json = {
+                    crucial_words: [],
+                    non_crucial_words: [],
+                    trivial_words: [],
+                    words: []
+                };
+                var reached_details = false;
+                var details = 0;
                 has_sentences = true;
                 for (var j = 0; j < sentence.length; j++){
                     var sentence_word = sentence[j];
@@ -133,8 +134,10 @@ function PassageToJson(passage){
                     } else if (reached_details){
                         if (sentence_json.CUP){
                             sentence_json.EUP = parseInt(sentence_word);
+                            details++;
                         } else {
                             sentence_json.CUP = parseInt(sentence_word);
+                            details++;
                         }
                     } else {
                         if (sentence_word[0] == "|"){
@@ -165,6 +168,15 @@ function PassageToJson(passage){
                         }
                     }
                 }
+                if (!reached_details){
+                    console.log(line);
+                    alert("Error: Malformed sentence in passage " + passage.name);
+                    return;
+                }
+                if (details < 2){
+                    alert("Error: Missing EUP or CUP at passage " + passage.name);
+                    return;
+                }
             }
 			scene_json.sentences.push(sentence_json);
 		} else if (line[0] == '+'){
@@ -183,9 +195,10 @@ function PassageToJson(passage){
 					+ passage.name);
                 return;
             }
-			scene_json.fallback = pipe_split_line[0].substring(2).trim();
+			scene_json.fallback = pipe_split_line[0].substring(3).trim();
 			var fallback_passage_name = pipe_split_line[1].trim();
-			var fallback_passage = story.passage(pipe_split_line[1].trim())
+            console.log(fallback_passage_name);
+			var fallback_passage = story.passage(fallback_passage_name)
 			if (fallback_passage){
 				if (fallback_passage.tags.includes("fallback-passage") || 
 				    fallback_passage.tags.includes("fallback-only")){
@@ -213,9 +226,6 @@ function PassageToJson(passage){
             scene_json.fall_in = line.substring(2);
         }
 	}
-    if (needs_change){
-        alert("Passage \"" + passage.name + "\" needs attention.");
-    }
 	if (!has_speaker){
 		alert("Warning: No speaker in passage " + passage.name);
 		return;
@@ -269,13 +279,14 @@ download_link.innerHTML = "Download story JSON";
 download_link.id = "story-json-link";
 download_link.href = window.URL.createObjectURL(blob);
 download_link.download= story.name + ".json";
-document.body.insertBefore(download_link, document.getElementById("passage"));</script><tw-passagedata pid="1" name="Morning2" tags="fallback-passage" position="230,242"># Kevin (over text)
+document.body.insertBefore(download_link, document.getElementById("passage"));
+</script><tw-passagedata pid="1" name="Morning2" tags="fallback-passage" position="231,241"># Kevin (over text)
 
 + Anyways I made you breakfast. Guess what it is :)
 + Anyways I made you breakfast. Guess what it is :)
 + Anyways I made you breakfast. Guess what it is :)
 - You there? Don&#39;t waste my breakfast dawg. | Morning3
-* What? I don&#39;t want this to go to waste.
+* What? I didn&#39;t understand that.
 
 ```
 Oh 30
@@ -288,7 +299,7 @@ Vegan 60
 Tacos 60
 ```
 
-[[~~Oh~~ Cool *Thanks* |Morning7]] 90 10
+[[~~Oh~~ Cool *Thanks* |Morning7]] 80 20
 
 [[~~oh~~ ~~Cool~~ ~~thanks~~ *What&#39;s* In *It* |Morning9]] 80 20
 
@@ -372,7 +383,7 @@ Me 30
 <tw-passagedata pid="5" name="Morning0" tags="start-passage" position="48,86"># Kevin (over text)
 
 + Hey, text me when you wake up.
-- Still not up? You have work soon dude! | Morning2
+- Still not up? You have work soon dude! | Morning8
 * HOW DID YOU GET HERE ARE YOU GENIUS
 
 ```
@@ -388,7 +399,7 @@ Morning 30
 + Yo! What&#39;s up
 + Yo! What&#39;s up.
 - Hello? Fall asleep again? | Morning8
-* Only half-awake I see.
+* Only half-awake I see. Say that again?
 
 ```
 Not 30
@@ -398,12 +409,12 @@ Woke 30
 Up 30
 ```
 
-[[*Not* *Much* ~~just~~ ~~woke~~ ~~up~~ |Morning2]] 90 0
+[[*Not* *Much* ~~just~~ ~~woke~~ ~~up~~ |Morning2]] 90 10
 
-[[*just* *woke* *up* ~~not~~ ~~much~~ |Morning2]]  90 0
+[[just *woke* *up* ~~not~~ ~~much~~ |Morning2]]  90 10
 
 [[*not* *woke* Up ~~much~~ |Morning11]] 90 10</tw-passagedata>
-<tw-passagedata pid="7" name="Morning8" tags="fallback-only" position="61,416"># Kevin (over text)
+<tw-passagedata pid="7" name="Morning8" tags="fallback-only" position="61,417"># Kevin (over text)
 
 + Dude! Wake up! You have work!
 - ... | Morning10
@@ -420,7 +431,7 @@ Whatever 30
 
 [[~~Ah~~ ~~Woops~~ *Sorry* |Morning2]]  85 15
 
-[[~~Ah~~ *Woops* |Morning2]] </tw-passagedata>
+[[~~Ah~~ *Woops* |Morning2]] 85 15</tw-passagedata>
 <tw-passagedata pid="8" name="Morning10" tags="fallback-only" position="257,652"># Kevin (over text)
 
 + Well anyways, I made you some breakfast in the fridge. It&#39;s your favorite!
@@ -502,10 +513,10 @@ Then 50
 
 [[~~Well~~ *Congrats* with that ~~then~~ |Morning15]] 80 15
 
-[[Well *Fine* *Then* ~~Congrats~~|Morning15]] 90 5
+[[Well *Fine* *Then* ~~Congrats~~ |Morning15]] 90 5
 
 [[*Fine* *With* *That* |Morning6]] 96 0</tw-passagedata>
-<tw-passagedata pid="11" name="Morning11" tags="" position="208,459"># Kevin (over text)
+<tw-passagedata pid="11" name="Morning11" tags="" position="208,460"># Kevin (over text)
 
 + Awake enough to talk though, haha. Anyways I made some extra breakfast so you can have the rest.
 + Someone&#39;s still asleep, haha. Anyways I made some extra breakfast so you can have the rest.
@@ -550,12 +561,12 @@ Breakfast 20
 Too 30
 ```
 
-[[*I* ~~think~~ ~~I~~ *Will* ~~too~~ |Morning6]] 90 0
+[[*I* ~~think~~ ~~I~~ *Will* ~~too~~ |Morning6]] 90 5
 
-[[I ~~think~~ ~~I~~ will *find* some *real* *breakfast* ~~too~~ |Morning6]] 85 15
+[[I ~~think~~ ~~I~~ will *find* some *real* *breakfast* ~~too~~ |Morning6]] 85 10
 
-[[*with* some *real* *breakfast* ~~too~~|Morning6]] 90 5</tw-passagedata>
-<tw-passagedata pid="13" name="Morning6" tags="end-passage fallback-passage" position="1007,285"># Kevin (over text)
+[[*with* some *real* *breakfast* ~~too~~ |Morning6]] 90 5</tw-passagedata>
+<tw-passagedata pid="13" name="Morning6" tags="end-passage fallback-passage" position="1006,285"># Kevin (over text)
 
 + Well good on you dude, I&#39;ll talk to you later. Have a good one at work!
 + You definitely need some coffee like right now. I&#39;ll talk to you later. Have a good one at work!
@@ -563,7 +574,7 @@ Too 30
 <tw-passagedata pid="14" name="Morning15" tags="end-passage" position="1003,454"># Kevin (over text)
 
 + Haha, well go get some coffee dude, and a vegan taco or something. I&#39;ll talk to you later after work.
-+ Go get some coffee dude, seems like you really need it- and a vegan taco or something. I&#39;ll talk to you later after work.</tw-passagedata>
++ Go get some coffee dude, seems like you really need it--and a vegan taco or something. I&#39;ll talk to you later after work.</tw-passagedata>
 </tw-storydata>
 
 
