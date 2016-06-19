@@ -40,6 +40,7 @@ var button_y = 385;
 var submit_button_x = 83;
 var backspace_button_x = 48;
 var clear_button_x = 13;
+var bg_audio = null;
 // Start the game!
 function StartGame(){
 	if(click_to_play){

@@ -30,6 +30,7 @@ SceneManager = function(state, scene_data, nextscene){
     this.dialogue_obj.font = global_font;
     this.dialogue_obj.fontSize = global_font_size;
     this.state.dialogue_text_layer.add(this.dialogue_obj);
+    this.just_finished = false;
 	// Initial x values of these buttons don't really matter
 	// since they'll be invisible and the values will be
 	// corrected as soon as words are pushed
@@ -48,7 +49,7 @@ SceneManager = function(state, scene_data, nextscene){
     this.timer_sprites = [];
     this.timer_len = normal_timer_len * game_fps;
     this.timer_curr = this.timer_len;
-    this.LoadScene(scene_data.start, 100);
+    this.LoadScene(scene_data.start, -1);
 }
 SceneManager.prototype.ClearQuery = function(){
     this.pushpopsound.play();
@@ -81,21 +82,10 @@ SceneManager.prototype.LoadScene = function(scene_num, correctness){
         this.currscene = this.scenes[scene_num];
         this.state.general_ui_layer.visible = false;
         this.state.floating_text_layer.visible = false;
+        this.just_finished = false;
         while (this.timer_sprites.length > 0){
             var timer_sprite = this.timer_sprites.pop();
             timer_sprite.destroy();
-        }
-        if (this.currscene.retries < 0){
-            var text = game.add.text(
-				dialogue_box_x + text_offset,
-				dialogue_box_2_y + text_offset,
-				"Click anywhere to continue.");
-			text.fill = "#FFFFFF";
-			text.font = global_font;
-			text.fontSize = global_font_size;
-            this.state.dialogue_text_layer.add(text);
-            this.query.words.push(text);
-            game.input.onDown.add(this.ContinueMaybe, this);
         }
 		return true;
     }
@@ -336,9 +326,24 @@ SceneManager.prototype.Update = function(){
 				this.speechsound.play();
 			}
 			this.dialogue_pos++;	
+            if (this.dialogue_pos == this.dialogue_chars.length){
+                this.just_finished = true;
+            }
 		}
 		this.dialogue_frames++;
 	} else {
+        if (this.just_finished && this.currscene.retries < 0){
+            var text = game.add.text(
+				dialogue_box_x + text_offset,
+				dialogue_box_2_y + text_offset,
+				"Click anywhere to continue.");
+			text.fill = "#FFFFFF";
+			text.font = global_font;
+			text.fontSize = global_font_size;
+            this.state.dialogue_text_layer.add(text);
+            this.query.words.push(text);
+            game.input.onDown.add(this.ContinueMaybe, this);
+        }
         if (!this.state.floating_text_layer.visible && this.currscene.retries >= 0){
 			this.state.general_ui_layer.visible = true;
             this.state.floating_text_layer.visible = true;
@@ -365,6 +370,9 @@ SceneManager.prototype.Update = function(){
                     console.log("shit fucked up");
                 }
             }
+        }
+        if (this.just_finished){
+            this.just_finished = false;
         }
     }
 

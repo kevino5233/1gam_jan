@@ -9,17 +9,20 @@ var intro_state = {
 		this.menu_layers[this.MENU].visible = true;
 		this.menu_layers[this.PLAY].visible = false;
 		this.menu_layers[this.CREDITS].visible = false;
+        document.getElementById("twitter-link").style.visibility = "visible";
 	},
 	PlayGame: function(){
 		click_to_play = true;
 		this.menu_layers[this.MENU].visible = false;
 		this.menu_layers[this.PLAY].visible = true;
 		this.menu_layers[this.CREDITS].visible = false;
+        document.getElementById("twitter-link").style.visibility = "visible";
 	},
 	Credits: function(){
 		this.menu_layers[this.MENU].visible = false;
 		this.menu_layers[this.PLAY].visible = false;
 		this.menu_layers[this.CREDITS].visible = true;
+        document.getElementById("twitter-link").style.visibility = "hidden";
 	},
     preload: function(){
     },
@@ -29,6 +32,8 @@ var intro_state = {
     },
     create: function(){
         document.body.style.background = "#ffff80";
+        document.getElementById("twitter-link").style.color = "#1DA1F2";
+        document.getElementById("twitter-img").src = "assets/icons/tw_ico.png";
         game.stage.backgroundColor = "#ffff80";
 		this.menu_layers = [game.add.group(), game.add.group(), game.add.group()];
 		var style = { font: global_font_size + "px " + global_font};
@@ -93,7 +98,7 @@ var intro_state = {
 			"In this game, you talk by clicking on\n" +
 			"individual words that float around in\n" +
 			"the middle of the screen to make sentences.\n\n" +
-            "This game has explicit language.", style));
+            "WARNING: This game has explicit language.", style));
 		// Play layer
 		this.menu_layers[this.PLAY].add(game.add.text(100, 250,
 			"If you add a word you didn't mean to, simply\n" +
@@ -109,7 +114,12 @@ var intro_state = {
 		this.menu_layers[this.PLAY].add(game.add.sprite(50, 250, "backspace"));
 		this.menu_layers[this.PLAY].add(game.add.sprite(50, 300, "clear"));
 		this.menu_layers[this.PLAY].add(game.add.sprite(50, 350, "submit"));
-		game.add.audio("gnossiene_2", 1, true).play();
+		if (!(bg_audio && bg_audio.isPlaying)){
+            bg_audio = game.add.audio("gnossiene_2", 1, false).play();
+            bg_audio.onStop.add(function(){
+                bg_audio.play();
+            });
+        }
 		// Credits layer
 		for (var i = 0; i < 2; i++){
 			var notrandx = Math.cos(tau * 2 * i) * 100;

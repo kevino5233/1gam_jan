@@ -9,6 +9,8 @@ var breakfast_state = {
         InitializeLayers(this);
         game.stage.backgroundColor = "#ff5c33";
         document.body.style.background ="#ff5c33"
+        document.getElementById("twitter-link").style.color = "black";
+        document.getElementById("twitter-img").src = "assets/icons/black_tw_ico.png";
 		// this will be pre-defined per level state
         this.manager = new SceneManager(
                 this,

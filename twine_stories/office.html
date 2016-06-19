@@ -10,12 +10,11 @@ office
 <body>
 <div id="passage"></div>
 
-<tw-storydata name="office" startnode="1" creator="Twine" creator-version="2.0.11" ifid="64D920B5-11C9-4062-9ED8-CF81F6DE6417" format="Snowman" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">#story-json-link {
+<tw-storydata name="office" startnode="70" creator="Twine" creator-version="2.0.11" ifid="64D920B5-11C9-4062-9ED8-CF81F6DE6417" format="Snowman" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">#story-json-link {
 	text-decoration-color: blue;
 	color: blue;
 	font-size: 20px;
 }
-
 
 
 
@@ -37,6 +36,7 @@ office
 function PassageToJson(passage){
 	if (!passage)
 		return;
+    var is_launch = false;
 	var has_speaker = false;
 	var has_retries = false;
 	var has_dialogue = false;
@@ -62,6 +62,12 @@ function PassageToJson(passage){
 		} else if (passage_tag == "high-pressure"){
 			scene_json.retries = 1;
 			has_retries = true;
+        } else if (passage_tag == "launch"){
+            dialogue_len = 0;
+            dialogue_only = true;
+            is_launch = true;
+            has_retries = true;
+            scene_json.retries = -1;
 		} else if (passage_tag == "low-pressure"){
 			scene_json.retries = 2;
 			has_retries = true;
@@ -201,7 +207,8 @@ function PassageToJson(passage){
             }
 			scene_json.fallback = pipe_split_line[0].substring(2).trim();
 			var fallback_passage_name = pipe_split_line[1].trim();
-			var fallback_passage = story.passage(pipe_split_line[1].trim())
+            console.log(fallback_passage_name);
+			var fallback_passage = story.passage(fallback_passage_name)
 			if (fallback_passage){
 				if (fallback_passage.tags.includes("fallback-passage") || 
 				    fallback_passage.tags.includes("fallback-only")){
@@ -233,7 +240,7 @@ function PassageToJson(passage){
 		alert("Warning: No speaker in passage " + passage.name);
 		return;
 	}
-	if (!has_dialogue){
+	if (!is_launch && !has_dialogue){
 		alert("Error: No dialogue in passage " + passage.name);
 		return;
 	}
@@ -252,7 +259,7 @@ function PassageToJson(passage){
 		}
 	} else if (has_sentences){
         alert("Error: Dialogue-only passage has sentence options in passage "
-            + passage.name);
+            + passage.name)
         return;
     }
 	if (scene_json.dialogue.length != dialogue_len){
@@ -264,7 +271,6 @@ function PassageToJson(passage){
 }
 
 var twine_passages = story.passages;
-var found_start = false;
 var passages = 1;
 var output_json = {
 	scenes : [],
@@ -283,8 +289,6 @@ download_link.id = "story-json-link";
 download_link.href = window.URL.createObjectURL(blob);
 download_link.download= story.name + ".json";
 document.body.insertBefore(download_link, document.getElementById("passage"));
-
-
 </script><tw-passagedata pid="1" name="Office0" tags="no-pressure start-passage" position="19,15"># Tim
 
 + Sup.
@@ -306,7 +310,7 @@ Tim		10
 // it on the top of the passage
 // otherwise put it after CUP and EUP in the passages (this is
 // gonna be dated pretty soon lol fuk)</tw-passagedata>
-<tw-passagedata pid="2" name="Office1" tags="fallback-passage" position="170,40"># Tim
+<tw-passagedata pid="2" name="Office1" tags="fallback-passage" position="202,67"># Tim
 
 + How&#39;s it going
 + How&#39;s it going
@@ -386,9 +390,9 @@ Tomorrow	60
 
 [[*Cool* |Office72]] 80 5
 
-[[*What* are *you* *up* *to* *this* *weekend* |Office6]] 90 5
+[[*What* are *you* *up* *to* *this* *weekend* |Office7]] 90 5
 
-[[*What* are *you* *up* *to* *this* *tomorrow* |Office6]] 90 5
+[[*What* are *you* *up* *to* *this* *tomorrow* |Office7]] 90 5
 
 [[doesn&#39;t *EGGS4BREAK-fest* *start* *this* *weekend* |Office7]] 85 10
 
@@ -459,11 +463,11 @@ Name		50
 
 [[~~Thats~~ such a *ridiculous* *name* ~~though~~ |Office14]] 80 10
 </tw-passagedata>
-<tw-passagedata pid="7" name="Office6" tags="fallback-passage" position="344,329"># Tim
+<tw-passagedata pid="7" name="Office6" tags="fallback-passage" position="346,312"># Tim
 
-+ Email from Jeff? Fuck you&#39;re right. Here comes our lovely manager to brighten your day.
-+ Email from Jeff? Woopty fucking doo. Well cheer up, our lovely manager is here to brighten your day.
-+ Aww fuck email from our lovely manager Jeff.
++ Email from Jeff? Fuck you&#39;re right. This should cheer you up.
++ Email from Jeff? Woopty fucking doo. Cheer up this is where your day picks up.
++ Aww fuck email from Jeff.
 - Wanna hear what it says or you&#39;ll read it yourself? | Office21
 * What&#39;d you say dude?
 
@@ -676,17 +680,9 @@ I			30
 Guess		30
 ```
 
-[[~~that~~ Still Sounds kinda *lame* |Office15]] 70 30
+[[Still Sounds kinda *lame* |Office15]] 70 30
 
-[[~~Still~~ ~~that~~ Could be *lame* |Office15]] 70 30
-
-[[*that* *lame* |Office15]] 70 5
-
-[[~~That~~ *could* ~~still~~ *be* *good* I guess |Office17]] 85 15
-
-[[~~guess~~ ~~that~~ sounds *good* |Office17]] 70 20
-
-[[*that* *good* |Office17]] 70 5</tw-passagedata>
+[[~~That~~ *could* ~~still~~ *be* *good* I guess |Office17]] 85 15</tw-passagedata>
 <tw-passagedata pid="14" name="Office16" tags="end-passage" position="1545,867"># Tim
 
 + You know it. Oh I think that noise is your coffee in the breakroom. You should get it.
@@ -1000,8 +996,8 @@ Whatever 	25
 [[*Thanks* |Office33]] 95 10</tw-passagedata>
 <tw-passagedata pid="28" name="Office33" tags="" position="763,97"># Tim
 
-+ Yeah don&#39;t worry abo--actually. Do worry, email from our lovely manager, Jeff.
-+ Yeah man stop com--aww crap. Email from our lovely manager, Jeff.
++ Yeah don&#39;t worry abo--actually. Do worry, email from Jeff.
++ Yeah man stop com--aww crap. Email from Jeff.
 - Wanna hear what it says or you&#39;ll read it yourself? | Office21
 * What&#39;d you say dude?
 
@@ -1117,8 +1113,6 @@ Annoying	50
 Aren&#39;t		80
 I			80
 ```
-
-[[~~I&#39;m~~ ~~I~~ *Sorry* |Office38]] 90 10
 
 [[*Sorry* *I&#39;m* just *down* |Office38]] 90 10
 
@@ -1993,7 +1987,7 @@ Spine	80
 [[Well *that&#39;s* *jeff* |Office18]] 90 10
 
 [[*Jeff* seriously *has* *no* *spine* |Office18]] 90 10</tw-passagedata>
-<tw-passagedata pid="69" name="Office72" tags="needs-change" position="209,344"># Tim
+<tw-passagedata pid="69" name="Office72" tags="needs-change" position="221,343"># Tim
 
 + Yup
 + Yup
@@ -2018,9 +2012,9 @@ Tomorrow	50
 
 // What are you up to
 
-[[*What* are *you* *up* *to* *this* *weekend* |Office7]] 90 5
+[[*What* are *you* *up* *to* *this* *weekend* |Office6]] 90 5
 
-[[*What* are *you* *up* *to* *this* *tomorrow* |Office7]] 90 5
+[[*What* are *you* *up* *to* *this* *tomorrow* |Office6]] 90 5
 
 [[doesn&#39;t *EGGS4BREAK-fest* *start* *this* *weekend* |Office7]] 85 10
 
@@ -2031,6 +2025,9 @@ Tomorrow	50
 [[You *up* *to* *EGGS4BREAK-fest* *tomorrow* |Office7]] 85 10
 
 [[Oh *Email* *From* *Jeff* |Office60]] 85 10</tw-passagedata>
+<tw-passagedata pid="70" name="Office" tags="launch" position="144.0003,0"># You arrive at work after having some real breakfast.
+
+[[Office0]]</tw-passagedata>
 </tw-storydata>
 
 

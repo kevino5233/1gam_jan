@@ -10,7 +10,7 @@ breakroom
 <body>
 <div id="passage"></div>
 
-<tw-storydata name="breakroom" startnode="1" creator="Twine" creator-version="2.0.11" ifid="09499101-3DB7-450E-8197-5D3CF62E58AF" format="Snowman" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">#story-json-link {
+<tw-storydata name="breakroom" startnode="47" creator="Twine" creator-version="2.0.11" ifid="09499101-3DB7-450E-8197-5D3CF62E58AF" format="Snowman" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">#story-json-link {
 	text-decoration: underline;
 	text-decoration-color: blue;
 	color: blue;
@@ -19,11 +19,13 @@ breakroom
 
 
 
+
 </style><script role="script" id="twine-user-script" type="text/twine-javascript">// Copy and paste this into your twine javascript section
 
 function PassageToJson(passage){
 	if (!passage)
 		return;
+    var is_launch = false;
 	var has_speaker = false;
 	var has_retries = false;
 	var has_dialogue = false;
@@ -49,6 +51,12 @@ function PassageToJson(passage){
 		} else if (passage_tag == "high-pressure"){
 			scene_json.retries = 1;
 			has_retries = true;
+        } else if (passage_tag == "launch"){
+            dialogue_len = 0;
+            dialogue_only = true;
+            is_launch = true;
+            has_retries = true;
+            scene_json.retries = -1;
 		} else if (passage_tag == "low-pressure"){
 			scene_json.retries = 2;
 			has_retries = true;
@@ -188,7 +196,8 @@ function PassageToJson(passage){
             }
 			scene_json.fallback = pipe_split_line[0].substring(2).trim();
 			var fallback_passage_name = pipe_split_line[1].trim();
-			var fallback_passage = story.passage(pipe_split_line[1].trim())
+            console.log(fallback_passage_name);
+			var fallback_passage = story.passage(fallback_passage_name)
 			if (fallback_passage){
 				if (fallback_passage.tags.includes("fallback-passage") || 
 				    fallback_passage.tags.includes("fallback-only")){
@@ -220,7 +229,7 @@ function PassageToJson(passage){
 		alert("Warning: No speaker in passage " + passage.name);
 		return;
 	}
-	if (!has_dialogue){
+	if (!is_launch && !has_dialogue){
 		alert("Error: No dialogue in passage " + passage.name);
 		return;
 	}
@@ -239,7 +248,7 @@ function PassageToJson(passage){
 		}
 	} else if (has_sentences){
         alert("Error: Dialogue-only passage has sentence options in passage "
-            + passage.name);
+            + passage.name)
         return;
     }
 	if (scene_json.dialogue.length != dialogue_len){
@@ -251,7 +260,6 @@ function PassageToJson(passage){
 }
 
 var twine_passages = story.passages;
-var found_start = false;
 var passages = 1;
 var output_json = {
 	scenes : [],
@@ -270,8 +278,7 @@ download_link.id = "story-json-link";
 download_link.href = window.URL.createObjectURL(blob);
 download_link.download= story.name + ".json";
 document.body.insertBefore(download_link, document.getElementById("passage"));
-
-</script><tw-passagedata pid="1" name="Breakroom0" tags="start-passage" position="66,11"># Jeff
+</script><tw-passagedata pid="1" name="Breakroom0" tags="start-passage" position="71.0001,55"># Jeff
 
 + Good morning! How&#39;s it going?
 - You doing okay? | Breakroom5
@@ -279,20 +286,17 @@ document.body.insertBefore(download_link, document.getElementById("passage"));
 
 ```
 It&#39;s 20
-Going 40
-Aight 40
-Your 20
+Going 20
+Aight 20
+Your 60
 Email 60
 How 40
 Are 40
+You 40
 Making 80
 Waves 80
-Tim 99
-Is 20
-Pretty 60
 Been 80
 Upset 99
-You 40
 ```
 
 [[~~Aight~~ *How* are *you* |Breakroom9]] 75 12
@@ -398,8 +402,7 @@ Tim				80
 Mentioned		80
 Going			80
 To				80
-A				80
-Show			80
+EGGS4BREAK-fest 80
 What			40
 About			60
 You				60
@@ -1565,6 +1568,9 @@ Can 60
 [[*You* are *ridiculous* |Breakroom14]] 70 20
 
 [[You know what *forget* *it* |Breakroom25]] 80 19</tw-passagedata>
+<tw-passagedata pid="47" name="Breakroom" tags="launch" position="203.0002,0"># In the breakroom you run into Jeff, your manager.
+
+[[Breakroom0]]</tw-passagedata>
 </tw-storydata>
 
 

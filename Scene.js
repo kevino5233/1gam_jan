@@ -19,9 +19,34 @@ Scene.prototype = Object.create(Phaser.Group.prototype);
 Scene.prototype.constructor = Scene;
 
 Scene.prototype.LoadDialogueText = function(text){
+	var dialogue_chars_array = [];
+	var currlen = 0;
+    var dialogue_speaker_array = this.speaker.split(" ");
+	for (var i = 0; i < dialogue_speaker_array.length; i++){
+		var newlen = currlen + dialogue_speaker_array[i].length;
+		if (newlen < dialogue_text_w){
+			currlen = newlen;
+		} else {
+			dialogue_chars_array.push("\n");
+			currlen = 0;
+		}
+		dialogue_chars_array =
+			dialogue_chars_array.concat(dialogue_speaker_array[i].split(""));
+		if (i + 1 < dialogue_speaker_array.length){
+            dialogue_chars_array.push(" ");
+            currlen += 1;
+        } else if (text != ""){
+            dialogue_chars_array.push(": ");
+            currlen += 2;
+        }
+	}
+    if (text == ""){
+        this.manager.dialogue_chars = dialogue_chars_array;
+        this.manager.dialogue_frames = 0;
+        this.manager.dialogue_pos = 0;
+        return;
+    }
 	var dialogue_words_array = text.split(" ");
-	var dialogue_chars_array = (this.speaker + ": ").split("");
-	var currlen = dialogue_chars_array.length;
 	for (var i = 0; i < dialogue_words_array.length; i++){
 		var newlen = currlen + dialogue_words_array[i].length + 1;
 		if (newlen < dialogue_text_w){
@@ -41,7 +66,10 @@ Scene.prototype.LoadDialogueText = function(text){
 
 Scene.prototype.Load = function(correctness){
 	var index = 0;
-	if (correctness < L1_correctness){
+    if (correctness == -1){
+        this.LoadDialogueText("");
+        return true;
+    } else if (correctness < L1_correctness){
 		if (this.dialogue.length == 3){
             index = 2;
 		} else if (this.dialogue.length == 1){

@@ -3,6 +3,7 @@
 function PassageToJson(passage){
 	if (!passage)
 		return;
+    var is_launch = false;
 	var has_speaker = false;
 	var has_retries = false;
 	var has_dialogue = false;
@@ -28,6 +29,12 @@ function PassageToJson(passage){
 		} else if (passage_tag == "high-pressure"){
 			scene_json.retries = 1;
 			has_retries = true;
+        } else if (passage_tag == "launch"){
+            dialogue_len = 0;
+            dialogue_only = true;
+            is_launch = true;
+            has_retries = true;
+            scene_json.retries = -1;
 		} else if (passage_tag == "low-pressure"){
 			scene_json.retries = 2;
 			has_retries = true;
@@ -165,7 +172,7 @@ function PassageToJson(passage){
 					+ passage.name);
                 return;
             }
-			scene_json.fallback = pipe_split_line[0].substring(3).trim();
+			scene_json.fallback = pipe_split_line[0].substring(2).trim();
 			var fallback_passage_name = pipe_split_line[1].trim();
             console.log(fallback_passage_name);
 			var fallback_passage = story.passage(fallback_passage_name)
@@ -200,7 +207,7 @@ function PassageToJson(passage){
 		alert("Warning: No speaker in passage " + passage.name);
 		return;
 	}
-	if (!has_dialogue){
+	if (!is_launch && !has_dialogue){
 		alert("Error: No dialogue in passage " + passage.name);
 		return;
 	}
@@ -219,7 +226,7 @@ function PassageToJson(passage){
 		}
 	} else if (has_sentences){
         alert("Error: Dialogue-only passage has sentence options in passage "
-            + passage.name);
+            + passage.name)
         return;
     }
 	if (scene_json.dialogue.length != dialogue_len){
@@ -231,7 +238,6 @@ function PassageToJson(passage){
 }
 
 var twine_passages = story.passages;
-var found_start = false;
 var passages = 1;
 var output_json = {
 	scenes : [],
