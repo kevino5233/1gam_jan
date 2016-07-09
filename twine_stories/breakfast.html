@@ -27,6 +27,8 @@ breakfast
 
 
 
+
+
 </style><script role="script" id="twine-user-script" type="text/twine-javascript">// Copy and paste this into your twine javascript section
 
 function PassageToJson(passage){
@@ -285,6 +287,8 @@ download_link.id = "story-json-link";
 download_link.href = window.URL.createObjectURL(blob);
 download_link.download= story.name + ".json";
 document.body.insertBefore(download_link, document.getElementById("passage"));
+
+
 </script><tw-passagedata pid="1" name="Morning2" tags="fallback-passage" position="230,242"># Kevin (over text)
 
 + Anyways I made you breakfast. Guess what it is :)
@@ -313,7 +317,7 @@ Tacos 60
 [[~~oh~~ *Tacos* |Morning3]] 85 5
 
 [[~~oh~~ *Vegan* *Tacos* |Morning3]] 95 5</tw-passagedata>
-<tw-passagedata pid="2" name="Morning3" tags="fallback-passage" position="627,435"># Kevin (over text)
+<tw-passagedata pid="2" name="Morning3" tags="fallback-passage" position="640,383"># Kevin (over text)
 
 + Eggs Bitch!!!
 + Eggs Bitch!!!
@@ -502,7 +506,7 @@ Say 60
 [[~~you~~ *better* *say* ~~it~~ |Morning4]] 85 5
 
 [[~~you~~ *better* *tell* *me* |Morning4]] 85 5</tw-passagedata>
-<tw-passagedata pid="10" name="Morning12" tags="" position="835,455"># Kevin (over text)
+<tw-passagedata pid="10" name="Morning12" tags="" position="827,787"># Kevin (over text)
 
 + For real though, those are mine. Just wanted to mess with you.
 + Still waking up I see. Lol just messing with you!
@@ -548,7 +552,7 @@ Tacos 60
 [[~~oh~~ *Tacos* |Morning3]] 85 5
 
 [[~~oh~~ *Vegan* *Tacos* |Morning3]] 95 5</tw-passagedata>
-<tw-passagedata pid="12" name="Morning13" tags="" position="815,294"># Kevin (over text)
+<tw-passagedata pid="12" name="Morning13" tags="" position="807,624"># Kevin (over text)
 
 + Dang you&#39;re so salty, haha. Have some coffee and cheer up!
 + Dang you&#39;re so salty, haha. Have some coffee and cheer up!
@@ -573,19 +577,19 @@ Too 30
 [[I ~~think~~ ~~I~~ will *find* some *real* *breakfast* ~~too~~ |Morning6]] 85 15
 
 [[*with* some *real* *breakfast* ~~too~~ |Morning6]] 90 5</tw-passagedata>
-<tw-passagedata pid="13" name="Morning6" tags="end-passage fallback-passage" position="1007,285"># Kevin (over text)
+<tw-passagedata pid="13" name="Morning6" tags="end-passage fallback-passage" position="999,617"># Kevin (over text)
 
 + Well good on you dude, I&#39;ll talk to you later. Have a good one at work!
 + You definitely need some coffee like right now. I&#39;ll talk to you later. Have a good one at work!
 + Well I&#39;ll talk to you later. Have a good one at work!</tw-passagedata>
-<tw-passagedata pid="14" name="Morning15" tags="end-passage" position="1003,454"># Kevin (over text)
+<tw-passagedata pid="14" name="Morning15" tags="end-passage" position="995,784"># Kevin (over text)
 
 + Haha, well go get some coffee dude, and a vegan taco or something. I&#39;ll talk to you later after work.
 + Go get some coffee dude, seems like you really need it- and a vegan taco or something. I&#39;ll talk to you later after work.</tw-passagedata>
 <tw-passagedata pid="15" name="Morning" tags="launch" position="211,77"># Morning at your apartment. Your phone is ringing.
 
 [[Morning0]]</tw-passagedata>
-<tw-passagedata pid="16" name="Morning16" tags="" position="459,212"># Kevin (over text)
+<tw-passagedata pid="16" name="Morning16" tags="" position="398,193"># Kevin (over text)
 
 + Yup. Come on, guess what it is!
 + Yup. Come on, guess what it is!
@@ -621,7 +625,125 @@ Say 60
 
 [[~~you~~ *better* *say* ~~it~~ |Morning4]] 85 5
 
-[[~~you~~ *better* *tell* *me* |Morning4]] 85 5</tw-passagedata>
+[[~~you~~ *better* *tell* *me* |Morning4]] 85 5
+
+[[*Is* it *You* |Morning17]] 80 10
+
+[[*Is* it *me* |Morning17]] 80 10</tw-passagedata>
+<tw-passagedata pid="17" name="Morning17" tags="" position="553,202"># Kevin (over text)
+
++ Yup. Om nom nom nom nom.
++ Yup. Om nom nom nom nom.
+- Cannibalism. Mmmmmm. | Morning18
+* Huh?
+
+```
+That&#39;s 40
+Gross 40
+Dude 40
+So 40
+What&#39;s 40
+Actually 40
+In 40
+It 40
+```
+
+[[That&#39;s ~~actually~~ ~~so~~ *gross* ~~dude~~ |Morning18]] 80 20
+
+[[~~So~~ *What&#39;s* actually *in* *it* |Morning3]] 80 20
+
+[[~~So~~ *What&#39;s* *it* *Actually* |Morning3]] 80 20</tw-passagedata>
+<tw-passagedata pid="18" name="Morning18" tags="fallback-passage" position="731,140"># Kevin (over text)
+
++ Are you saying you don&#39;t want to eat people?
++ Are you saying you don&#39;t want to eat people?
++ ...So you don&#39;t want to eat people?
+- No breakfast for you I guess. | Morning3
+* What&#39;d you say? Non-cannibal?
+
+```
+Fuck		50
+No			50
+What&#39;s		50
+Actually	50
+For			50
+Breakfast	50
+```
+
+[[~~Actually~~ Fuck *No* |Morning19]] 80 20
+
+[[~~Actually~~ *Fuck* *Breakfast* |Morning19]] 85 10
+
+[[*What&#39;s* ~~Actually~~ *For* *Breakfast* |Morning3]] 90 10
+
+[[~~Actually~~ *No* *Breakfast* |Morning20]] 90 10
+
+[[~~Actually~~ *What&#39;s* *Breakfast* |Morning21]]  85 10
+
+[[*Fuck* *For* *Breakfast* |Morning21]] 95 10</tw-passagedata>
+<tw-passagedata pid="19" name="Morning19" tags="" position="915,57">Double-click this passage to edit it.</tw-passagedata>
+<tw-passagedata pid="20" name="Morning20" tags="" position="1083,160">Double-click this passage to edit it.</tw-passagedata>
+<tw-passagedata pid="21" name="Morning21" tags="" position="942,285"># Kevin (over text)
+
++ I. Uhh. What?
++ I. Uhh. What?
+- You okay there? | Morning23
+* ...
+
+```
+So			30
+What&#39;s		30
+Actually	30
+For			30
+Breakfast	30
+Yeah		70
+Dude		70
+Same		70
+```
+
+// ADD MORE WORDS HERE BECAUSE WHO DA FUK SAYS SHI LIKE DIS YOUR HEARTI SPROBABLY POUNDING ALSDIFJALS;DKJA
+
+[[~~Yeah~~ ~~so~~ ~~actually~~ *What&#39;s* for *Breakfast* |Morning22]] 80 20
+
+[[*Yeah* ~~Dude~~ ~~Same~~ |Morning23]] 80 20
+
+[[*Dude* ~~Same~~ |Morning23]] 80 20
+
+[[*Same* |Morning23]] 80 20</tw-passagedata>
+<tw-passagedata pid="22" name="Morning22" tags="" position="1132,454"># Kevin (over text)
+
++ Oh um. I was going to say eggs but uh...
++ Oh um. I was going to say eggs but uh...
+- You don&#39;t like eggs. | Morning6
+* ...
+
+```
+Oh			40
+Well		40
+Guess		40
+So			40
+You			40
+Didn&#39;t		40
+Make		40
+Breakfast	40
+```
+
+[[~~Well~~ ~~Guess~~ ~~So~~ You *Didn&#39;t* *make* *Breakfast* |Morning24]] 80 15
+
+[[~~Well~~ ~~So~~ *you* *make* *breakfast* |Morning25]] 80 10
+
+[[~~well~~ so *breakfast* |Morning25]] 80 10
+
+[[*oh* *Well* |Morning26]] 75 10
+
+[[*guess* *so* |Morning26]] 75 10
+
+[[*didn&#39;t* *guess* ~~so~~ ~~oh~~ ~~well~~ |Morning27]]  80 20</tw-passagedata>
+<tw-passagedata pid="23" name="Morning23" tags="" position="1287,314">Double-click this passage to edit it.</tw-passagedata>
+<tw-passagedata pid="24" name="Morning24" tags="" position="1132,604">Double-click this passage to edit it.</tw-passagedata>
+<tw-passagedata pid="25" name="Morning25" tags="" position="1282,604">Double-click this passage to edit it.</tw-passagedata>
+<tw-passagedata pid="26" name="Morning26" tags="" position="1432,604">Double-click this passage to edit it.</tw-passagedata>
+<tw-passagedata pid="27" name="Morning27" tags="" position="1582,604">Double-click this passage to edit it.</tw-passagedata>
 </tw-storydata>
 
 
