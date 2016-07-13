@@ -8,6 +8,8 @@ var load_state = {
         game.load.image("timer_ico", "assets/icons/time_bubble.png");
         game.load.image("mail", "assets/icons/mail_ico.png");
         game.load.image("twitter", "assets/icons/tw_ico.png");
+        game.load.spritesheet("breakfast_bg", "assets/bg/breakfast_bg_anim.png", 800, 600);
+        game.load.spritesheet("office_bg", "assets/bg/office_bg_anim.png", 800, 600);
 		game.load.audio("gnossiene_2", "assets/music/gnossiene_2.mp3");
 		game.load.audio("speech", "assets/SFX/speech.wav");
 		game.load.audio("error", "assets/SFX/error.wav");

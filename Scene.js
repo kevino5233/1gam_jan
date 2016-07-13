@@ -84,9 +84,10 @@ Scene.prototype.Load = function(correctness){
 	var centerx = game_w / 2;
 	var centery = game_h / 2;
 	var deadzone = this.manager.deadzone;
+    var scene = this.manager.state;
 	for (var i = 0; i < this.wordbank.length; i++){
 		var word = this.wordbank[i];
-		var a = word.anxiety;
+		var a = word.anxiety * 4;
 		var randx = RandomFloat(-deadzone, deadzone);
 		var randy = RandomFloat(-deadzone, deadzone);
 		var text = game.add.text(
@@ -99,18 +100,18 @@ Scene.prototype.Load = function(correctness){
 			word.text);
 		text.manager = this.manager;
 		text.font = global_font;
-		text.fontSize = Math.ceil(((100 - a) * (100 - a)) / 10000 * 15 + 10);
-		text.fill = "#FFFFFF";
-		text.setShadow(1, 1, "rgba(0,0,0,1.0)", 10);
+		text.fontSize = Math.ceil(((100 - word.anxiety) * (100 - word.anxiety)) / 10000 * 15 + 10);
+        text.fill = scene.color_light;
+		text.setShadow(1, 1, scene.color_heavy, 10);
 		text.inputEnabled = true;
 		text.events.onInputUp.add(this.manager.PushWordOnQuery, this.manager);
 		text.events.onInputOver.add(
 			function(item){
-				item.fill = "#FF1AFF";
+				item.fill = scene.color_contrast;
 			}, this);
 		text.events.onInputOut.add(
 			function(item){
-				item.fill = "#FFFFFF";
+                item.fill = scene.color_light;
 			}, this);
         this.manager.state.floating_text_layer.add(text);
 		this.manager.floating_text.push(text);
@@ -127,10 +128,12 @@ Scene.prototype.Load = function(correctness){
             var text_x = h_radius * Math.cos(theta)
 				+ centerx
 				+ randx
+                - 20
 				- word.text.length / 2 * text.fontSize;
             var text_y = v_radius * Math.sin(theta)
 				+ centery
 				+ randy
+                - 10 // LMAOOOO HACK HACK HACK HACK
 				- text.fontSize / 2;
             if (text_x < 0) {
                 text_x = 0;

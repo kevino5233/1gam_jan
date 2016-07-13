@@ -1,4 +1,8 @@
 var breakroom_state = {
+    color_light: "#ffeae5",
+    color_medium: "#ff6944",
+    color_heavy: "rgba(204, 41, 0, 1.0)",
+    color_contrast: "#2a6199",
     preload: function(){
     },
     loadUpdate: function(){

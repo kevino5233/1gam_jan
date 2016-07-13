@@ -1,4 +1,8 @@
 var breakfast_state = {
+    color_light: "#ffeae5",
+    color_medium: "#ff6944",
+    color_heavy: "rgba(204, 41, 0, 1.0)",
+    color_contrast: "#008234",
     preload: function(){
     },
     loadUpdate: function(){
@@ -7,10 +11,11 @@ var breakfast_state = {
     },
     create: function(){
         InitializeLayers(this);
-        game.stage.backgroundColor = "#ff5c33";
-        document.body.style.background ="#ff5c33"
-        document.getElementById("twitter-link").style.color = "black";
-        document.getElementById("twitter-img").src = "assets/icons/black_tw_ico.png";
+        var sprite = game.add.sprite(0, 0, "breakfast_bg");
+        var anim = sprite.animations.add("flick", [0, 1], 6, true);
+        sprite.animations.play("flick");
+        this.background_layer.add(sprite);
+        document.body.style.background = this.color_medium;
 		// this will be pre-defined per level state
         this.manager = new SceneManager(
                 this,

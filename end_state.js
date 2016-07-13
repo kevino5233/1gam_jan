@@ -7,8 +7,6 @@ var end_state = {
     },
     create: function(){
         document.body.style.background = "#ffff80";
-        document.getElementById("twitter-link").style.color = "#1DA1F2";
-        document.getElementById("twitter-img").src = "assets/icons/tw_ico.png";
         game.stage.backgroundColor = "#ffff80";
 		var style = {
             font: global_font_size + "px " + global_font

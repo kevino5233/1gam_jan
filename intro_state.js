@@ -1,28 +1,17 @@
 var intro_state = {
 	MENU: 0,
 	PLAY: 1,
-	CREDITS: 2,
 	menu_layers: [],
 	floating_obj: [],
 	floating_obj_paths: [],
 	Menu: function(){
 		this.menu_layers[this.MENU].visible = true;
 		this.menu_layers[this.PLAY].visible = false;
-		this.menu_layers[this.CREDITS].visible = false;
-        document.getElementById("twitter-link").style.visibility = "visible";
 	},
 	PlayGame: function(){
 		click_to_play = true;
 		this.menu_layers[this.MENU].visible = false;
 		this.menu_layers[this.PLAY].visible = true;
-		this.menu_layers[this.CREDITS].visible = false;
-        document.getElementById("twitter-link").style.visibility = "visible";
-	},
-	Credits: function(){
-		this.menu_layers[this.MENU].visible = false;
-		this.menu_layers[this.PLAY].visible = false;
-		this.menu_layers[this.CREDITS].visible = true;
-        document.getElementById("twitter-link").style.visibility = "hidden";
 	},
     preload: function(){
     },
@@ -32,8 +21,6 @@ var intro_state = {
     },
     create: function(){
         document.body.style.background = "#ffff80";
-        document.getElementById("twitter-link").style.color = "#1DA1F2";
-        document.getElementById("twitter-img").src = "assets/icons/tw_ico.png";
         game.stage.backgroundColor = "#ffff80";
 		this.menu_layers = [game.add.group(), game.add.group(), game.add.group()];
 		var style = { font: global_font_size + "px " + global_font};
@@ -43,38 +30,51 @@ var intro_state = {
 		//	{ font: 2 * global_font_size + "px " + global_font}));
 		var centerx = game_w / 2;
 		var centery = game_h / 2;
-		for (var i = 0; i < 2; i++){
-			var notrandx = Math.cos(tau * 2 * i) * 100;
-			var notrandy = Math.sin(tau * 2 * i) * 100;
+        var title = ["By", "Kevino"];
+		for (var i = 0; i < title.length + 1; i++){
+            var randx = RandomFloat(-100, 100);
+            var randy = RandomFloat(-100, 100);
 			var text = game.add.text(0, 0,
-				i == 1 ? "Play" : "Credits");
+				i == title.length ? "Play" : title[i]);
 			text.manager = this.manager;
 			text.font = global_font;
 			text.fontSize = global_font_size * 2;
-			text.fill = "#000000";
 			text.inputEnabled = true;
-			text.events.onInputUp.add(i == 1 ? this.PlayGame : this.Credits, this);
-			text.events.onInputOver.add(
-				function(item){
-					item.fill = "#FF1AFF";
-				}, this);
-			text.events.onInputOut.add(
-				function(item){
-					item.fill = "#000000";
-				}, this);
+            if (i == title.length) {
+                text.events.onInputUp.add(this.PlayGame, this);
+                text.events.onInputOver.add(
+                    function(item){
+                        item.fill = "#CBCB4B";
+                    }, this);
+                text.events.onInputOut.add(
+                    function(item){
+                        item.fill = "#8E5AAA";
+                    }, this);
+                text.fill = "#8E5AAA";
+            } else {
+                text.fill = "#000000";
+            }
 			this.menu_layers[this.MENU].add(text);
 			this.floating_obj.push(text);
 			var T = Math.ceil(Math.sqrt(150 / G) * Math.PI * 150);
 			var theta = (tau * i) % circle; //initialize as actual angle
 			var dtheta = circle / T * (2 * RandomInt(0, 1) - 1);
-			var h_radius = 25;
-			var v_radius = Math.sqrt(50) * 5;
+			var h_radius = 100;
+			var v_radius = Math.sqrt(200) * 5;
 			var path = [];
 			path["pos"] = 0;
 			for (var j = 0; j < T; j++){
 				var pos = [];
-				var text_x = h_radius * Math.cos(theta) + centerx + notrandx;
-				var text_y = v_radius * Math.sin(theta) + centery + notrandy;
+				var text_x = h_radius * Math.cos(theta)
+                    + centerx
+                    + randx
+                    - 20
+                    - text.text.length / 2 * text.fontSize;
+				var text_y = v_radius * Math.sin(theta)
+                    + centery
+                    + randy
+                    - 10
+                    - text.fontSize / 2;
 				if (text_x < 0) {
 					text_x = 0;
 				} else if (text_x + 6 * text.fontsize > game_w) {
@@ -93,12 +93,14 @@ var intro_state = {
 			}
 			this.floating_obj_paths.push(path);
 		}
+        // this.game.sound.volume = 0;
 		// Play layer
 		this.menu_layers[this.PLAY].add(game.add.text(50, 100,
-			"In this game, you talk by clicking on\n" +
-			"individual words that float around in\n" +
-			"the middle of the screen to make sentences.\n\n" +
-            "WARNING: This game has explicit language.", style));
+            "The following prototype represents a work in\n" +
+            "progress.\n\n" +
+			"Talk by clicking on individual words that float\n" +
+            "around in the middle of the screen to make\n" +
+            "sentences.", style));
 		// Play layer
 		this.menu_layers[this.PLAY].add(game.add.text(100, 250,
 			"If you add a word you didn't mean to, simply\n" +
@@ -120,80 +122,8 @@ var intro_state = {
                 bg_audio.play();
             });
         }
-		// Credits layer
-		for (var i = 0; i < 2; i++){
-			var notrandx = Math.cos(tau * 2 * i) * 100;
-			var notrandy = Math.sin(tau * 2 * i) * 100;
-			var text = game.add.text(0, 0,
-				i == 1 ? "@kevino_is_me" : "Back");
-			text.manager = this.manager;
-			text.font = global_font;
-			text.fontSize = global_font_size * 2;
-			text.fill = i == 1 ? "#1DA1F2" : "#000000";
-			text.inputEnabled = true;
-			if (i == 0) {
-				text.events.onInputUp.add(this.Menu, this);
-				text.events.onInputOver.add(
-					function(item){
-						item.fill = "#FF1AFF";
-					}, this);
-				text.events.onInputOut.add(
-					function(item){
-						item.fill = "#000000";
-					}, this);
-			}
-			this.menu_layers[this.CREDITS].add(text);
-			this.floating_obj.push(text);
-			var T = Math.ceil(Math.sqrt(150 / G) * Math.PI * 150);
-			var theta = (tau * i) % circle; //initialize as actual angle
-			var dtheta = circle / T * (2 * i - 1);
-			var h_radius = 25;
-			var v_radius = Math.sqrt(50) * 5;
-			var path = [];
-			path["pos"] = 0;
-			for (var j = 0; j < T; j++){
-				var pos = [];
-				var text_x = h_radius * Math.cos(theta) + centerx + notrandx;
-				var text_y = v_radius * Math.sin(theta) + centery + notrandy;
-				if (text_x < 0) {
-					text_x = 0;
-                } else if (text_x
-                           + i * 100
-                           + text.text.length * text.fontsize > game_w) {
-                    text_x = game_w
-                             - i * 100
-                             - text.text.length * text.fontsize;
-                }
-				if (text_y < dialogue_box_1_y + dialogue_box_h) {
-					text_y = dialogue_box_1_y + dialogue_box_h + 10;
-				} else if (text_y + text.fontSize + 10 > timer_icon_y) {
-					text_y = timer_icon_y - text.fontSize - 10;
-				}
-				pos["x"] = text_x;
-				pos["y"] = text_y;
-				path.push(pos);
-				theta += dtheta;
-				theta %= circle;
-			}
-			this.floating_obj_paths.push(path);
-			if (i == 1){
-				var icon = game.add.sprite(text.x - 60, text.y - 15, "twitter");
-				var icon_path = [];
-				icon_path["pos"] = 0;
-				this.menu_layers[this.CREDITS].add(icon);
-				this.floating_obj.push(icon);
-				for (var j = 0; j < T; j++){
-					var pos = [];
-					pos["x"] = path[j]["x"] - 60;
-					pos["y"] = path[j]["y"] - 14;
-					icon_path.push(pos);
-				}
-				this.floating_obj_paths.push(icon_path);
-			}
-		}
 		// Hide layers
 		this.menu_layers[this.PLAY].visible = false;
-		this.menu_layers[this.CREDITS].visible = false;
     },
     update: function(){
 		for (var i = 0; i < this.floating_obj.length; i++){

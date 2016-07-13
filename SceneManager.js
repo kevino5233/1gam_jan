@@ -19,14 +19,14 @@ SceneManager = function(state, scene_data, nextscene){
 	this.pushpopsound = game.add.audio("pushpop");
     this.nextscene = nextscene;
     this.state = state;
-	this.state.dialogue_ui_layer.add(
-        game.add.sprite(dialogue_box_x, dialogue_box_1_y, "dialogue_box"));
-	this.state.dialogue_ui_layer.add(
-        game.add.sprite(dialogue_box_x, dialogue_box_2_y, "dialogue_box"));
+	// this.state.dialogue_ui_layer.add(
+    //     game.add.sprite(dialogue_box_x, dialogue_box_1_y, "dialogue_box"));
+	// this.state.dialogue_ui_layer.add(
+    //     game.add.sprite(dialogue_box_x, dialogue_box_2_y, "dialogue_box"));
 	this.dialogue_obj = game.add.text(
 		dialogue_box_x + text_offset,
 		dialogue_box_1_y + text_offset, "");
-    this.dialogue_obj.fill = "#FFFFFF";
+    this.dialogue_obj.fill = state.color_light;
     this.dialogue_obj.font = global_font;
     this.dialogue_obj.fontSize = global_font_size;
     this.state.dialogue_text_layer.add(this.dialogue_obj);
@@ -58,7 +58,7 @@ SceneManager.prototype.ClearQuery = function(){
         var orig = text.orig;
         this.query.x -= text.text.length + 1;
         orig.visible = true;
-        orig.fill = "#FFFFFF";
+        orig.fill = this.state.color_light;
         text.destroy();
     }
     this.query.x = 0;
@@ -245,7 +245,7 @@ SceneManager.prototype.PushWordOnQuery = function(item){
 		dialogue_box_2_y + text_offset + this.query.y * query_y_height,
 		word);
     text.orig = item;
-    text.fill = "#FFFFFF";
+    text.fill = this.state.color_light;
 	text.font = global_font;
 	text.fontSize = global_font_size;
 	text.inputEnabled = true;
@@ -259,7 +259,7 @@ SceneManager.prototype.PopWordFromQuery = function(item){
     var orig = text.orig;
 	this.query.x -= text.text.length + 1;
     orig.visible = true;
-    orig.fill = "#FFFFFF";
+    orig.fill = this.state.color_light;
     text.destroy();
 	if (this.query.x <= 0 && this.query.words.length != 0){
 		this.query.y -= 1;
@@ -337,7 +337,7 @@ SceneManager.prototype.Update = function(){
 				dialogue_box_x + text_offset,
 				dialogue_box_2_y + text_offset,
 				"Click anywhere to continue.");
-			text.fill = "#FFFFFF";
+            text.fill = this.state.color_light;
 			text.font = global_font;
 			text.fontSize = global_font_size;
             this.state.dialogue_text_layer.add(text);

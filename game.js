@@ -14,6 +14,7 @@ var L2_correctness = 85;
 var minimum_sort = [0, 1, 3, 5, 7, 10, 13, 16, 19, 22, 26, 30, 34, 38, 42];
 //font config stuff
 var global_font = "press_start_2pregular";
+// var global_font = "Conv_IndieFlower";
 var global_font_size = 15;
 // Timer lengths 
 var normal_timer_len = 20;
@@ -21,7 +22,7 @@ var pressure_timer_length = 10;
 var backup_dialogue_time = 7;
 // Timer positions
 var timer_icon_x = 10;
-var timer_icon_y = 415;
+var timer_icon_y = 515;
 var timer_icon_w = 35;
 var timer_icon_h = 30;
 // dialogue box dimensions
@@ -31,12 +32,12 @@ var dialogue_text_w = 45;
 // location of dialogue boxes
 var dialogue_box_x = 0;
 var dialogue_box_1_y = 25;
-var dialogue_box_2_y = 450;
+var dialogue_box_2_y = 540;
 // In context of dialogue box dimensions
-var text_offset = 20;
+var text_offset = 10;
 var query_text_w = 30;
 var query_y_height = 25;
-var button_y = 385;
+var button_y = 485;
 var submit_button_x = 83;
 var backspace_button_x = 48;
 var clear_button_x = 13;
@@ -75,6 +76,7 @@ function RandomFloat(min, max) {
 // Design protocol for background. Probably not very complicated.
 // state.background = game.add.group();
 function InitializeLayers(state){
+    state.background_layer = game.add.group();
     state.floating_text_layer = game.add.group();
     state.dialogue_ui_layer = game.add.group();
     state.dialogue_text_layer = game.add.group();
@@ -83,6 +85,7 @@ function InitializeLayers(state){
 // Destroys layers. I think this increases memory performance.
 // idk its fucking javascript
 function DestroyLayers(state){
+    state.background_layer.destroy(true);
     state.floating_text_layer.destroy(true);
     state.dialogue_ui_layer.destroy(true);
     state.dialogue_text_layer.destroy(true);
