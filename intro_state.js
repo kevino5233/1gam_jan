@@ -22,6 +22,9 @@ var intro_state = {
     create: function(){
         document.body.style.background = "#ffff80";
         game.stage.backgroundColor = "#ffff80";
+        var sprite = game.add.sprite(0, 0, "title_bg");
+        var anim = sprite.animations.add("flick", [0, 1], 6, true);
+        sprite.animations.play("flick");
 		this.menu_layers = [game.add.group(), game.add.group(), game.add.group()];
 		var style = { font: global_font_size + "px " + global_font};
 		// Menu layer

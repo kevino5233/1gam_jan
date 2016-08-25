@@ -16,6 +16,7 @@ var office_state = {
         sprite.animations.play("flick");
         this.background_layer.add(sprite);
         document.body.style.background = this.color_medium;
+        game.stage.backgroundColor = this.color_medium;
         this.manager = new SceneManager(
                 this,
 				office_scene,

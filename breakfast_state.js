@@ -16,6 +16,7 @@ var breakfast_state = {
         sprite.animations.play("flick");
         this.background_layer.add(sprite);
         document.body.style.background = this.color_medium;
+        game.stage.backgroundColor = this.color_medium;
 		// this will be pre-defined per level state
         this.manager = new SceneManager(
                 this,

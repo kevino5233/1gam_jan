@@ -1,8 +1,8 @@
 var breakroom_state = {
-    color_light: "#ffeae5",
-    color_medium: "#ff6944",
-    color_heavy: "rgba(204, 41, 0, 1.0)",
-    color_contrast: "#2a6199",
+    color_light: "#f6cfff",
+    color_medium: "#eb9ff",
+    color_heavy: "rgba(194, 7, 240, 1.0)",
+    color_contrast: "#ecff3c",
     preload: function(){
     },
     loadUpdate: function(){
@@ -12,6 +12,10 @@ var breakroom_state = {
     create: function(){
         InitializeLayers(this);
 		// this will be pre-defined per level state
+        var sprite = game.add.sprite(0, 0, "breakroom_bg");
+        var anim = sprite.animations.add("flick", [0, 1], 6, true);
+        sprite.animations.play("flick");
+        this.background_layer.add(sprite);
         document.body.style.background = "#EB99FF";
         game.stage.backgroundColor = "#EB99FF";
         this.manager = new SceneManager(
